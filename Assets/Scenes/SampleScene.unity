@@ -310,23 +310,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4284953052185840159, guid: 284a91ec5f98e6440be2bafc41165bcd, type: 3}
       propertyPath: CustomDataModule.vector0_0.scalar
-      value: 0
+      value: 0.96
       objectReference: {fileID: 0}
     - target: {fileID: 4284953052185840159, guid: 284a91ec5f98e6440be2bafc41165bcd, type: 3}
       propertyPath: CustomDataModule.vector0_1.scalar
-      value: 0
+      value: 1.4
       objectReference: {fileID: 0}
     - target: {fileID: 4284953052185840159, guid: 284a91ec5f98e6440be2bafc41165bcd, type: 3}
       propertyPath: CustomDataModule.vector0_2.scalar
-      value: 0
+      value: 2.78
       objectReference: {fileID: 0}
     - target: {fileID: 4284953052185840159, guid: 284a91ec5f98e6440be2bafc41165bcd, type: 3}
       propertyPath: CustomDataModule.vector0_3.scalar
-      value: 0
+      value: 0.44
       objectReference: {fileID: 0}
     - target: {fileID: 4284953052185840159, guid: 284a91ec5f98e6440be2bafc41165bcd, type: 3}
       propertyPath: CustomDataModule.vector0_1.maxCurve.m_Curve.Array.size
-      value: 0
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 4284953052185840159, guid: 284a91ec5f98e6440be2bafc41165bcd, type: 3}
       propertyPath: CustomDataModule.vector0_1.maxCurve.m_Curve.Array.data[1].time
@@ -348,6 +348,10 @@ PrefabInstance:
       propertyPath: CustomDataModule.vector0_1.maxCurve.m_Curve.Array.data[1].outWeight
       value: 0.33333334
       objectReference: {fileID: 0}
+    - target: {fileID: 4776409297469875929, guid: 284a91ec5f98e6440be2bafc41165bcd, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: dc79c11f7b2062d499da77654cccc5fe, type: 2}
     - target: {fileID: 4776409297469875929, guid: 284a91ec5f98e6440be2bafc41165bcd, type: 3}
       propertyPath: m_VertexStreams.Array.size
       value: 6
