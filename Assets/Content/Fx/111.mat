@@ -16,8 +16,9 @@ Material:
   - _BLEND_TYPES_2_SUBTRUCT_UV_MASK
   - _CAMERAFADE_ON
   - _COLORSBLEND_RAMPTEXTURE
-  - _MASK_TYPE_MASK_LEFRIGHT
-  - _SUPPORT_TEXTURE_ON
+  - _MASK_TYPE_NO_UV_MASK
+  - _STEPSCROLLING_OFF
+  - _SUPPORT_TEXTURE_OFF
   - _SURFACE_TYPE_TRANSPARENT
   - _USEPARTICLES_OFF
   - _UV_TYPE_DEFAULT_UV
@@ -46,7 +47,7 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _Main_Texture:
-        m_Texture: {fileID: 2800000, guid: 2c14d1b1e6cd60b4bafe871e89bc071a, type: 3}
+        m_Texture: {fileID: 2800000, guid: 41851cb0bbaf74b1a8ad2cc7a0a9a95a, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Ramp_Texture:
@@ -88,21 +89,23 @@ Material:
     - _DstBlend: 10
     - _DstBlendAlpha: 10
     - _FlatBackground: 0
+    - _Float: 100
     - _Fresnel_Alpha_Intensity: 1
     - _Fresnel_Alpha_Invert: 1
     - _Fresnel_Alpha_Power: 1
-    - _MASK_TYPE: 1
+    - _MASK_TYPE: 0
     - _MainTexture_Invert: 0
     - _Mask_Blend: 0
     - _Mask_Strength: 1
     - _Matallic: 0
-    - _Panner: 0.46
+    - _Panner: 0
     - _QueueControl: 0
     - _QueueOffset: 0
     - _Ramp_Offset: 0.063
     - _Rotate_UV: 0
+    - _STEPSCROLLING: 0
     - _SUPPORTTEXTURE_HAS_WORLD_UV: 0
-    - _SUPPORT_TEXTURE: 1
+    - _SUPPORT_TEXTURE: 0
     - _SWITCHTEXTURES: 0
     - _Saturation: 1
     - _Smoothness: 0
@@ -129,7 +132,7 @@ Material:
     - _Mask_Offset_LRUD: {r: 0, g: 0, b: 0, a: 0}
     - _Mask_Power_LRUD: {r: 1, g: 1, b: 1, a: 1}
     - _Radial_UV_XY_Centr_Radial_Legth: {r: 0.5, g: 0.5, b: 1, a: 1}
-    - _SupportTexture_Scroll: {r: 1.2, g: 0, b: 0, a: 0}
+    - _SupportTexture_Scroll: {r: 0, g: 0, b: 0, a: 0}
     - _Support_Color: {r: 0, g: 1, b: 0.16470593, a: 0}
     - _Taper_Strength_Power: {r: 1, g: 1, b: 1, a: 0}
   m_BuildTextureStacks: []
