@@ -13,14 +13,17 @@ Material:
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
   - _BLEND_TYPES_1_ADD
-  - _BLEND_TYPES_2_SUBTRUCT_UV_MASK
-  - _CAMERAFADE_ON
+  - _BLEND_TYPES_2_MULTIPLY_UV_MASK
+  - _CAMERAFADE_OFF
   - _COLORSBLEND_RAMPTEXTURE
+  - _FRESNEL_ALPHA_OFF
   - _MASK_TYPE_NO_UV_MASK
-  - _STEPSCROLLING_OFF
-  - _SUPPORT_TEXTURE_OFF
+  - _SOFTNESS_OFF
+  - _STEPSCROLLING_ON
+  - _SUPPORT_TEXTURE_ON
   - _SURFACE_TYPE_TRANSPARENT
-  - _USEPARTICLES_ON
+  - _USEPARTICLES_OFF
+  - _USETEXTURES_ON
   - _UV_TYPE_DEFAULT_UV
   m_InvalidKeywords:
   - _BLEND_TYPES_1_NEW
@@ -30,8 +33,10 @@ Material:
   - _DEBUG_NONE
   - _ENUM_DEBUG_UVMASK
   - _ENUM_F
+  - _MASK_TYPE_MASK_UPDOWN
   - _MASK_TYPE_UP_DOWN
   - _RECEIVE_SHADOWS_OFF
+  - _USEPARTICLES_ON
   - _USE_ACTIVE_MASK
   - _UV_TYPE_LEF_RIGHT
   m_LightmapFlags: 1
@@ -50,8 +55,14 @@ Material:
     m_TexEnvs: []
     m_Ints: []
     m_Floats:
+    - _COLORSBLEND: 1
+    - _FlatBackground: 0
     - _USEPARTICLES: 0
-    m_Colors: []
+    m_Colors:
+    - _Brightness_Contrast: {r: 1, g: 1, b: 0, a: 0}
+    - _MainTexture_Scroll: {r: 0, g: 0, b: 0, a: 0}
+    - _Main_Color: {r: 1, g: 0.051886797, b: 0.051886797, a: 0}
+    - _Support_Color: {r: 0.4642425, g: 0.16509432, b: 1, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
 --- !u!114 &7393967331150300554

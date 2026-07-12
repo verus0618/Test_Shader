@@ -308,6 +308,54 @@ PrefabInstance:
       propertyPath: m_Name
       value: Plane
       objectReference: {fileID: 0}
+    - target: {fileID: 4284953052185840159, guid: 284a91ec5f98e6440be2bafc41165bcd, type: 3}
+      propertyPath: CustomDataModule.vector0_0.scalar
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4284953052185840159, guid: 284a91ec5f98e6440be2bafc41165bcd, type: 3}
+      propertyPath: CustomDataModule.vector0_1.scalar
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4284953052185840159, guid: 284a91ec5f98e6440be2bafc41165bcd, type: 3}
+      propertyPath: CustomDataModule.vector0_2.scalar
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4284953052185840159, guid: 284a91ec5f98e6440be2bafc41165bcd, type: 3}
+      propertyPath: CustomDataModule.vector0_3.scalar
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4284953052185840159, guid: 284a91ec5f98e6440be2bafc41165bcd, type: 3}
+      propertyPath: CustomDataModule.vector0_1.maxCurve.m_Curve.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4284953052185840159, guid: 284a91ec5f98e6440be2bafc41165bcd, type: 3}
+      propertyPath: CustomDataModule.vector0_1.maxCurve.m_Curve.Array.data[1].time
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4284953052185840159, guid: 284a91ec5f98e6440be2bafc41165bcd, type: 3}
+      propertyPath: CustomDataModule.vector0_1.maxCurve.m_Curve.Array.data[0].inWeight
+      value: 0.33333334
+      objectReference: {fileID: 0}
+    - target: {fileID: 4284953052185840159, guid: 284a91ec5f98e6440be2bafc41165bcd, type: 3}
+      propertyPath: CustomDataModule.vector0_1.maxCurve.m_Curve.Array.data[1].inWeight
+      value: 0.33333334
+      objectReference: {fileID: 0}
+    - target: {fileID: 4284953052185840159, guid: 284a91ec5f98e6440be2bafc41165bcd, type: 3}
+      propertyPath: CustomDataModule.vector0_1.maxCurve.m_Curve.Array.data[0].outWeight
+      value: 0.33333334
+      objectReference: {fileID: 0}
+    - target: {fileID: 4284953052185840159, guid: 284a91ec5f98e6440be2bafc41165bcd, type: 3}
+      propertyPath: CustomDataModule.vector0_1.maxCurve.m_Curve.Array.data[1].outWeight
+      value: 0.33333334
+      objectReference: {fileID: 0}
+    - target: {fileID: 4776409297469875929, guid: 284a91ec5f98e6440be2bafc41165bcd, type: 3}
+      propertyPath: m_VertexStreams.Array.size
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 4776409297469875929, guid: 284a91ec5f98e6440be2bafc41165bcd, type: 3}
+      propertyPath: 'm_VertexStreams.Array.data[6]'
+      value: 46
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
