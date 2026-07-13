@@ -12,11 +12,16 @@ Material:
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
+  - _CUSTOMDATA_2_TYPE_TYPE_A
+  - _FLIPBOOK_ON
+  - _RGBA_OFF
   - _SURFACE_TYPE_TRANSPARENT
-  - _USE_FLIPBOOK_ON
-  - _USE_R_CHANNEL
   - _VERTEXSTREAM_ON
-  m_InvalidKeywords: []
+  m_InvalidKeywords:
+  - _FLIPBOOK_NEW
+  - _USE_FLIPBOOK_OFF
+  - _USE_R_CHANNEL
+  - _VERTEXSTREAM_TYPE_A
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -26,11 +31,16 @@ Material:
   disabledShaderPasses:
   - DepthOnly
   - MOTIONVECTORS
+  - SHADOWCASTER
   m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
     - Texture2D_F593E37E:
+        m_Texture: {fileID: 2800000, guid: c953d608942f45a4989ebf46fd0ba5a4, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Main_Texture:
         m_Texture: {fileID: 2800000, guid: c953d608942f45a4989ebf46fd0ba5a4, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
@@ -50,30 +60,34 @@ Material:
     m_Floats:
     - _AlphaClip: 0
     - _AlphaToMask: 0
+    - _B_ChannelSharp: 0
     - _Blend: 0
-    - _CastShadows: 1
+    - _CUSTOMDATA_2_TYPE: 0
+    - _CastShadows: 0
     - _Cull: 2
+    - _Dissolve: 0
     - _DstBlend: 10
     - _DstBlendAlpha: 10
-    - _Float: 0
-    - _Panner: 3
+    - _Emissive: 1
+    - _FLIPBOOK: 1
+    - _Float: 59.11
+    - _Panner: 10
     - _QueueControl: 0
     - _QueueOffset: 0
+    - _RGBA: 1
     - _SrcBlend: 5
     - _SrcBlendAlpha: 1
     - _Surface: 1
-    - _USE_FLIPBOOK: 1
-    - _USE_RGB: 0
-    - _USE_R_CHANNEL: 1
+    - _USE_FLIPBOOK: 0
     - _VERTEXSTREAM: 1
     - _ZTest: 4
     - _ZWrite: 0
     - _ZWriteControl: 0
     m_Colors:
-    - _Diss_DissSharp_Emm_Soft: {r: 0, g: 0, b: 1, a: 0}
+    - _B_ChannelColor: {r: 1, g: 1, b: 1, a: 1}
     - _Flipbook_Tile: {r: 6, g: 6, b: 0, a: 0}
     - _MainColor: {r: 1, g: 1, b: 1, a: 1}
-    - _SupportColor: {r: 1, g: 1, b: 1, a: 1}
+    - _SoftParticles: {r: 0, g: 1, b: 0, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
 --- !u!114 &4166064301055406139
