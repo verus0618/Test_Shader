@@ -1,18 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-3947019481998813160
-MonoBehaviour:
-  m_ObjectHideFlags: 11
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d0353a89b1f911e48b9e16bdc9f2e058, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Unity.RenderPipelines.Universal.Editor::UnityEditor.Rendering.Universal.AssetVersion
-  version: 10
 --- !u!21 &2100000
 Material:
   serializedVersion: 8
@@ -20,17 +7,21 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: 111
+  m_Name: mat_atlas
   m_Shader: {fileID: -6465566751694194690, guid: ae8902e76061bfe489fbc6c6e2766a4d, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
-  - _CUSTOMDATA_2_TYPE_TYPE_B
-  - _FLIPBOOK_FRAME
+  - _CUSTOMDATA_2_TYPE_TYPE_A
+  - _FLIPBOOK_ON
   - _RGBA_OFF
   - _SURFACE_TYPE_TRANSPARENT
   - _VERTEXSTREAM_ON
-  m_InvalidKeywords: []
+  m_InvalidKeywords:
+  - _FLIPBOOK_NEW
+  - _USE_FLIPBOOK_OFF
+  - _USE_R_CHANNEL
+  - _VERTEXSTREAM_TYPE_A
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -38,38 +29,18 @@ Material:
   stringTagMap:
     RenderType: Transparent
   disabledShaderPasses:
-  - MOTIONVECTORS
   - DepthOnly
+  - MOTIONVECTORS
   - SHADOWCASTER
   m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
-    - _MainTexture:
-        m_Texture: {fileID: 2800000, guid: 2ae820ddca07aea4d958b4653ac9a058, type: 3}
+    - Texture2D_F593E37E:
+        m_Texture: {fileID: 2800000, guid: c953d608942f45a4989ebf46fd0ba5a4, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Main_Texture:
-        m_Texture: {fileID: 2800000, guid: c953d608942f45a4989ebf46fd0ba5a4, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _SampleTexture2D_33f24b15cf464c64aa3a87d381283a51_Texture_1_Texture2D:
-        m_Texture: {fileID: 2800000, guid: c953d608942f45a4989ebf46fd0ba5a4, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _SampleTexture2D_4dcbb33b56b048d8a42ee27f8ff91ee3_Texture_1_Texture2D:
-        m_Texture: {fileID: 2800000, guid: c953d608942f45a4989ebf46fd0ba5a4, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _SampleTexture2D_a3c8319c53b342edb3f6153dcc1b34cc_Texture_1_Texture2D:
-        m_Texture: {fileID: 2800000, guid: c953d608942f45a4989ebf46fd0ba5a4, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _SampleTexture2D_b11fefa78af344b98be7f35437b26a27_Texture_1_Texture2D:
-        m_Texture: {fileID: 2800000, guid: c953d608942f45a4989ebf46fd0ba5a4, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _SampleTexture2D_cc6d513a07774727bbab2e9b8078dde3_Texture_1_Texture2D:
         m_Texture: {fileID: 2800000, guid: c953d608942f45a4989ebf46fd0ba5a4, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
@@ -91,32 +62,44 @@ Material:
     - _AlphaToMask: 0
     - _B_ChannelSharp: 0
     - _Blend: 0
-    - _CUSTOMDATA_2_TYPE: 1
+    - _CUSTOMDATA_2_TYPE: 0
     - _CastShadows: 0
     - _Cull: 2
     - _Dissolve: 0
     - _DstBlend: 10
     - _DstBlendAlpha: 10
     - _Emissive: 1
-    - _FLIPBOOK: 2
-    - _Float: 0
-    - _Panner: 5.13
+    - _FLIPBOOK: 1
+    - _Float: 59.11
+    - _Panner: 10
     - _QueueControl: 0
     - _QueueOffset: 0
     - _RGBA: 1
-    - _SWITCHER: 1
     - _SrcBlend: 5
     - _SrcBlendAlpha: 1
     - _Surface: 1
+    - _USE_FLIPBOOK: 0
     - _VERTEXSTREAM: 1
     - _ZTest: 4
     - _ZWrite: 0
     - _ZWriteControl: 0
     m_Colors:
-    - _B_ChannelColor: {r: 1, g: 1, b: 1, a: 0.61960787}
-    - _FlatColor: {r: 0.077281624, g: 1, b: 0.054901958, a: 1}
+    - _B_ChannelColor: {r: 1, g: 1, b: 1, a: 1}
     - _Flipbook_Tile: {r: 6, g: 6, b: 0, a: 0}
     - _MainColor: {r: 1, g: 1, b: 1, a: 1}
     - _SoftParticles: {r: 0, g: 1, b: 0, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
+--- !u!114 &4166064301055406139
+MonoBehaviour:
+  m_ObjectHideFlags: 11
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0353a89b1f911e48b9e16bdc9f2e058, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.RenderPipelines.Universal.Editor::UnityEditor.Rendering.Universal.AssetVersion
+  version: 10
