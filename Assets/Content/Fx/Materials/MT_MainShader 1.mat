@@ -13,11 +13,15 @@ Material:
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
   - _ALPHATEST_ON
-  - _BACE_COLOR_VERTEX
+  - _COLOR_METHOD_VERTEX
   - _DISSOLVE_OFF
   - _HIGHLIGHT_OFF
   - _RECEIVE_SHADOWS_OFF
+  - _SME_UV1_GRID
   m_InvalidKeywords:
+  - _BACE_COLOR_VERTEX
+  - _BACE_OLOR_NONE
+  - _DUBUG_EMISSIVE
   - _DUBUG_NONE
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -26,7 +30,6 @@ Material:
   stringTagMap:
     RenderType: TransparentCutout
   disabledShaderPasses:
-  - SHADOWCASTER
   - MOTIONVECTORS
   m_LockedProperties: 
   m_SavedProperties:
