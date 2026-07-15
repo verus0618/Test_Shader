@@ -14,11 +14,12 @@ Material:
   m_ValidKeywords:
   - _ALPHATEST_ON
   - _COLOR_METHOD_VERTEX
-  - _DISSOLVE_ON
+  - _DISSOLVE_OFF
   - _HIGHLIGHT_OFF
   - _NORMALLIGHT_ALL
+  - _NORMALMAP_ON
   - _RECEIVE_SHADOWS_OFF
-  - _SME_TEXTURE
+  - _SME_UV1_GRID
   m_InvalidKeywords:
   - _BACE_COLOR_VERTEX
   - _DUBUG_EMISSIVE
@@ -40,12 +41,16 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Dissolve_Texture:
-        m_Texture: {fileID: 2800000, guid: 7c9bf8f7e5f30d443a8e52990e1d22ac, type: 3}
+        m_Texture: {fileID: 2800000, guid: 41851cb0bbaf74b1a8ad2cc7a0a9a95a, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Main_Texture:
         m_Texture: {fileID: 2800000, guid: 35cfe3df8fbb7aa46adb76215627f2e9, type: 3}
         m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _NormalMap:
+        m_Texture: {fileID: 2800000, guid: b7bd76597d7ffa946b2d608459dcc81c, type: 3}
+        m_Scale: {x: 6, y: 6}
         m_Offset: {x: 0, y: 0}
     - _SHDSGMainSME_565cfa74cb8a4986945fb9e50a462948_Texture2D_1639966268_Texture2D:
         m_Texture: {fileID: 0}
@@ -89,13 +94,14 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _AO: 0.713
+    - _AO: 1
     - _AlphaClip: 1
     - _AlphaToMask: 1
     - _BACE_COLOR: 1
     - _BACE_OLOR: 0
     - _BASE_COLOR: 0
     - _B_ChannelSharp: 0
+    - _BaseColor_Intensity: 1
     - _Blend: 0
     - _BlendModePreserveSpecular: 1
     - _COLOR_METHOD: 1
@@ -105,9 +111,9 @@ Material:
     - _Color_Stren: 1
     - _Cull: 2
     - _DEBUG_NORMALLIGHT: 0
-    - _DISSOLVE: 1
+    - _DISSOLVE: 0
     - _DUBUG: 0
-    - _Dissolve: 0
+    - _Dissolve: 0.142
     - _Dissolve_Size: 1
     - _Dissolve_With: 0.01
     - _Dither: 0
@@ -125,18 +131,20 @@ Material:
     - _HitStrength: 0
     - _Metallic: 0
     - _NORMALLIGHT: 3
+    - _NORMALMAP: 1
     - _NormalShadow_Blend: 1
     - _NormalShadow_Max: 1
-    - _NormalShadow_Rotate: 0
+    - _NormalShadow_Rotate: 360
     - _NormalShadow_Saturate: 1
-    - _NormallLight_Intensity: 0
-    - _NormallShadow_Intensity: 0
+    - _NormalStrenght: 0.67
+    - _NormallLight_Intensity: 0.55
+    - _NormallShadow_Intensity: 1
     - _Panner: 10
     - _QueueControl: 0
     - _QueueOffset: 0
     - _RGBA: 1
     - _ReceiveShadows: 0
-    - _SME: 2
+    - _SME: 1
     - _SM_UV1_Grid: 8
     - _SM_UV_Grid: 8
     - _Saturation: 2.43
@@ -153,12 +161,13 @@ Material:
     - _ZWriteControl: 0
     m_Colors:
     - _B_ChannelColor: {r: 1, g: 1, b: 1, a: 1}
-    - _Bright_Contr_Satur_Add: {r: 1, g: 1.96, b: 1.6, a: 0}
+    - _Bright_Contr_Satur_Add: {r: 1.3, g: 1.21, b: 1.52, a: 0}
     - _Color: {r: 1, g: 1, b: 1, a: 0}
-    - _DissolveColor: {r: 47.93726, g: 4.631493, b: 0, a: 0}
+    - _Color_1: {r: 1, g: 0.32099998, b: 0.32099998, a: 1}
+    - _DissolveColor: {r: 0, g: 1.5832192, b: 11.984314, a: 0}
     - _Dissolve_MinMax: {r: 0, g: 1, b: 0, a: 0}
     - _Dissolve_SizeWithMinMax: {r: 1, g: 0.01, b: 0, a: 1}
-    - _Emissive_olor: {r: 17.148375, g: 8.154266, b: 0, a: 0}
+    - _Emissive_olor: {r: 1, g: 1, b: 1, a: 0}
     - _Flipbook_Tile: {r: 6, g: 6, b: 0, a: 0}
     - _Glow: {r: 9.849155, g: 0.7743026, b: 8.735792, a: 0}
     - _GlowColor: {r: 0.26964697, g: 1.3973334, b: 2.9960785, a: 0}
@@ -174,11 +183,12 @@ Material:
     - _NormalShadow_Color: {r: 0.9921136, g: 1, b: 0.4103774, a: 1}
     - _NormalShadow_MinMax: {r: 0, g: 1, b: 0, a: 0}
     - _NormalShadow_Position: {r: 0, g: 1, b: 0, a: 0}
-    - _NormallLight: {r: 1, g: 1, b: 1, a: 1}
+    - _NormallLight: {r: 1, g: 0, b: 0, a: 1}
     - _NormallLight_Color: {r: 0, g: 0.29917958, b: 1, a: 1}
     - _NormallLight_Shadow: {r: 0.2833377, g: 0.2216981, b: 1, a: 1}
-    - _NormallShadow: {r: 0, g: 0, b: 0, a: 1}
+    - _NormallShadow: {r: 1.4980392, g: 1.4507544, b: 0.44705883, a: 1}
     - _SoftParticles: {r: 0, g: 1, b: 0, a: 0}
+    - _SpecularColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
 --- !u!114 &4166064301055406139
