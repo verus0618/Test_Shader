@@ -9,23 +9,22 @@ Material:
   m_PrefabAsset: {fileID: 0}
   m_Name: MT_MainShader 1
   m_Shader: {fileID: -6465566751694194690, guid: 508d852337cb97f45808504be6324b03, type: 3}
-  m_Parent: {fileID: 2100000, guid: 2a35694cf4e59444c8ad061ef5870079, type: 2}
+  m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
   - _ALPHATEST_ON
+  - _COLOR_METHOD_TEXTURE
   - _DISSOLVE_OFF
+  - _DUBUG_SMOOTNESS
   - _HIGHLIGHT_OFF
-  - _NORMALLIGHT_SHADOW
-  - _NORMALMAP_ON
-  - _RECEIVE_SHADOWS_OFF
-  - _SME_FLAT
+  - _NORMALLIGHT_OFF
+  - _NORMALMAP_TRIPLANAR
+  - _SME_TEXTURE
   - _SPECULAR_SETUP
   m_InvalidKeywords:
   - _BACE_COLOR_VERTEX
   - _BACE_OLOR_NONE
-  - _COLOR_METHOD_NONE
   - _DUBUG_EMISSIVE
-  - _DUBUG_NONE
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -37,11 +36,91 @@ Material:
   m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
-    m_TexEnvs: []
+    m_TexEnvs:
+    - _Dissolve_Texture:
+        m_Texture: {fileID: 2800000, guid: 41851cb0bbaf74b1a8ad2cc7a0a9a95a, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Main_Texture:
+        m_Texture: {fileID: 2800000, guid: 583384ba064432b41891bec94e35c8af, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _NormalMap:
+        m_Texture: {fileID: 2800000, guid: d7aa8e05f3b6118478e7caf71b9232c2, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SME_Mask:
+        m_Texture: {fileID: 2800000, guid: 046e8c3035707834da517db833a8c498, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_Lightmaps:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_LightmapsInd:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_ShadowMasks:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     m_Ints: []
-    m_Floats: []
+    m_Floats:
+    - _AO: 1
+    - _AlphaClip: 1
+    - _AlphaToMask: 1
+    - _BaseColor_Intensity: 1
+    - _Blend: 0
+    - _BlendModePreserveSpecular: 1
+    - _COLOR_METHOD: 2
+    - _CastShadows: 1
+    - _Cull: 2
+    - _DISSOLVE: 0
+    - _DUBUG: 2
+    - _Dissolve: 0
+    - _DstBlend: 0
+    - _DstBlendAlpha: 0
+    - _Emissive: 0
+    - _Grayness: 0
+    - _HIGHLIGHT: 0
+    - _Highlight: 0
+    - _MainTex_TriplanarType: 0
+    - _Main_Texture_Tile: 3
+    - _Metallic: 0
+    - _NORMALLIGHT: 0
+    - _NORMALMAP: 2
+    - _NormalMap_Tile: 3
+    - _NormalShadow_Rotate: 0
+    - _NormalStrenght: 1
+    - _NormalTriplanarType: 0
+    - _NormallLight_Intensity: 0
+    - _NormallShadow_Intensity: 1
+    - _QueueControl: 0
+    - _QueueOffset: 0
+    - _ReceiveShadows: 1
+    - _SME: 2
+    - _SM_UV1_Grid: 8
+    - _Smoothness: 1
+    - _SrcBlend: 1
+    - _SrcBlendAlpha: 1
+    - _Surface: 0
+    - _WorkflowMode: 0
+    - _ZTest: 4
+    - _ZWrite: 1
+    - _ZWriteControl: 0
     m_Colors:
-    - _Color: {r: 0.20295754, g: 0.8113208, b: 0.17093849, a: 0}
+    - _Bright_Contr_Satur_Add: {r: 1, g: 1, b: 1, a: 0}
+    - _Color: {r: 1, g: 0.71310836, b: 0.4433961, a: 0}
+    - _DissolveColor: {r: 47.93726, g: 4.631493, b: 0, a: 0}
+    - _Dissolve_SizeWithMinMax: {r: 1, g: 0.01, b: 0, a: 1}
+    - _Emissive_olor: {r: 0, g: 0, b: 0, a: 0}
+    - _HighlightColor: {r: 0.3192801, g: 1.498039, b: 0, a: 0}
+    - _Highlight_MinMax: {r: 0, g: 1, b: 0, a: 0}
+    - _NormalLight_MinMax: {r: -1.2, g: 1, b: 0, a: 0}
+    - _NormallLight: {r: 1, g: 1, b: 1, a: 1}
+    - _NormallShadow: {r: 2.670157, g: 2.670157, b: 2.670157, a: 1}
+    - _SpecularColor: {r: 0, g: 0, b: 0, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
 --- !u!114 &4166064301055406139
