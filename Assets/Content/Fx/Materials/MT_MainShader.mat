@@ -13,14 +13,14 @@ Material:
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
   - _ALPHATEST_ON
+  - _COLOR_METHOD_VERTEX
   - _DISSOLVE_OFF
   - _HIGHLIGHT_OFF
   - _NORMALLIGHT_OFF
   - _NORMALMAP_OFF
-  - _SME_FLAT
+  - _SME_UV1_GRID
   m_InvalidKeywords:
   - _BACE_COLOR_VERTEX
-  - _COLOR_METHOD_NONE
   - _DUBUG_EMISSIVE
   - _DUBUG_NONE
   m_LightmapFlags: 4
@@ -71,7 +71,7 @@ Material:
     - _BaseColor_Intensity: 1
     - _Blend: 0
     - _BlendModePreserveSpecular: 1
-    - _COLOR_METHOD: 0
+    - _COLOR_METHOD: 1
     - _CastShadows: 1
     - _Cull: 2
     - _DISSOLVE: 0
@@ -79,13 +79,13 @@ Material:
     - _Dissolve: 0
     - _DstBlend: 0
     - _DstBlendAlpha: 0
-    - _Emissive: 0
+    - _Emissive: 1
     - _Grayness: 0
     - _HIGHLIGHT: 0
     - _Highlight: 0
     - _MainTex_TriplanarType: 1
     - _Main_Texture_Tile: 1
-    - _Metallic: 0.5
+    - _Metallic: 1
     - _NORMALLIGHT: 0
     - _NORMALMAP: 0
     - _NormalMap_Tile: 1
@@ -97,9 +97,9 @@ Material:
     - _QueueControl: 0
     - _QueueOffset: 0
     - _ReceiveShadows: 1
-    - _SME: 0
+    - _SME: 1
     - _SM_UV1_Grid: 8
-    - _Smoothness: 0.5
+    - _Smoothness: 1
     - _SrcBlend: 1
     - _SrcBlendAlpha: 1
     - _Surface: 0
@@ -108,17 +108,19 @@ Material:
     - _ZWrite: 1
     - _ZWriteControl: 0
     m_Colors:
-    - _Bright_Contr_Satur_Add: {r: 1, g: 1, b: 1, a: 0}
+    - _Bright_Contr_Satur_Add: {r: 2, g: 2, b: 1.25, a: 0}
+    - _Bright_Contr_Satur_Hue: {r: 1, g: 1, b: 1, a: 0}
     - _Color: {r: 1, g: 1, b: 1, a: 0}
     - _DissolveColor: {r: 47.93726, g: 4.631493, b: 0, a: 0}
     - _Dissolve_SizeWithMinMax: {r: 1, g: 0.01, b: 0, a: 1}
-    - _Emissive_olor: {r: 0, g: 0, b: 0, a: 0}
+    - _Emissive_olor: {r: 51.984146, g: 1.4712405, b: 1.4712405, a: 0}
     - _HighlightColor: {r: 0.3192801, g: 1.498039, b: 0, a: 0}
     - _Highlight_MinMax: {r: 0, g: 1, b: 0, a: 0}
     - _NormalLight_MinMax: {r: 0, g: 1, b: 0, a: 0}
     - _NormallLight: {r: 1, g: 1, b: 1, a: 1}
     - _NormallShadow: {r: 0, g: 0, b: 0, a: 1}
     - _SpecularColor: {r: 0.5019608, g: 0.5019608, b: 0.5019608, a: 1}
+    - _Tint: {r: 1, g: 1, b: 1, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
 --- !u!114 &4166064301055406139
