@@ -13,14 +13,15 @@ Material:
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
   - _ALPHATEST_ON
-  - _COLOR_METHOD_VERTEX
   - _DISSOLVE_OFF
   - _HIGHLIGHT_OFF
-  - _NORMALLIGHT_OFF
-  - _NORMALMAP_OFF
-  - _SME_UV1_GRID
+  - _NORMALLIGHT_ALL
+  - _NORMALMAP_TRIPLANAR
+  - _RIMLIGHT_ALL
+  - _SME_FLAT
   m_InvalidKeywords:
   - _BACE_COLOR_VERTEX
+  - _COLOR_METHOD_NONE
   - _DUBUG_EMISSIVE
   - _DUBUG_NONE
   m_LightmapFlags: 4
@@ -36,7 +37,7 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _Dissolve_Texture:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: 41851cb0bbaf74b1a8ad2cc7a0a9a95a, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Main_Texture:
@@ -44,8 +45,8 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _NormalMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
+        m_Texture: {fileID: 2800000, guid: d7aa8e05f3b6118478e7caf71b9232c2, type: 3}
+        m_Scale: {x: 2, y: 1}
         m_Offset: {x: 0, y: 0}
     - _SME_Mask:
         m_Texture: {fileID: 0}
@@ -66,12 +67,13 @@ Material:
     m_Ints: []
     m_Floats:
     - _AO: 0.5
+    - _Add: 0
     - _AlphaClip: 1
     - _AlphaToMask: 1
     - _BaseColor_Intensity: 1
     - _Blend: 0
     - _BlendModePreserveSpecular: 1
-    - _COLOR_METHOD: 1
+    - _COLOR_METHOD: 0
     - _CastShadows: 1
     - _Cull: 2
     - _DISSOLVE: 0
@@ -79,27 +81,33 @@ Material:
     - _Dissolve: 0
     - _DstBlend: 0
     - _DstBlendAlpha: 0
-    - _Emissive: 1
+    - _Emissive: 0
+    - _Float: 2
+    - _Float_1: 1
     - _Grayness: 0
     - _HIGHLIGHT: 0
-    - _Highlight: 0
+    - _Highlight: 1
     - _MainTex_TriplanarType: 1
     - _Main_Texture_Tile: 1
-    - _Metallic: 1
-    - _NORMALLIGHT: 0
-    - _NORMALMAP: 0
-    - _NormalMap_Tile: 1
+    - _Metallic: 0
+    - _NORMALLIGHT: 3
+    - _NORMALMAP: 2
+    - _NormalMap_Tile: 6
     - _NormalShadow_Rotate: 0
-    - _NormalStrenght: 1
-    - _NormalTriplanarType: 1
-    - _NormallLight_Intensity: 0
-    - _NormallShadow_Intensity: 0
+    - _NormalStrenght: 0.59
+    - _NormalTriplanarType: 0
+    - _NormallLight_Intensity: 1
+    - _NormallShadow_Intensity: 1
     - _QueueControl: 0
     - _QueueOffset: 0
+    - _RIMLIGHT: 3
     - _ReceiveShadows: 1
-    - _SME: 1
+    - _RimLight_Intensity: 1
+    - _RimLight_Strength: 1
+    - _RimShadow_Intensity: 1
+    - _SME: 0
     - _SM_UV1_Grid: 8
-    - _Smoothness: 1
+    - _Smoothness: 0.455
     - _SrcBlend: 1
     - _SrcBlendAlpha: 1
     - _Surface: 0
@@ -107,20 +115,26 @@ Material:
     - _ZTest: 4
     - _ZWrite: 1
     - _ZWriteControl: 0
+    - _power: 0.67
     m_Colors:
     - _Bright_Contr_Satur_Add: {r: 2, g: 2, b: 1.25, a: 0}
     - _Bright_Contr_Satur_Hue: {r: 1, g: 1, b: 1, a: 0}
-    - _Color: {r: 1, g: 1, b: 1, a: 0}
+    - _Color: {r: 3.776172, g: 3.1333396, b: 0.39186648, a: 0}
     - _DissolveColor: {r: 47.93726, g: 4.631493, b: 0, a: 0}
-    - _Dissolve_SizeWithMinMax: {r: 1, g: 0.01, b: 0, a: 1}
-    - _Emissive_olor: {r: 51.984146, g: 1.4712405, b: 1.4712405, a: 0}
-    - _HighlightColor: {r: 0.3192801, g: 1.498039, b: 0, a: 0}
-    - _Highlight_MinMax: {r: 0, g: 1, b: 0, a: 0}
-    - _NormalLight_MinMax: {r: 0, g: 1, b: 0, a: 0}
-    - _NormallLight: {r: 1, g: 1, b: 1, a: 1}
-    - _NormallShadow: {r: 0, g: 0, b: 0, a: 1}
+    - _Dissolve_SizeWithMinMax: {r: 0.55, g: 0.01, b: 0, a: 1}
+    - _Emissive_olor: {r: 0, g: 0, b: 0, a: 0}
+    - _HighlightColor: {r: 2.7375677, g: 12.844468, b: 0, a: 0}
+    - _Highlight_MinMax: {r: 0, g: 0.39, b: 0, a: 0}
+    - _NormalLight_MinMax: {r: 0, g: 1.6, b: 0, a: 0}
+    - _NormallLight: {r: 1.0717734, g: 0.9543945, b: 0.67070085, a: 1}
+    - _NormallShadow: {r: 1.9766746, g: 0.7244357, b: 1.84905, a: 1}
+    - _RimLight: {r: 3.732132, g: 1.7852508, b: 1.0210545, a: 1}
+    - _RimLight_MinMax: {r: 0.2, g: 0.3, b: 0, a: 0}
+    - _RimShadow: {r: 0.49254432, g: 6.423057, b: 7.458544, a: 1}
     - _SpecularColor: {r: 0.5019608, g: 0.5019608, b: 0.5019608, a: 1}
     - _Tint: {r: 1, g: 1, b: 1, a: 0}
+    - _Vector2: {r: 0, g: 0.28, b: 0, a: 0}
+    - _Vector3: {r: 0.19, g: 0.36, b: 0, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
 --- !u!114 &4166064301055406139
