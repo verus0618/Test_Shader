@@ -1,0 +1,146 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: MT_MainShader_Hulk
+  m_Shader: {fileID: -6465566751694194690, guid: 508d852337cb97f45808504be6324b03, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords:
+  - _ALPHATEST_ON
+  - _COLOR_METHOD_TEXTURE
+  - _DISSOLVE_ON
+  - _HIGHLIGHT_ON
+  - _NORMALLIGHT_SHADOW
+  - _NORMALMAP_ON
+  - _RIMLIGHT_ALL
+  - _SME_TEXTURE
+  m_InvalidKeywords:
+  - _BACE_COLOR_VERTEX
+  - _DUBUG_EMISSIVE
+  - _DUBUG_NONE
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap:
+    RenderType: TransparentCutout
+  disabledShaderPasses:
+  - MOTIONVECTORS
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _Dissolve_Texture:
+        m_Texture: {fileID: 2800000, guid: 41851cb0bbaf74b1a8ad2cc7a0a9a95a, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Main_Texture:
+        m_Texture: {fileID: 2800000, guid: 70e1632d3544850409ca127b44d633e7, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _NormalMap:
+        m_Texture: {fileID: 2800000, guid: 222ae9d966d645249ac9ae6d3bb5b5e7, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SME_Mask:
+        m_Texture: {fileID: 2800000, guid: c8bceb47875295c4b8435bedb1fc44ef, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_Lightmaps:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_LightmapsInd:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_ShadowMasks:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _AO: 0.5
+    - _AlphaClip: 1
+    - _AlphaToMask: 1
+    - _BaseColor_Intensity: 1
+    - _Blend: 0
+    - _BlendModePreserveSpecular: 1
+    - _COLOR_METHOD: 2
+    - _CastShadows: 1
+    - _Cull: 0
+    - _DISSOLVE: 1
+    - _DUBUG: 0
+    - _Dissolve: 0
+    - _DstBlend: 0
+    - _DstBlendAlpha: 0
+    - _Emissive: 0
+    - _Float: 0
+    - _Float_1: 0
+    - _Grayness: 0
+    - _HIGHLIGHT: 1
+    - _Highlight: 0
+    - _MainTex_TriplanarType: 1
+    - _Main_Texture_Tile: 1
+    - _Metallic: 1
+    - _NORMALLIGHT: 2
+    - _NORMALMAP: 1
+    - _NormalMap_Tile: 1
+    - _NormalShadow_Rotate: 0
+    - _NormalStrenght: 1
+    - _NormalTriplanarType: 1
+    - _NormallLight_Intensity: 1
+    - _NormallShadow_Intensity: 1
+    - _QueueControl: 0
+    - _QueueOffset: 0
+    - _RIMLIGHT: 3
+    - _ReceiveShadows: 1
+    - _RimLight_Intensity: 1
+    - _RimLight_Strength: 2
+    - _RimShadow_Intensity: 0.219
+    - _SME: 2
+    - _SM_UV1_Grid: 8
+    - _Smoothness: 1
+    - _SrcBlend: 1
+    - _SrcBlendAlpha: 1
+    - _Surface: 0
+    - _WorkflowMode: 1
+    - _ZTest: 4
+    - _ZWrite: 1
+    - _ZWriteControl: 0
+    m_Colors:
+    - _Bright_Contr_Satur_Hue: {r: 1.77, g: 1.44, b: 1.3, a: 0}
+    - _DissolveColor: {r: 47.93726, g: 4.631493, b: 0, a: 0}
+    - _Dissolve_SizeWithMinMax: {r: 1, g: 0.01, b: 0, a: 1}
+    - _Emissive_olor: {r: 0, g: 0, b: 0, a: 0}
+    - _HighlightColor: {r: 0.3192801, g: 1.498039, b: 0, a: 0}
+    - _Highlight_MinMax: {r: 0.28, g: 0.6, b: 0, a: 0}
+    - _NormalLight_MinMax: {r: 0, g: 1.45, b: 0, a: 0}
+    - _NormallLight: {r: 1, g: 1, b: 1, a: 1}
+    - _NormallShadow: {r: 0.10980387, g: 0.53227526, b: 1.4980392, a: 1}
+    - _RimLight: {r: 0.21576764, g: 2.5600808, b: 5.278032, a: 1}
+    - _RimLight_MinMax: {r: 0, g: 0.25, b: 0, a: 0}
+    - _RimShadow: {r: 0, g: 25.688938, b: 2.0719316, a: 1}
+    - _SpecularColor: {r: 0.5019608, g: 0.5019608, b: 0.5019608, a: 1}
+    - _Tint: {r: 1, g: 1, b: 1, a: 0}
+  m_BuildTextureStacks: []
+  m_AllowLocking: 1
+--- !u!114 &4166064301055406139
+MonoBehaviour:
+  m_ObjectHideFlags: 11
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0353a89b1f911e48b9e16bdc9f2e058, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.RenderPipelines.Universal.Editor::UnityEditor.Rendering.Universal.AssetVersion
+  version: 10

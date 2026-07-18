@@ -17,7 +17,7 @@ Material:
   - _DISSOLVE_ON
   - _HIGHLIGHT_OFF
   - _NORMALLIGHT_SHADOW
-  - _NORMALMAP_OFF
+  - _NORMALMAP_ON
   - _RIMLIGHT_ALL
   - _SME_UV1_GRID
   m_InvalidKeywords:
@@ -45,7 +45,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _NormalMap:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: f97ab991d5afa824588b8a6aa474c6c9, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _SME_Mask:
@@ -82,6 +82,7 @@ Material:
     - _DstBlend: 0
     - _DstBlendAlpha: 0
     - _Emissive: 1
+    - _Flip_Z: 0
     - _Float: 2
     - _Float_1: 1
     - _Grayness: 0
@@ -91,10 +92,10 @@ Material:
     - _Main_Texture_Tile: 1
     - _Metallic: 0
     - _NORMALLIGHT: 2
-    - _NORMALMAP: 0
-    - _NormalMap_Tile: 1
+    - _NORMALMAP: 1
+    - _NormalMap_Tile: 18.8
     - _NormalShadow_Rotate: 0
-    - _NormalStrenght: 1
+    - _NormalStrenght: 0
     - _NormalTriplanarType: 1
     - _NormallLight_Intensity: 0
     - _NormallShadow_Intensity: 1
@@ -129,7 +130,7 @@ Material:
     - _NormallLight: {r: 2.143547, g: 0.08762889, b: 1.633615, a: 1}
     - _NormallShadow: {r: 0, g: 1.0849648, b: 4.6297436, a: 1}
     - _RimLight: {r: 4.924577, g: 1.6883993, b: 0.41812372, a: 1}
-    - _RimLight_MinMax: {r: 0.21, g: 0.4, b: 0, a: 0}
+    - _RimLight_MinMax: {r: 0.15, g: 0.3, b: 0, a: 0}
     - _RimShadow: {r: 0, g: 5.2780313, b: 1.5698065, a: 1}
     - _SpecularColor: {r: 0.5019608, g: 0.5019608, b: 0.5019608, a: 1}
     - _Tint: {r: 1, g: 1, b: 1, a: 0}
