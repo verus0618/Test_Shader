@@ -14,11 +14,11 @@ Material:
   m_ValidKeywords:
   - _ALPHATEST_ON
   - _COLOR_METHOD_VERTEX
-  - _DISSOLVE_ON
+  - _DISSOLVE_OFF
   - _HIGHLIGHT_OFF
   - _NORMALLIGHT_SHADOW
   - _NORMALMAP_ON
-  - _RIMLIGHT_ALL
+  - _RIMLIGHT_OFF
   - _SME_UV1_GRID
   m_InvalidKeywords:
   - _BACE_COLOR_VERTEX
@@ -66,7 +66,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _AO: 0.934
+    - _AO: 0.5
     - _Add: 0
     - _AlphaClip: 1
     - _AlphaToMask: 1
@@ -76,7 +76,7 @@ Material:
     - _COLOR_METHOD: 1
     - _CastShadows: 1
     - _Cull: 2
-    - _DISSOLVE: 1
+    - _DISSOLVE: 0
     - _DUBUG: 0
     - _Dissolve: 0
     - _DstBlend: 0
@@ -91,6 +91,7 @@ Material:
     - _MainTex_TriplanarType: 1
     - _Main_Texture_Tile: 1
     - _Metallic: 0
+    - _NL_Rotate: 0
     - _NORMALLIGHT: 2
     - _NORMALMAP: 1
     - _NormalMap_Tile: 18.8
@@ -101,9 +102,10 @@ Material:
     - _NormallShadow_Intensity: 1
     - _QueueControl: 0
     - _QueueOffset: 0
-    - _RIMLIGHT: 3
+    - _RIMLIGHT: 0
     - _ReceiveShadows: 1
     - _RimLight_Intensity: 1
+    - _RimLight_Stength: 3
     - _RimLight_Strength: 1
     - _RimShadow_Intensity: 1
     - _SME: 1
@@ -128,10 +130,15 @@ Material:
     - _Highlight_MinMax: {r: 0, g: 0.39, b: 0, a: 0}
     - _NormalLight_MinMax: {r: 0, g: 1, b: 0, a: 0}
     - _NormallLight: {r: 2.143547, g: 0.08762889, b: 1.633615, a: 1}
+    - _NormallLight_Color: {r: 1, g: 1, b: 1, a: 1}
     - _NormallShadow: {r: 0, g: 1.0849648, b: 4.6297436, a: 1}
+    - _NormallShadow_Color: {r: 0, g: 0, b: 0, a: 1}
+    - _NormallShadow_MinMax: {r: 0, g: 1, b: 0, a: 0}
     - _RimLight: {r: 4.924577, g: 1.6883993, b: 0.41812372, a: 1}
-    - _RimLight_MinMax: {r: 0.15, g: 0.3, b: 0, a: 0}
+    - _RimLight_Color: {r: 0, g: 0.45911938, b: 0.006121586, a: 1}
+    - _RimLight_MinMax: {r: 0, g: 0.5, b: 0, a: 0}
     - _RimShadow: {r: 0, g: 5.2780313, b: 1.5698065, a: 1}
+    - _RimShadow_Color: {r: 2.828427, g: 0.5425594, b: 0.5425594, a: 1}
     - _SpecularColor: {r: 0.5019608, g: 0.5019608, b: 0.5019608, a: 1}
     - _Tint: {r: 1, g: 1, b: 1, a: 0}
     - _Vector2: {r: 0, g: 0.28, b: 0, a: 0}

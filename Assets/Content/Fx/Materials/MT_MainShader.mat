@@ -13,21 +13,21 @@ Material:
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
   - _ALPHATEST_ON
-  - _COLOR_METHOD_VERTEX
-  - _DISSOLVE_OFF
+  - _DISSOLVE_ON
   - _HIGHLIGHT_OFF
-  - _NORMALLIGHT_OFF
+  - _NORMALLIGHT_ALL
   - _NORMALMAP_ON
   - _RIMLIGHT_ALL
-  - _SME_FLAT
+  - _SME_UV1_GRID
   m_InvalidKeywords:
   - _BACE_COLOR_VERTEX
+  - _COLOR_METHOD_NONE
   - _DUBUG_EMISSIVE
   - _DUBUG_NONE
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
+  m_CustomRenderQueue: 2450
   stringTagMap:
     RenderType: TransparentCutout
   disabledShaderPasses:
@@ -41,7 +41,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Main_Texture:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: b8aa35b1f4ce5ee5bbf0376cb9eb10cb, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _NormalMap:
@@ -66,22 +66,22 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _AO: 0.5
+    - _AO: 1
     - _Add: 0
     - _AlphaClip: 1
     - _AlphaToMask: 1
     - _BaseColor_Intensity: 1
     - _Blend: 0
     - _BlendModePreserveSpecular: 1
-    - _COLOR_METHOD: 1
+    - _COLOR_METHOD: 0
     - _CastShadows: 1
     - _Cull: 2
-    - _DISSOLVE: 0
+    - _DISSOLVE: 1
     - _DUBUG: 0
     - _Dissolve: 0
     - _DstBlend: 0
     - _DstBlendAlpha: 0
-    - _Emissive: 0
+    - _Emissive: 1
     - _Flip_Z: 1
     - _Float: 1
     - _Float_1: 1.3
@@ -89,13 +89,14 @@ Material:
     - _HIGHLIGHT: 0
     - _Highlight: 1
     - _MainTex_TriplanarType: 1
-    - _Main_Texture_Tile: 1
+    - _Main_Texture_Tile: 3
     - _Metallic: 0
-    - _NORMALLIGHT: 0
+    - _NL_Rotate: 0
+    - _NORMALLIGHT: 3
     - _NORMALMAP: 1
-    - _NormalMap_Tile: 27.39
+    - _NormalMap_Tile: 5.2
     - _NormalShadow_Rotate: 0
-    - _NormalStrenght: 0
+    - _NormalStrenght: 0.3
     - _NormalTriplanarType: 1
     - _NormallLight_Intensity: 1
     - _NormallShadow_Intensity: 1
@@ -104,11 +105,12 @@ Material:
     - _RIMLIGHT: 3
     - _ReceiveShadows: 1
     - _RimLight_Intensity: 1
+    - _RimLight_Stength: 100
     - _RimLight_Strength: 1
     - _RimShadow_Intensity: 1
-    - _SME: 0
+    - _SME: 1
     - _SM_UV1_Grid: 8
-    - _Smoothness: 0.455
+    - _Smoothness: 0.684
     - _SrcBlend: 1
     - _SrcBlendAlpha: 1
     - _Surface: 0
@@ -119,22 +121,29 @@ Material:
     - _power: 0.67
     m_Colors:
     - _Bright_Contr_Satur_Add: {r: 2, g: 2, b: 1.25, a: 0}
-    - _Bright_Contr_Satur_Hue: {r: 1.5, g: 2, b: 1.5, a: 0}
+    - _Bright_Contr_Satur_Hue: {r: 0.81, g: 0.32, b: 0, a: 0}
+    - _Camera_Fade: {r: 2, g: 4, b: 0, a: 0}
     - _Color: {r: 3.776172, g: 3.1333396, b: 0.39186648, a: 0}
     - _DissolveColor: {r: 47.93726, g: 4.631493, b: 0, a: 0}
     - _Dissolve_SizeWithMinMax: {r: 0.55, g: 0.01, b: 0, a: 1}
-    - _Emissive_olor: {r: 0, g: 0, b: 0, a: 0}
-    - _HighlightColor: {r: 2.7375677, g: 12.844468, b: 0, a: 0}
-    - _Highlight_MinMax: {r: 0, g: 0.39, b: 0, a: 0}
-    - _NormalLight_MinMax: {r: 0, g: 1.74, b: 0, a: 0}
-    - _NormallLight: {r: 1.0717734, g: 0.9543945, b: 0.67070085, a: 1}
+    - _Emissive_olor: {r: 0, g: 2.364842, b: 8.47419, a: 0}
+    - _HighlightColor: {r: 0.3192801, g: 1.498039, b: 0, a: 0}
+    - _Highlight_MinMax: {r: 0, g: 1, b: 0, a: 0}
+    - _NormalLight_MinMax: {r: 0.5, g: 1.5, b: 0, a: 0}
+    - _NormallLight: {r: 1, g: 0.5, b: 0.5, a: 0.32941177}
+    - _NormallLight_Color: {r: 1, g: 0.8522356, b: 0.09803921, a: 1}
     - _NormallShadow: {r: 3.0136352, g: 0.53645855, b: 0.71867377, a: 1}
+    - _NormallShadow_Color: {r: 0, g: 0.3372549, b: 0.5019608, a: 1}
+    - _NormallShadow_MinMax: {r: 0, g: 1, b: 0, a: 0}
     - _RimLight: {r: 3.2943723, g: 0.8856329, b: 5.9921575, a: 1}
-    - _RimLight_MinMax: {r: 0.15, g: 0.3, b: 0, a: 0}
+    - _RimLight_Color: {r: 2.9960787, g: 0.45913607, b: 0, a: 1}
+    - _RimLight_MinMax: {r: 0, g: 0.3, b: 0, a: 0}
     - _RimShadow: {r: 0, g: 1.0583416, b: 13.928808, a: 1}
+    - _RimShadow_Color: {r: 0, g: 1.046155, b: 5.992157, a: 1}
+    - _Softness: {r: 2, g: 4, b: 0, a: 0}
     - _SpecularColor: {r: 0.5019608, g: 0.5019608, b: 0.5019608, a: 1}
-    - _Tint: {r: 1, g: 1, b: 1, a: 0}
-    - _Vector2: {r: 0, g: 0.28, b: 0, a: 0}
+    - _Tint: {r: 0, g: 0.61006284, b: 0.26696128, a: 0}
+    - _Vector2: {r: 1, g: 3, b: 0, a: 0}
     - _Vector3: {r: 0.19, g: 0.36, b: 0, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1

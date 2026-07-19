@@ -14,9 +14,9 @@ Material:
   m_ValidKeywords:
   - _ALPHATEST_ON
   - _COLOR_METHOD_TEXTURE
-  - _DISSOLVE_ON
-  - _HIGHLIGHT_ON
-  - _NORMALLIGHT_SHADOW
+  - _DISSOLVE_OFF
+  - _HIGHLIGHT_OFF
+  - _NORMALLIGHT_ALL
   - _NORMALMAP_ON
   - _RIMLIGHT_ALL
   - _SME_TEXTURE
@@ -75,7 +75,7 @@ Material:
     - _COLOR_METHOD: 2
     - _CastShadows: 1
     - _Cull: 0
-    - _DISSOLVE: 1
+    - _DISSOLVE: 0
     - _DUBUG: 0
     - _Dissolve: 0
     - _DstBlend: 0
@@ -84,12 +84,13 @@ Material:
     - _Float: 0
     - _Float_1: 0
     - _Grayness: 0
-    - _HIGHLIGHT: 1
+    - _HIGHLIGHT: 0
     - _Highlight: 0
     - _MainTex_TriplanarType: 1
     - _Main_Texture_Tile: 1
     - _Metallic: 1
-    - _NORMALLIGHT: 2
+    - _NL_Rotate: 0
+    - _NORMALLIGHT: 3
     - _NORMALMAP: 1
     - _NormalMap_Tile: 1
     - _NormalShadow_Rotate: 0
@@ -102,6 +103,7 @@ Material:
     - _RIMLIGHT: 3
     - _ReceiveShadows: 1
     - _RimLight_Intensity: 1
+    - _RimLight_Stength: 8.12
     - _RimLight_Strength: 2
     - _RimShadow_Intensity: 0.219
     - _SME: 2
@@ -117,16 +119,21 @@ Material:
     m_Colors:
     - _Bright_Contr_Satur_Hue: {r: 1.77, g: 1.44, b: 1.3, a: 0}
     - _DissolveColor: {r: 47.93726, g: 4.631493, b: 0, a: 0}
-    - _Dissolve_SizeWithMinMax: {r: 1, g: 0.01, b: 0, a: 1}
+    - _Dissolve_SizeWithMinMax: {r: 0.37, g: 0.01, b: 0, a: 1}
     - _Emissive_olor: {r: 0, g: 0, b: 0, a: 0}
     - _HighlightColor: {r: 0.3192801, g: 1.498039, b: 0, a: 0}
     - _Highlight_MinMax: {r: 0.28, g: 0.6, b: 0, a: 0}
-    - _NormalLight_MinMax: {r: 0, g: 1.45, b: 0, a: 0}
-    - _NormallLight: {r: 1, g: 1, b: 1, a: 1}
+    - _NormalLight_MinMax: {r: 0.32, g: 1, b: 0, a: 0}
+    - _NormallLight: {r: 0.2509804, g: 0.5019608, b: 0.30639672, a: 1}
+    - _NormallLight_Color: {r: 1, g: 1, b: 1, a: 1}
     - _NormallShadow: {r: 0.10980387, g: 0.53227526, b: 1.4980392, a: 1}
+    - _NormallShadow_Color: {r: 0.2509804, g: 0.4196078, b: 0.5019608, a: 1}
+    - _NormallShadow_MinMax: {r: 0, g: 0.34, b: 0, a: 0}
     - _RimLight: {r: 0.21576764, g: 2.5600808, b: 5.278032, a: 1}
-    - _RimLight_MinMax: {r: 0, g: 0.25, b: 0, a: 0}
+    - _RimLight_Color: {r: 0.35686278, g: 1, b: 0.39180315, a: 1}
+    - _RimLight_MinMax: {r: 0, g: 0.35, b: 0, a: 0}
     - _RimShadow: {r: 0, g: 25.688938, b: 2.0719316, a: 1}
+    - _RimShadow_Color: {r: 0, g: 2.6771646, b: 4, a: 1}
     - _SpecularColor: {r: 0.5019608, g: 0.5019608, b: 0.5019608, a: 1}
     - _Tint: {r: 1, g: 1, b: 1, a: 0}
   m_BuildTextureStacks: []
