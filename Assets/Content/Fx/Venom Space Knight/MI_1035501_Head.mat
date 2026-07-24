@@ -12,13 +12,12 @@ Material:
   m_Parent: {fileID: 2100000, guid: 7b9f4d239c7ccd0468458edff347f974, type: 2}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
-  - _ALPHATEST_ON
   - _COLOR_METHOD_TEXTURE
   - _DISSOLVE_OFF
   - _HIGHLIGHT_OFF
   - _NORMALLIGHT_OFF
   - _NORMALMAP_ON
-  - _RIMLIGHT_ALL
+  - _RIMLIGHT_OFF
   - _SME_TEXTURE
   m_InvalidKeywords:
   - _DUBUG_NONE
@@ -27,7 +26,7 @@ Material:
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
   stringTagMap:
-    RenderType: TransparentCutout
+    RenderType: Opaque
   disabledShaderPasses:
   - MOTIONVECTORS
   m_LockedProperties: 

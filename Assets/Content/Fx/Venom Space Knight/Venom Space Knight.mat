@@ -12,22 +12,21 @@ Material:
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
-  - _ALPHATEST_ON
   - _COLOR_METHOD_TEXTURE
   - _DISSOLVE_OFF
   - _HIGHLIGHT_OFF
   - _NORMALLIGHT_OFF
   - _NORMALMAP_ON
-  - _RIMLIGHT_ALL
+  - _RIMLIGHT_OFF
   - _SME_TEXTURE
   m_InvalidKeywords:
   - _DUBUG_NONE
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: 2450
+  m_CustomRenderQueue: 2000
   stringTagMap:
-    RenderType: TransparentCutout
+    RenderType: Opaque
   disabledShaderPasses:
   - MOTIONVECTORS
   m_LockedProperties: 
@@ -108,11 +107,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _AO: 1
+    - _AO: 0.545
+    - _AOIntensity: 83
     - _AddPrecomputedVelocity: 0
     - _Alpha: 1
-    - _AlphaClip: 1
-    - _AlphaToMask: 1
+    - _AlphaClip: 0
+    - _AlphaToMask: 0
     - _BaseColor_Intensity: 1
     - _Blend: 0
     - _BlendModePreserveSpecular: 1
@@ -140,7 +140,7 @@ Material:
     - _Highlight: 0
     - _MainTex_TriplanarType: 1
     - _Main_Texture_Tile: 1
-    - _Metallic: 1
+    - _Metallic: 0.5
     - _Mode: 0
     - _NL_Rotate: 0
     - _NORMALLIGHT: 0
@@ -149,10 +149,11 @@ Material:
     - _NormalStrenght: 1
     - _NormalTriplanarType: 1
     - _OcclusionStrength: 1
+    - _Occlusion_Intensity: 1
     - _Parallax: 0.02
     - _QueueControl: 0
     - _QueueOffset: 0
-    - _RIMLIGHT: 3
+    - _RIMLIGHT: 0
     - _ReceiveShadows: 1
     - _RimLight_Stength: 1
     - _SME: 2
@@ -171,22 +172,23 @@ Material:
     - _ZWriteControl: 0
     m_Colors:
     - _BaseColor: {r: 0.9063317, g: 0.9063317, b: 0.9063317, a: 1}
-    - _Bright_Contr_Satur_Hue: {r: 1.5, g: 1, b: 1.5, a: 0}
+    - _Bright_Contr_Satur_Hue: {r: 1, g: 1, b: 1, a: 0}
     - _Camera_Fade: {r: 0, g: 0.001, b: 0, a: 0}
     - _Color: {r: 0.9063317, g: 0.9063317, b: 0.9063317, a: 1}
     - _DissolveColor: {r: 47.93726, g: 4.631493, b: 0, a: 0}
     - _Dissolve_SizeWithMinMax: {r: 1, g: 0.01, b: 0, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _Emissive_olor: {r: 0.24056505, g: 0.7127905, b: 2.297397, a: 0}
+    - _Emissive_olor: {r: 0.6274508, g: 1.859127, b: 5.9921575, a: 0}
     - _HighlightColor: {r: 0.3192801, g: 1.498039, b: 0, a: 0}
     - _Highlight_MinMax: {r: 0, g: 1, b: 0, a: 0}
     - _NormalLight_MinMax: {r: 0, g: 1, b: 0, a: 0}
     - _NormallLight: {r: 0.5019608, g: 0.2509804, b: 0.2509804, a: 1}
     - _NormallShadow_Color: {r: 0.2509804, g: 0.4196078, b: 0.5019608, a: 1}
     - _NormallShadow_MinMax: {r: 0, g: 1, b: 0, a: 0}
-    - _RimLight_Color: {r: 1, g: 1, b: 1, a: 1}
+    - _Occlusion_MinMax: {r: 0.3, g: 0.7, b: 0, a: 0}
+    - _RimLight_Color: {r: 1, g: 1, b: 1, a: 0}
     - _RimLight_MinMax: {r: 0, g: 0.3, b: 0, a: 0}
-    - _RimShadow_Color: {r: 0, g: 0.11259139, b: 0.33962262, a: 1}
+    - _RimShadow_Color: {r: 0.53144646, g: 0.5566365, b: 1, a: 1}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
     - _SpecularColor: {r: 0.5019608, g: 0.5019608, b: 0.5019608, a: 1}
     - _Tint: {r: 1, g: 1, b: 1, a: 1}
