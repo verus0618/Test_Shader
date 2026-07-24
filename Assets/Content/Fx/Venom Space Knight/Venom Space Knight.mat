@@ -18,7 +18,7 @@ Material:
   - _HIGHLIGHT_OFF
   - _NORMALLIGHT_OFF
   - _NORMALMAP_ON
-  - _RIMLIGHT_OFF
+  - _RIMLIGHT_ALL
   - _SME_TEXTURE
   m_InvalidKeywords:
   - _DUBUG_NONE
@@ -152,12 +152,12 @@ Material:
     - _Parallax: 0.02
     - _QueueControl: 0
     - _QueueOffset: 0
-    - _RIMLIGHT: 0
+    - _RIMLIGHT: 3
     - _ReceiveShadows: 1
     - _RimLight_Stength: 1
     - _SME: 2
     - _SM_UV1_Grid: 8
-    - _Smoothness: 1
+    - _Smoothness: 0.5
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
@@ -171,7 +171,7 @@ Material:
     - _ZWriteControl: 0
     m_Colors:
     - _BaseColor: {r: 0.9063317, g: 0.9063317, b: 0.9063317, a: 1}
-    - _Bright_Contr_Satur_Hue: {r: 1, g: 1, b: 1, a: 0}
+    - _Bright_Contr_Satur_Hue: {r: 1.5, g: 1, b: 1.5, a: 0}
     - _Camera_Fade: {r: 0, g: 0.001, b: 0, a: 0}
     - _Color: {r: 0.9063317, g: 0.9063317, b: 0.9063317, a: 1}
     - _DissolveColor: {r: 47.93726, g: 4.631493, b: 0, a: 0}
@@ -184,9 +184,9 @@ Material:
     - _NormallLight: {r: 0.5019608, g: 0.2509804, b: 0.2509804, a: 1}
     - _NormallShadow_Color: {r: 0.2509804, g: 0.4196078, b: 0.5019608, a: 1}
     - _NormallShadow_MinMax: {r: 0, g: 1, b: 0, a: 0}
-    - _RimLight_Color: {r: 0.5019608, g: 0.2509804, b: 0.2509804, a: 1}
+    - _RimLight_Color: {r: 1, g: 1, b: 1, a: 1}
     - _RimLight_MinMax: {r: 0, g: 0.3, b: 0, a: 0}
-    - _RimShadow_Color: {r: 0.2509804, g: 0.4196078, b: 0.5019608, a: 1}
+    - _RimShadow_Color: {r: 0, g: 0.11259139, b: 0.33962262, a: 1}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
     - _SpecularColor: {r: 0.5019608, g: 0.5019608, b: 0.5019608, a: 1}
     - _Tint: {r: 1, g: 1, b: 1, a: 1}
