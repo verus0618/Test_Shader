@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Rim
+  m_Name: MT_Rim
   m_Shader: {fileID: -6465566751694194690, guid: c89c7d3f2169b494c9c83fb9e0752cd1, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -78,7 +78,7 @@ Material:
     - _ZWrite: 0
     - _ZWriteControl: 0
     m_Colors:
-    - _Blik_Color: {r: 0, g: 0.84062606, b: 1.4980392, a: 1}
+    - _Blik_Color: {r: 0.48686275, g: 1.0586274, b: 1.4980392, a: 1}
     - _Emissive: {r: 0, g: 0, b: 0, a: 1}
     - _ExtraSpecularTint: {r: 1, g: 1, b: 1, a: 1}
     - _MinMax: {r: 0, g: 2, b: 0, a: 0}

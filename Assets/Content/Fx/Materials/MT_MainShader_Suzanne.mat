@@ -19,7 +19,7 @@ Material:
   - _NORMALLIGHT_SHADOW
   - _NORMALMAP_ON
   - _RIMLIGHT_OFF
-  - _SME_UV1_GRID
+  - _SME_FLAT
   m_InvalidKeywords:
   - _BACE_COLOR_VERTEX
   - _DUBUG_EMISSIVE
@@ -48,6 +48,10 @@ Material:
         m_Texture: {fileID: 2800000, guid: f97ab991d5afa824588b8a6aa474c6c9, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _SMEO_Mask:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _SME_Mask:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -66,8 +70,9 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _AO: 0.5
+    - _AO: 1
     - _Add: 0
+    - _Alpha: 1
     - _AlphaClip: 1
     - _AlphaToMask: 1
     - _BaseColor_Intensity: 1
@@ -91,15 +96,16 @@ Material:
     - _MainTex_TriplanarType: 1
     - _Main_Texture_Tile: 1
     - _Metallic: 0
-    - _NL_Rotate: 0
+    - _NL_Rotate: 321
     - _NORMALLIGHT: 2
     - _NORMALMAP: 1
-    - _NormalMap_Tile: 18.8
+    - _NormalMap_Tile: 20
     - _NormalShadow_Rotate: 0
-    - _NormalStrenght: 0
+    - _NormalStrenght: -0.39
     - _NormalTriplanarType: 1
     - _NormallLight_Intensity: 0
     - _NormallShadow_Intensity: 1
+    - _Occlusion_DF: 0
     - _QueueControl: 0
     - _QueueOffset: 0
     - _RIMLIGHT: 0
@@ -108,9 +114,9 @@ Material:
     - _RimLight_Stength: 3
     - _RimLight_Strength: 1
     - _RimShadow_Intensity: 1
-    - _SME: 1
+    - _SME: 0
     - _SM_UV1_Grid: 8
-    - _Smoothness: 0
+    - _Smoothness: 0.5
     - _SrcBlend: 1
     - _SrcBlendAlpha: 1
     - _Surface: 0
@@ -121,7 +127,8 @@ Material:
     - _power: 0.67
     m_Colors:
     - _Bright_Contr_Satur_Add: {r: 2, g: 2, b: 1.25, a: 0}
-    - _Bright_Contr_Satur_Hue: {r: 1.5, g: 2, b: 1.5, a: 0}
+    - _Bright_Contr_Satur_Hue: {r: 1, g: 1, b: 1, a: 0}
+    - _Camera_Fade: {r: 0, g: 0.001, b: 0, a: 0}
     - _Color: {r: 3.776172, g: 3.1333396, b: 0.39186648, a: 0}
     - _DissolveColor: {r: 47.93726, g: 4.631493, b: 0, a: 0}
     - _Dissolve_SizeWithMinMax: {r: 0.55, g: 0.01, b: 0, a: 1}
@@ -132,15 +139,16 @@ Material:
     - _NormallLight: {r: 2.143547, g: 0.08762889, b: 1.633615, a: 1}
     - _NormallLight_Color: {r: 1, g: 1, b: 1, a: 1}
     - _NormallShadow: {r: 0, g: 1.0849648, b: 4.6297436, a: 1}
-    - _NormallShadow_Color: {r: 0, g: 0, b: 0, a: 1}
+    - _NormallShadow_Color: {r: 0.9092395, g: 0.103773475, b: 1, a: 1}
     - _NormallShadow_MinMax: {r: 0, g: 1, b: 0, a: 0}
+    - _Occlusion_MinMax: {r: 0, g: 1, b: 0, a: 0}
     - _RimLight: {r: 4.924577, g: 1.6883993, b: 0.41812372, a: 1}
     - _RimLight_Color: {r: 0, g: 0.45911938, b: 0.006121586, a: 1}
     - _RimLight_MinMax: {r: 0, g: 0.5, b: 0, a: 0}
     - _RimShadow: {r: 0, g: 5.2780313, b: 1.5698065, a: 1}
     - _RimShadow_Color: {r: 2.828427, g: 0.5425594, b: 0.5425594, a: 1}
     - _SpecularColor: {r: 0.5019608, g: 0.5019608, b: 0.5019608, a: 1}
-    - _Tint: {r: 1, g: 1, b: 1, a: 0}
+    - _Tint: {r: 1, g: 1, b: 1, a: 1}
     - _Vector2: {r: 0, g: 0.28, b: 0, a: 0}
     - _Vector3: {r: 0.19, g: 0.36, b: 0, a: 0}
   m_BuildTextureStacks: []
