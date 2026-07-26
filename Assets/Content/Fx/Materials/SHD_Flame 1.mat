@@ -20,7 +20,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: SHD_Flame
+  m_Name: SHD_Flame 1
   m_Shader: {fileID: -6465566751694194690, guid: d2607f57aad982846b0b47d9bc0c8e90, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -41,16 +41,48 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
+    - _MainTexture:
+        m_Texture: {fileID: 2800000, guid: a9672562f6f2f104895107beadc6ad2b, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Main_Texture:
+        m_Texture: {fileID: 2800000, guid: a9672562f6f2f104895107beadc6ad2b, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Noise1_Texture:
+        m_Texture: {fileID: 2800000, guid: af8e09d22721a3f4499009999a20b49b, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Noise2_Texture:
+        m_Texture: {fileID: 2800000, guid: 7c94fc215eea930408bad4d9a7cfc2db, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Noise_1_Texture:
+        m_Texture: {fileID: 2800000, guid: af8e09d22721a3f4499009999a20b49b, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Noise_2_Texture:
+        m_Texture: {fileID: 2800000, guid: 7c94fc215eea930408bad4d9a7cfc2db, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Noise_Texture_1:
+        m_Texture: {fileID: 2800000, guid: af8e09d22721a3f4499009999a20b49b, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Noise_Texture_2:
+        m_Texture: {fileID: 2800000, guid: 7c94fc215eea930408bad4d9a7cfc2db, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _SampleTexture2D_29609754faed4f2cbc3d87b3de7554fe_Texture_1_Texture2D:
         m_Texture: {fileID: 2800000, guid: a9672562f6f2f104895107beadc6ad2b, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _SampleTexture2D_85c7103696644931a60da85f3cf351fc_Texture_1_Texture2D:
-        m_Texture: {fileID: 2800000, guid: 41851cb0bbaf74b1a8ad2cc7a0a9a95a, type: 3}
+        m_Texture: {fileID: 2800000, guid: af8e09d22721a3f4499009999a20b49b, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _SampleTexture2D_b98f9ebe72b545909f6035361cac90eb_Texture_1_Texture2D:
-        m_Texture: {fileID: 2800000, guid: 41851cb0bbaf74b1a8ad2cc7a0a9a95a, type: 3}
+        m_Texture: {fileID: 2800000, guid: 7c94fc215eea930408bad4d9a7cfc2db, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - unity_Lightmaps:
@@ -74,15 +106,28 @@ Material:
     - _Cull: 0
     - _DstBlend: 10
     - _DstBlendAlpha: 10
+    - _Float: 1
+    - _Noise_ScrollSpeed: 1
+    - _Panner: -0.5
     - _QueueControl: 0
     - _QueueOffset: 0
     - _SrcBlend: 5
     - _SrcBlendAlpha: 1
     - _Surface: 1
+    - _WindCurve: 10
+    - _WindCurveStrength: 0.5
     - _ZTest: 4
     - _ZWrite: 0
     - _ZWriteControl: 0
     m_Colors:
-    - _Color: {r: 5.9921575, g: 0.7215687, b: 0, a: 1}
+    - _Color: {r: 17.148375, g: 0.38460034, b: 0, a: 1}
+    - _Core_Smoothstep: {r: -0.49, g: 3.6, b: 0, a: 0}
+    - _MainTexture_Smoothstep: {r: 0, g: 0.2, b: 0, a: 0}
+    - _Noise1_BrightnessContrast: {r: 7, g: 1.45, b: 0, a: 0}
+    - _Noise1_Speed: {r: 0, g: 2.5, b: 0, a: 0}
+    - _Noise2_BrightnessContrast: {r: 4.26, g: 0.11, b: 0, a: 0}
+    - _Noise2_Speed: {r: 0, g: 0.75, b: 0, a: 0}
+    - _Noise_1_Speed: {r: 0, g: 2, b: 0, a: 0}
+    - _Noise_2_Speed: {r: 0, g: 1, b: 0, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1

@@ -1,0 +1,164 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-3317111129906034706
+MonoBehaviour:
+  m_ObjectHideFlags: 11
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0353a89b1f911e48b9e16bdc9f2e058, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.RenderPipelines.Universal.Editor::UnityEditor.Rendering.Universal.AssetVersion
+  version: 10
+--- !u!21 &2100000
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: SHD_Flame
+  m_Shader: {fileID: -6465566751694194690, guid: d2607f57aad982846b0b47d9bc0c8e90, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords:
+  - _SURFACE_TYPE_TRANSPARENT
+  m_InvalidKeywords:
+  - _DEBUG_NEW
+  - _DEBUG_NONE
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: 3000
+  stringTagMap:
+    RenderType: Transparent
+  disabledShaderPasses:
+  - SHADOWCASTER
+  - MOTIONVECTORS
+  - DepthOnly
+  m_LockedProperties: _Noise_ScrollSpeed
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _MainTexture:
+        m_Texture: {fileID: 2800000, guid: a9672562f6f2f104895107beadc6ad2b, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Main_Texture:
+        m_Texture: {fileID: 2800000, guid: a9672562f6f2f104895107beadc6ad2b, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Noise1_Texture:
+        m_Texture: {fileID: 2800000, guid: 7c94fc215eea930408bad4d9a7cfc2db, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Noise2_Texture:
+        m_Texture: {fileID: 2800000, guid: af8e09d22721a3f4499009999a20b49b, type: 3}
+        m_Scale: {x: 0.7, y: 0.7}
+        m_Offset: {x: 0, y: 0}
+    - _Noise_1_Texture:
+        m_Texture: {fileID: 2800000, guid: af8e09d22721a3f4499009999a20b49b, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Noise_2_Texture:
+        m_Texture: {fileID: 2800000, guid: 7c94fc215eea930408bad4d9a7cfc2db, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Noise_Texture_1:
+        m_Texture: {fileID: 2800000, guid: af8e09d22721a3f4499009999a20b49b, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Noise_Texture_2:
+        m_Texture: {fileID: 2800000, guid: 7c94fc215eea930408bad4d9a7cfc2db, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_29609754faed4f2cbc3d87b3de7554fe_Texture_1_Texture2D:
+        m_Texture: {fileID: 2800000, guid: a9672562f6f2f104895107beadc6ad2b, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_85c7103696644931a60da85f3cf351fc_Texture_1_Texture2D:
+        m_Texture: {fileID: 2800000, guid: 7c94fc215eea930408bad4d9a7cfc2db, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_b98f9ebe72b545909f6035361cac90eb_Texture_1_Texture2D:
+        m_Texture: {fileID: 2800000, guid: 7c94fc215eea930408bad4d9a7cfc2db, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_Lightmaps:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_LightmapsInd:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_ShadowMasks:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _Alpha: 10
+    - _AlphaClip: 0
+    - _AlphaToMask: 0
+    - _Blend: 0
+    - _CastShadows: 0
+    - _Core: 0
+    - _Core_Lair1: 0.3
+    - _Core_Lair2: 10
+    - _Cull: 0
+    - _DEBUG: 0
+    - _DstBlend: 10
+    - _DstBlendAlpha: 10
+    - _Float: 3
+    - _Lair1: 1
+    - _Lair2: 1
+    - _MainTexture_Intensity: 2.13
+    - _Mask1Power: 1
+    - _Mask2Power: 4.75
+    - _MaskPower: 0.34
+    - _Noise1: 1
+    - _Noise2: 1
+    - _Noise_ScrollSpeed: 1.25
+    - _Panner: 1
+    - _QueueControl: 0
+    - _QueueOffset: 0
+    - _SrcBlend: 5
+    - _SrcBlendAlpha: 1
+    - _Surface: 1
+    - _WindCurve: 10
+    - _WindCurveStrength: 0.5
+    - _ZTest: 4
+    - _ZWrite: 0
+    - _ZWriteControl: 0
+    m_Colors:
+    - _Color: {r: 2.9960785, g: 0.4085614, b: 0.07843135, a: 1}
+    - _ColorMask_MinMax: {r: 0.3, g: 1, b: 0, a: 0}
+    - _Color_1: {r: 1, g: 0, b: 0, a: 1}
+    - _Color_2: {r: 8, g: 2.9404454, b: 0, a: 1}
+    - _Core_Smoothstep: {r: 0, g: 1, b: 0, a: 0}
+    - _GradientMask_MinMax: {r: -0.15, g: 0.3, b: 0, a: 0}
+    - _Lair1_Br_Con_Int: {r: 5, g: 1, b: 1, a: 0}
+    - _Lair1_MinMax: {r: 0, g: 0.3, b: 0, a: 0}
+    - _Lair2_Br_Con_Int: {r: 100, g: 3, b: 0.1, a: 0}
+    - _Lair2_MinMax: {r: 0.2, g: 0.5, b: 0, a: 0}
+    - _MainTexture_MinMax: {r: 0.39, g: 0.67, b: 0, a: 0}
+    - _MainTexture_Smoothstep: {r: 0, g: 1, b: 0, a: 0}
+    - _Mask2_BrightnessContras: {r: 1, g: 1, b: 0, a: 0}
+    - _Mask_MinMax: {r: 0, g: 1, b: 0, a: 0}
+    - _Noise1_BrightnessContrast: {r: 0, g: 1, b: 0, a: 0}
+    - _Noise1_MinMax: {r: 0, g: 0.75, b: 0, a: 0}
+    - _Noise1_Speed: {r: 0, g: 0.5, b: 0, a: 0}
+    - _Noise2_BrightnessContras: {r: 1, g: 1, b: 0, a: 0}
+    - _Noise2_BrightnessContrast: {r: 1.5, g: 0.36, b: 0, a: 0}
+    - _Noise2_BrightnessContrastMask: {r: 10, g: 3, b: 0.35, a: 0}
+    - _Noise2_MinMax: {r: 0.3, g: 0.6, b: 0, a: 0}
+    - _Noise2_Speed: {r: 0, g: 1, b: 0, a: 0}
+    - _NoiseMask_MinMax: {r: -0.15, g: 0.3, b: 0, a: 0}
+    - _Noise_1_Speed: {r: 0, g: 2, b: 0, a: 0}
+    - _Noise_2_Speed: {r: 0, g: 1, b: 0, a: 0}
+  m_BuildTextureStacks: []
+  m_AllowLocking: 1
