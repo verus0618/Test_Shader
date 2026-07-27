@@ -74,6 +74,14 @@ Material:
         m_Texture: {fileID: 2800000, guid: 7c94fc215eea930408bad4d9a7cfc2db, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _SHDSGFlameNoiseAdjustment_72f18377ed8241e3b396364f00fc25c0_NoiseTexture_3861898596_Texture2D:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SHDSGFlameNoiseAdjustment_cf960f2211fb4c94adbb438382ce7405_NoiseTexture_3861898596_Texture2D:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _SampleTexture2D_29609754faed4f2cbc3d87b3de7554fe_Texture_1_Texture2D:
         m_Texture: {fileID: 2800000, guid: a9672562f6f2f104895107beadc6ad2b, type: 3}
         m_Scale: {x: 1, y: 1}
@@ -139,7 +147,7 @@ Material:
     - _Noise_ScrollSpeed: 1.25
     - _Noise_to_Core: 4
     - _Noise_to_Shape: 1
-    - _Panner: 0.5
+    - _Panner: 1
     - _QueueControl: 0
     - _QueueOffset: 0
     - _Shape_Dissolve: 0
@@ -160,6 +168,7 @@ Material:
     - _Color_2: {r: 0, g: 2.2344508, b: 5.9921565, a: 1}
     - _Color_Core: {r: 0.12549008, g: 4.481426, b: 5.992157, a: 1}
     - _Core_Br_Con_Int: {r: 3, g: 1, b: 1, a: 0}
+    - _Core_BrightnessConrastDisolve: {r: 3, g: 1, b: 0.4, a: 0}
     - _Core_MinMax: {r: 0, g: 1, b: 0, a: 0}
     - _Core_Smoothstep: {r: 0, g: 1, b: 0, a: 0}
     - _GradientMask_MinMax: {r: -0.15, g: 0.3, b: 0, a: 0}
@@ -174,18 +183,22 @@ Material:
     - _Noise1_BrightnessContrast: {r: 0, g: 1, b: 0, a: 0}
     - _Noise1_Mask_MinMax: {r: 0, g: 1, b: 0, a: 0}
     - _Noise1_MinMax: {r: 0.5, g: 1, b: 0, a: 0}
+    - _Noise1_MinMaxIntensity: {r: 0.5, g: 1, b: 0.75, a: 0}
     - _Noise1_Speed: {r: 0, g: 1, b: 0, a: 0}
     - _Noise2_BrightnessContras: {r: 1, g: 1, b: 0, a: 0}
     - _Noise2_BrightnessContrast: {r: 1.5, g: 0.36, b: 0, a: 0}
     - _Noise2_BrightnessContrastMask: {r: 10, g: 3, b: 0.35, a: 0}
     - _Noise2_Mask_MinMax: {r: 0, g: 1, b: 0, a: 0}
     - _Noise2_MinMax: {r: 0.5, g: 1, b: 0, a: 0}
+    - _Noise2_MinMaxIntensity: {r: 0.5, g: 1, b: 0.8, a: 0}
     - _Noise2_Speed: {r: 0, g: 1, b: 0, a: 0}
     - _NoiseMask_MinMax: {r: -0.71, g: 2.71, b: 0, a: 0}
     - _Noise_1_Speed: {r: 0, g: 2, b: 0, a: 0}
     - _Noise_2_Speed: {r: 0, g: 1, b: 0, a: 0}
     - _Noise_Mask_MinMax: {r: -0.1, g: 0.3, b: 0, a: 0}
+    - _Shape_Br_Con_Dis: {r: 1, g: 1, b: 0, a: 0}
     - _Shape_Br_Con_Int: {r: 2, g: 1, b: 1, a: 0}
+    - _Shape_BrightnessConrastDisolve: {r: 3, g: 1, b: 0, a: 0}
     - _Shape_MinMax: {r: 0, g: 0.5, b: 0, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
