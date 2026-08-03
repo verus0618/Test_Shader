@@ -20,14 +20,16 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: MT_Flame_Blue
+  m_Name: MT_Flame_Green
   m_Shader: {fileID: -6465566751694194690, guid: d2607f57aad982846b0b47d9bc0c8e90, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
   - _SURFACE_TYPE_TRANSPARENT
   m_InvalidKeywords:
+  - _DEBUG_NEW
   - _DEBUG_NONE
+  - _STEPSCROLLING_ON
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -51,11 +53,11 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Noise1_Texture:
-        m_Texture: {fileID: 2800000, guid: 41851cb0bbaf74b1a8ad2cc7a0a9a95a, type: 3}
-        m_Scale: {x: 2, y: 2}
+        m_Texture: {fileID: 2800000, guid: 7c94fc215eea930408bad4d9a7cfc2db, type: 3}
+        m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Noise2_Texture:
-        m_Texture: {fileID: 2800000, guid: 41851cb0bbaf74b1a8ad2cc7a0a9a95a, type: 3}
+        m_Texture: {fileID: 2800000, guid: af8e09d22721a3f4499009999a20b49b, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Noise_1_Texture:
@@ -117,7 +119,7 @@ Material:
     - _CastShadows: 0
     - _Core: 0
     - _Core_Dissolve: 0.4
-    - _Core_Lair1: 0.5
+    - _Core_Lair1: 1
     - _Core_Lair2: 10
     - _Core_OnOff: 1
     - _Core_Strength: 3
@@ -125,28 +127,28 @@ Material:
     - _DEBUG: 0
     - _DstBlend: 10
     - _DstBlendAlpha: 10
-    - _Float: 3
+    - _Float: 111111
     - _Lair1: 1
     - _Lair1_OnOff: 0.5
-    - _Lair2: 1
-    - _Lair2_OnOff: 0.5
+    - _Lair2: 0
+    - _Lair2_OnOff: 0
     - _MainTexture_Intensity: 2.13
     - _Mask1Power: 1
     - _Mask2Power: 4.75
     - _MaskPower: 0.34
     - _Noise1: 1
-    - _Noise1_Intensity: 0.75
-    - _Noise1_Invert: 1
+    - _Noise1_Intensity: 0.5
+    - _Noise1_Invert: 0
     - _Noise1_OnOff: 1
     - _Noise1_Strength: 1
     - _Noise2: 1
     - _Noise2_Intensity: 0.8
-    - _Noise2_Invert: 1
+    - _Noise2_Invert: 0
     - _Noise2_OnOff: 1
     - _Noise_OnOff: 1
     - _Noise_ScrollSpeed: 1.5
-    - _Noise_to_Core: 4
-    - _Noise_to_Shape: 1
+    - _Noise_to_Core: 3
+    - _Noise_to_Shape: 1.25
     - _Panner: 1
     - _QueueControl: 0
     - _QueueOffset: 0
@@ -164,44 +166,44 @@ Material:
     - _ZWriteControl: 0
     m_Colors:
     - _Color: {r: 2.9960785, g: 0.4085614, b: 0.07843135, a: 1}
-    - _ColorMask_MinMax: {r: -0.14, g: 0.37, b: 0, a: 0}
-    - _Color_1: {r: 0, g: 0.115183115, b: 2, a: 1}
-    - _Color_2: {r: 0, g: 2.2344508, b: 5.9921565, a: 1}
-    - _Color_Core: {r: 0.12549008, g: 4.481426, b: 5.992157, a: 1}
+    - _ColorMask_MinMax: {r: 0.25, g: 1, b: 0, a: 0}
+    - _Color_1: {r: 0, g: 0.58391166, b: 0.74509805, a: 1}
+    - _Color_2: {r: 0.041945096, g: 2.9960785, b: 0.07287796, a: 1}
+    - _Color_Core: {r: 0.32282436, g: 5.992157, b: 0.11385094, a: 1}
     - _Core_Br_Con_Int: {r: 3, g: 1, b: 1, a: 0}
-    - _Core_BrightnessConrastDisolve: {r: 3, g: 1, b: 0.4, a: 0}
+    - _Core_BrightnessConrastDisolve: {r: 1, g: 1, b: 0.25, a: 0}
     - _Core_MinMax: {r: 0, g: 1, b: 0, a: 0}
     - _Core_Smoothstep: {r: 0, g: 1, b: 0, a: 0}
     - _GradientMask_MinMax: {r: -0.15, g: 0.3, b: 0, a: 0}
     - _Lair1_Br_Con_Int: {r: 1, g: 1, b: 1, a: 0}
     - _Lair1_MinMax: {r: 0, g: 1, b: 0, a: 0}
-    - _Lair2_Br_Con_Int: {r: 2, g: 3, b: 0.1, a: 0}
-    - _Lair2_MinMax: {r: 0, g: 0.94, b: 0, a: 0}
+    - _Lair2_Br_Con_Int: {r: 2, g: 2, b: 0.1, a: 0}
+    - _Lair2_MinMax: {r: 0.15, g: 1, b: 0, a: 0}
     - _MainTexture_MinMax: {r: 0.39, g: 0.67, b: 0, a: 0}
     - _MainTexture_Smoothstep: {r: 0, g: 1, b: 0, a: 0}
     - _Mask2_BrightnessContras: {r: 1, g: 1, b: 0, a: 0}
     - _Mask_MinMax: {r: 0, g: 1, b: 0, a: 0}
     - _Noise1_BrightnessContrast: {r: 0, g: 1, b: 0, a: 0}
-    - _Noise1_Mask_MinMax: {r: 0, g: 1, b: 0, a: 0}
-    - _Noise1_MinMax: {r: 0.5, g: 1, b: 0, a: 0}
-    - _Noise1_MinMaxIntensity: {r: 0.5, g: 1, b: 0.75, a: 0}
+    - _Noise1_Mask_MinMax: {r: -0.2, g: 0.2, b: 0, a: 0}
+    - _Noise1_MinMax: {r: 0, g: 1, b: 0, a: 0}
+    - _Noise1_MinMaxIntensity: {r: 0, g: 1, b: 1.25, a: 0}
     - _Noise1_Speed: {r: 0, g: 0.75, b: 0, a: 0}
-    - _Noise1_TillingOffset: {r: 1.5, g: 1.5, b: 0, a: 1}
+    - _Noise1_TillingOffset: {r: 1, g: 1, b: 0, a: 0.5}
     - _Noise2_BrightnessContras: {r: 1, g: 1, b: 0, a: 0}
     - _Noise2_BrightnessContrast: {r: 1.5, g: 0.36, b: 0, a: 0}
     - _Noise2_BrightnessContrastMask: {r: 10, g: 3, b: 0.35, a: 0}
     - _Noise2_Mask_MinMax: {r: 0, g: 1, b: 0, a: 0}
-    - _Noise2_MinMax: {r: 0.5, g: 1, b: 0, a: 0}
-    - _Noise2_MinMaxIntensity: {r: 0.5, g: 1, b: 0.8, a: 0}
+    - _Noise2_MinMax: {r: 0, g: 1, b: 0, a: 0}
+    - _Noise2_MinMaxIntensity: {r: 0, g: 1, b: 1.5, a: 0}
     - _Noise2_Speed: {r: 0, g: 1, b: 0, a: 0}
     - _Noise2_TillingOffset: {r: 1, g: 1, b: 0, a: 1}
-    - _NoiseMask_MinMax: {r: -0.71, g: 2.71, b: 0, a: 0}
+    - _NoiseMask_MinMax: {r: -0.4, g: 1, b: 0, a: 0}
     - _Noise_1_Speed: {r: 0, g: 2, b: 0, a: 0}
     - _Noise_2_Speed: {r: 0, g: 1, b: 0, a: 0}
-    - _Noise_Mask_MinMax: {r: -0.1, g: 0.3, b: 0, a: 0}
+    - _Noise_Mask_MinMax: {r: 0, g: 0.35, b: 0, a: 0}
     - _Shape_Br_Con_Dis: {r: 1, g: 1, b: 0, a: 0}
     - _Shape_Br_Con_Int: {r: 2, g: 1, b: 1, a: 0}
     - _Shape_BrightnessConrastDisolve: {r: 3, g: 1, b: 0, a: 0}
-    - _Shape_MinMax: {r: 0, g: 0.5, b: 0, a: 0}
+    - _Shape_MinMax: {r: 0, g: 0.25, b: 0, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1

@@ -13,14 +13,14 @@ Material:
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
   - _ALPHATEST_ON
-  - _COLOR_METHOD_TEXTURE
   - _DISSOLVE_OFF
   - _HIGHLIGHT_OFF
   - _NORMALLIGHT_OFF
   - _NORMALMAP_OFF
   - _RIMLIGHT_OFF
-  - _SME_FLAT
+  - _SME_TEXTURE
   m_InvalidKeywords:
+  - _COLOR_METHOD_NONE
   - _DUBUG_NONE
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -108,7 +108,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _AO: 1
+    - _AO: 0.5
     - _AOIntensity: 83
     - _AddPrecomputedVelocity: 0
     - _Alpha: 1
@@ -118,7 +118,7 @@ Material:
     - _Blend: 0
     - _BlendModePreserveSpecular: 1
     - _BumpScale: 1
-    - _COLOR_METHOD: 2
+    - _COLOR_METHOD: 0
     - _CastShadows: 1
     - _ClearCoatMask: 0
     - _ClearCoatSmoothness: 0
@@ -141,7 +141,7 @@ Material:
     - _Highlight: 0
     - _MainTex_TriplanarType: 1
     - _Main_Texture_Tile: 1
-    - _Metallic: 0.5
+    - _Metallic: 0
     - _Mode: 0
     - _NL_Rotate: 0
     - _NORMALLIGHT: 0
@@ -158,9 +158,9 @@ Material:
     - _RIMLIGHT: 0
     - _ReceiveShadows: 1
     - _RimLight_Stength: 100
-    - _SME: 0
+    - _SME: 2
     - _SM_UV1_Grid: 8
-    - _Smoothness: 0.5
+    - _Smoothness: 0
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
@@ -180,20 +180,20 @@ Material:
     - _DissolveColor: {r: 47.93726, g: 4.631493, b: 0, a: 0}
     - _Dissolve_SizeWithMinMax: {r: 1, g: 0.01, b: 0, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _Emissive_olor: {r: 4.683459, g: 13.877016, b: 44.727047, a: 0}
+    - _Emissive_olor: {r: 1.3666321, g: 5.992157, b: 0, a: 1}
     - _HighlightColor: {r: 0.3192801, g: 1.498039, b: 0, a: 0}
     - _Highlight_MinMax: {r: 0, g: 1, b: 0, a: 0}
     - _NormalLight_MinMax: {r: 0, g: 1, b: 0, a: 0}
     - _NormallLight: {r: 0.5019608, g: 0.2509804, b: 0.2509804, a: 1}
     - _NormallShadow_Color: {r: 0.2509804, g: 0.4196078, b: 0.5019608, a: 1}
     - _NormallShadow_MinMax: {r: 0, g: 1, b: 0, a: 0}
-    - _Occlusion_MinMax: {r: 0.25, g: 1, b: 0, a: 0}
+    - _Occlusion_MinMax: {r: 0, g: 1, b: 0, a: 0}
     - _RimLight_Color: {r: 1.4980392, g: 1.4980392, b: 1.4980392, a: 0}
     - _RimLight_MinMax: {r: 0, g: 0.77, b: 0, a: 0}
     - _RimShadow_Color: {r: 0.31159747, g: 0.8616352, b: 0.41118744, a: 1}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
     - _SpecularColor: {r: 0.5019608, g: 0.5019608, b: 0.5019608, a: 1}
-    - _Tint: {r: 1, g: 1, b: 1, a: 1}
+    - _Tint: {r: 0.37278974, g: 0.45804828, b: 0.64779866, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
 --- !u!114 &6968623884812568481
