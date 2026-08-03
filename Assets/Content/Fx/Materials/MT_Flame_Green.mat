@@ -152,6 +152,7 @@ Material:
     - _Panner: 1
     - _QueueControl: 0
     - _QueueOffset: 0
+    - _Rotate_UV: 0
     - _Shape_Dissolve: 0
     - _Shape_OnOff: 1
     - _Shape_Strength: 2
@@ -187,6 +188,7 @@ Material:
     - _Noise1_MinMax: {r: 0, g: 1, b: 0, a: 0}
     - _Noise1_MinMaxIntensity: {r: 0, g: 1, b: 0.5, a: 0}
     - _Noise1_Speed: {r: 0, g: 1, b: 0, a: 0}
+    - _Noise1_TillingOffset: {r: 1, g: 1, b: 0, a: 0.5}
     - _Noise2_BrightnessContras: {r: 1, g: 1, b: 0, a: 0}
     - _Noise2_BrightnessContrast: {r: 1.5, g: 0.36, b: 0, a: 0}
     - _Noise2_BrightnessContrastMask: {r: 10, g: 3, b: 0.35, a: 0}
@@ -194,6 +196,7 @@ Material:
     - _Noise2_MinMax: {r: 0, g: 1, b: 0, a: 0}
     - _Noise2_MinMaxIntensity: {r: 0, g: 1, b: 1, a: 0}
     - _Noise2_Speed: {r: 0, g: 1, b: 0, a: 0}
+    - _Noise2_TillingOffset: {r: 1, g: 1, b: 0, a: 1}
     - _NoiseMask_MinMax: {r: -0.4, g: 1, b: 0, a: 0}
     - _Noise_1_Speed: {r: 0, g: 2, b: 0, a: 0}
     - _Noise_2_Speed: {r: 0, g: 1, b: 0, a: 0}
