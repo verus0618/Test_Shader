@@ -53,7 +53,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _NoiseTexture:
-        m_Texture: {fileID: 2800000, guid: 41851cb0bbaf74b1a8ad2cc7a0a9a95a, type: 3}
+        m_Texture: {fileID: 2800000, guid: 7545dfa53f0854bd6958bd059c051938, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _SampleReflectedCubemap_fbaac4f445c74db583070cd6120801d1_Cube_1_Cubemap:
@@ -82,15 +82,15 @@ Material:
     - _BlendModePreserveSpecular: 1
     - _CastShadows: 0
     - _Cubemap_Intesity: 3
-    - _Cubemap_Scale: 0.77
+    - _Cubemap_Scale: 1
     - _Cull: 1
     - _Dissolve: 0
     - _DstBlend: 10
     - _DstBlendAlpha: 10
     - _NoiseScroll: 0.2
-    - _Noise_CentrMaskScale: 0.35
-    - _Noise_Intesity: 100
-    - _Panner: 2
+    - _Noise_CentrMaskScale: 0.5
+    - _Noise_Intesity: 50
+    - _Panner: -1
     - _QueueControl: 0
     - _QueueOffset: 0
     - _ReceiveShadows: 0
@@ -100,7 +100,8 @@ Material:
     - _SrcBlendAlpha: 1
     - _Surface: 1
     - _Wave_Frequency: 10
-    - _Wave_Intensity: 0.157
+    - _Wave_Intensity: 0.03
+    - _Wave_Speed: 4
     - _WorkflowMode: 1
     - _ZTest: 4
     - _ZWrite: 0
@@ -108,14 +109,15 @@ Material:
     m_Colors:
     - _Color: {r: 0, g: 1.6446108, b: 11.984315, a: 1}
     - _DissolveColor: {r: 47.93726, g: 4.631493, b: 0, a: 0}
-    - _Dissolve_SizeWithMinMax: {r: 1, g: 0.01, b: -0.1, a: 1}
+    - _Dissolve_SizeWithMinMax: {r: 1.5, g: 0.01, b: -0.1, a: 1}
     - _Dissolve_byCamera: {r: 10, g: 20, b: 0, a: 0}
     - _NearFade: {r: 0.2, g: 1.5, b: 0, a: 0}
-    - _NoiseColor: {r: 2.2368622, g: 0.59921587, b: 5.992157, a: 1}
-    - _Noise_1: {r: 0.03, g: 1, b: 1, a: 0}
-    - _Noise_2: {r: 0.1, g: 3, b: 1, a: 0}
-    - _Noise_CentrMask: {r: 0.2, g: 3, b: 0, a: 0}
-    - _Noise_MinMask: {r: -0.1, g: 0.5, b: 0, a: 0}
+    - _NoiseColor: {r: 0, g: 7.556646, b: 55.065445, a: 1}
+    - _Noise_1: {r: 0.1, g: 3, b: 1, a: 0}
+    - _Noise_2: {r: 0.12, g: 2, b: 1, a: 0}
+    - _Noise_CentrMask: {r: 0.2, g: 2, b: 0, a: 0}
+    - _Noise_MinMask: {r: -0.07, g: 2, b: 0, a: 0}
+    - _Noise_Radial_W_H: {r: 2, g: 1, b: 0, a: 0}
     - _Poisition: {r: 0, g: 0, b: 0, a: 0}
     - _Soft: {r: 0, g: 0.1, b: 0, a: 0}
     - _Soft_MinMaxInt: {r: -3.29, g: 1, b: 66.95, a: 0}
