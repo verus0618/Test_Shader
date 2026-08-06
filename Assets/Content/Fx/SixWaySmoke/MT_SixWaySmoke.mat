@@ -78,6 +78,10 @@ Material:
         m_Texture: {fileID: 2800000, guid: 39cad26f5840f5f4d86e06ce808fbe6e, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_393228b5f1e24b27bf12f31d8fb4af79_Texture_1_Texture2D:
+        m_Texture: {fileID: 2800000, guid: 24cf46bfe9b089d46ba639723f8e83bc, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _SampleTexture2D_4119aae5cd8a43a2be3811e9270ab0ab_Texture_1_Texture2D:
         m_Texture: {fileID: 2800000, guid: 36e121b87f14319488743059cec35dc6, type: 3}
         m_Scale: {x: 1, y: 1}
@@ -148,6 +152,7 @@ Material:
     - _AddPrecomputedVelocity: 0
     - _AlphaClip: 0
     - _AlphaToMask: 0
+    - _Back: 1
     - _Blend: 0
     - _BlendModePreserveSpecular: 1
     - _BumpScale: 1
@@ -163,17 +168,20 @@ Material:
     - _DstBlendAlpha: 10
     - _EnvironmentReflections: 1
     - _Float: 1
+    - _Front: 0.15
     - _GlossMapScale: 0
     - _Glossiness: 0
     - _GlossyReflections: 0
     - _Metallic: 0
     - _OcclusionStrength: 1
+    - _Panner: 2
     - _Parallax: 0.005
     - _QueueControl: 0
     - _QueueOffset: 0
     - _ReceiveShadows: 1
     - _Smoothness: 0.5
     - _SmoothnessTextureChannel: 0
+    - _Soft: 2
     - _SpecularHighlights: 1
     - _SrcBlend: 5
     - _SrcBlendAlpha: 1
@@ -188,7 +196,7 @@ Material:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 0, g: 0, b: 0, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _Flipbook_Tile: {r: 4, g: 4, b: 0, a: 0}
+    - _Flipbook_Tile: {r: 2, g: 2, b: 0, a: 0}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
     - _Vector2: {r: 0.4, g: 0.6, b: 0, a: 0}
   m_BuildTextureStacks: []
