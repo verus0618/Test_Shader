@@ -50,6 +50,10 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _LBF:
+        m_Texture: {fileID: 2800000, guid: 36e121b87f14319488743059cec35dc6, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _MainTex:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -66,12 +70,32 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _RTB:
+        m_Texture: {fileID: 2800000, guid: f04e2ebdf70eaf94cb631e8b94ae376e, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_2cfbcc81dead4cd89ad4225012f5119e_Texture_1_Texture2D:
+        m_Texture: {fileID: 2800000, guid: 39cad26f5840f5f4d86e06ce808fbe6e, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_4119aae5cd8a43a2be3811e9270ab0ab_Texture_1_Texture2D:
+        m_Texture: {fileID: 2800000, guid: 36e121b87f14319488743059cec35dc6, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _SampleTexture2D_47fb460222374f42b104584e36a9e1b7_Texture_1_Texture2D:
         m_Texture: {fileID: 2800000, guid: 6110f186f53e26742a1c8362dd59b394, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_7981ad53626447389dbf6fe11b14e72f_Texture_1_Texture2D:
+        m_Texture: {fileID: 2800000, guid: 39cad26f5840f5f4d86e06ce808fbe6e, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _SampleTexture2D_80cb4516d3054df3bd2be0c7d8ac3057_Texture_1_Texture2D:
         m_Texture: {fileID: 2800000, guid: 39cad26f5840f5f4d86e06ce808fbe6e, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_84d0a8003d7a4c56b2be46223ba2a1b5_Texture_1_Texture2D:
+        m_Texture: {fileID: 2800000, guid: a01f8e7cc2da5c34c9c343e1377d92a8, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _SampleTexture2D_8b9e025a3f534b378de705609872c772_Texture_1_Texture2D:
@@ -84,6 +108,18 @@ Material:
         m_Offset: {x: 0, y: 0}
     - _SampleTexture2D_a2440e260284405184073e0ab9349396_Texture_1_Texture2D:
         m_Texture: {fileID: 2800000, guid: a01f8e7cc2da5c34c9c343e1377d92a8, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_a26fe27613f74838800625f7fe3961e6_Texture_1_Texture2D:
+        m_Texture: {fileID: 2800000, guid: a01f8e7cc2da5c34c9c343e1377d92a8, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_b8a6b29c9dc84ff59f27da30302c5a1d_Texture_1_Texture2D:
+        m_Texture: {fileID: 2800000, guid: 6110f186f53e26742a1c8362dd59b394, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_d3d75f77edee49d09318faf4ff3bd687_Texture_1_Texture2D:
+        m_Texture: {fileID: 2800000, guid: f04e2ebdf70eaf94cb631e8b94ae376e, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _SampleTexture2D_f841a6eeb8a940ecad461329036c4922_Texture_1_Texture2D:
@@ -108,12 +144,14 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _AO: 1
     - _AddPrecomputedVelocity: 0
     - _AlphaClip: 0
     - _AlphaToMask: 0
     - _Blend: 0
     - _BlendModePreserveSpecular: 1
     - _BumpScale: 1
+    - _CAS: 0.5
     - _CastShadows: 1
     - _ClearCoatMask: 0
     - _ClearCoatSmoothness: 0
@@ -124,6 +162,7 @@ Material:
     - _DstBlend: 10
     - _DstBlendAlpha: 10
     - _EnvironmentReflections: 1
+    - _Float: 1
     - _GlossMapScale: 0
     - _Glossiness: 0
     - _GlossyReflections: 0
@@ -147,9 +186,11 @@ Material:
     - _ZWriteControl: 0
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
-    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _Color: {r: 0, g: 0, b: 0, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _Flipbook_Tile: {r: 4, g: 4, b: 0, a: 0}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
+    - _Vector2: {r: 0.4, g: 0.6, b: 0, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
 --- !u!114 &8320089678296733585
