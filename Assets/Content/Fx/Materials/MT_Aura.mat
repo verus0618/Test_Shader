@@ -1,0 +1,94 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: MT_Aura
+  m_Shader: {fileID: -6465566751694194690, guid: 0bfda78db6a24d5429218497d25b88dc, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses:
+  - MOTIONVECTORS
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _NoiseTexture:
+        m_Texture: {fileID: 2800000, guid: 7c9bf8f7e5f30d443a8e52990e1d22ac, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Radial_NoiseTexture:
+        m_Texture: {fileID: 2800000, guid: c6eff6804bd9541458e678bbea2dbacd, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Triplanar_1adbc5ecfaa24a6aa92cb7d5d7e777d2_Texture_1_Texture2D:
+        m_Texture: {fileID: 2800000, guid: 7c9bf8f7e5f30d443a8e52990e1d22ac, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_Lightmaps:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_LightmapsInd:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_ShadowMasks:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _Float: 1
+    - _Noise_Scale: 0.3
+    - _QueueControl: 0
+    - _QueueOffset: 0
+    - _Radia_lRadius: 3.69
+    - _Radial_Controller: 0.26
+    - _Radial_NoiseScale: 0.86
+    - _Radial_NoiseTexture_Invert: 0
+    - _Radial_NoiseTexture_Scale: 0.5
+    - _Radial_Radius: 1
+    - _Radial_With: 0.01
+    - _Radius: 0.73
+    - _Softness: 1
+    - _Step: 0
+    - _With: 0.12
+    m_Colors:
+    - _111: {r: 0.7, g: 1, b: 0, a: 0}
+    - _Center: {r: 0, g: 2, b: 3, a: 0}
+    - _EdgeColor: {r: 6.498019, g: 0.062462408, b: 0, a: 1}
+    - _MinMax: {r: -0.45, g: 1, b: 0, a: 0}
+    - _Radial_Center: {r: 1.44, g: 0, b: -1.84, a: 0}
+    - _Radial_EdgeColor: {r: 16, g: 1.4087645, b: 0, a: 1}
+    - _Radial_MinMax: {r: -1.5, g: 0.9, b: 0, a: 0}
+    - _Radial_NoiseColor: {r: 0, g: 0.13096106, b: 1, a: 1}
+    - _Radial_NoiseScaleMinMax: {r: 0.5, g: 0.5, b: 0, a: 0}
+    - _Radial_RadiusMinMax: {r: -1, g: 3, b: 0, a: 0}
+    - _RadiusSoftness: {r: 1.03, g: 1.24, b: 0, a: 0}
+  m_BuildTextureStacks: []
+  m_AllowLocking: 1
+--- !u!114 &8831080538960537500
+MonoBehaviour:
+  m_ObjectHideFlags: 11
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0353a89b1f911e48b9e16bdc9f2e058, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.RenderPipelines.Universal.Editor::UnityEditor.Rendering.Universal.AssetVersion
+  version: 10
