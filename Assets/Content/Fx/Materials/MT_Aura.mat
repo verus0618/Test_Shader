@@ -11,15 +11,18 @@ Material:
   m_Shader: {fileID: -6465566751694194690, guid: 0bfda78db6a24d5429218497d25b88dc, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
-  m_ValidKeywords: []
+  m_ValidKeywords:
+  - _SURFACE_TYPE_TRANSPARENT
   m_InvalidKeywords: []
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
+  m_CustomRenderQueue: 3000
+  stringTagMap:
+    RenderType: Transparent
   disabledShaderPasses:
   - MOTIONVECTORS
+  - SHADOWCASTER
   m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
@@ -50,33 +53,71 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _111: 0
+    - _AlphaClip: 0
+    - _AlphaToMask: 0
+    - _Blend: 0
+    - _Blik: 0.426
+    - _CastShadows: 0
+    - _Cull: 2
+    - _DstBlend: 10
+    - _DstBlendAlpha: 10
+    - _Flip: 1
     - _Float: 1
+    - _Fresnel: 1
+    - _Gradient_NoiseTexture_Invert: 1
+    - _Gradient_Scroll: 1
+    - _Gradient_Scroll_1: 1
+    - _NPO: 0.001
     - _Noise_Scale: 0.3
+    - _NormalType: 0.441
+    - _Panner: 1
     - _QueueControl: 0
     - _QueueOffset: 0
     - _Radia_lRadius: 3.69
-    - _Radial_Controller: 0.26
+    - _Radial_Controller: 1
     - _Radial_NoiseScale: 0.86
     - _Radial_NoiseTexture_Invert: 0
-    - _Radial_NoiseTexture_Scale: 0.5
+    - _Radial_NoiseTexture_Scale: 1
     - _Radial_Radius: 1
     - _Radial_With: 0.01
     - _Radius: 0.73
     - _Softness: 1
+    - _SrcBlend: 5
+    - _SrcBlendAlpha: 1
     - _Step: 0
+    - _Strole: 0.884
+    - _Surface: 1
+    - _Vector_Rotate: 0
     - _With: 0.12
+    - _ZTest: 4
+    - _ZWrite: 1
+    - _ZWriteControl: 1
     m_Colors:
     - _111: {r: 0.7, g: 1, b: 0, a: 0}
+    - _222: {r: 0, g: 1, b: 0, a: 0}
+    - _Blik_Color: {r: 1, g: 1, b: 1, a: 1}
     - _Center: {r: 0, g: 2, b: 3, a: 0}
+    - _Color: {r: 0.09573352, g: 1, b: 0, a: 1}
     - _EdgeColor: {r: 6.498019, g: 0.062462408, b: 0, a: 1}
+    - _GradientColor: {r: 0.14099193, g: 1.4980392, b: 0, a: 1}
+    - _Gradient_ScrollAmplitudeFrequency: {r: 0.5, g: 15, b: 0.87, a: 0}
+    - _Gradient_ScrollAmplitudeFrequencyWith: {r: 1, g: 12.07, b: -0.6, a: 0.96}
+    - _Gradient_ScrollAmplitudeSterngth: {r: 2, g: 5, b: 0.75, a: 3}
+    - _Gradient_ScrollAmplitudeWithFrequency: {r: 1, g: 10, b: -0.08, a: 0.81}
+    - _Gradient_ScrollFrequency: {r: 1, g: 10, b: 2.13, a: 0}
+    - _Gradient_WithMinMax: {r: -0.45, g: 1, b: 0, a: 0}
     - _MinMax: {r: -0.45, g: 1, b: 0, a: 0}
-    - _Radial_Center: {r: 1.44, g: 0, b: -1.84, a: 0}
+    - _Radial_Center: {r: 0.58, g: 1.32, b: 1.5, a: 0}
     - _Radial_EdgeColor: {r: 16, g: 1.4087645, b: 0, a: 1}
-    - _Radial_MinMax: {r: -1.5, g: 0.9, b: 0, a: 0}
-    - _Radial_NoiseColor: {r: 0, g: 0.13096106, b: 1, a: 1}
+    - _Radial_GradientMinMax: {r: 0, g: 0.5, b: 0, a: 0}
+    - _Radial_MinMax: {r: 0, g: 0.4, b: 0, a: 0}
+    - _Radial_NoiseColor: {r: 0.2014991, g: 0, b: 1, a: 1}
     - _Radial_NoiseScaleMinMax: {r: 0.5, g: 0.5, b: 0, a: 0}
-    - _Radial_RadiusMinMax: {r: -1, g: 3, b: 0, a: 0}
+    - _Radial_NoiseTextureMinMax: {r: 0, g: 0.5, b: 0, a: 0}
+    - _Radial_RadiusMinMax: {r: -1.01, g: 0, b: 0, a: 0}
     - _RadiusSoftness: {r: 1.03, g: 1.24, b: 0, a: 0}
+    - _Strole_Color: {r: 0, g: 0, b: 0, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
 --- !u!114 &8831080538960537500
