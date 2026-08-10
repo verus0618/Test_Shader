@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: MT_Aura
+  m_Name: MT_KinetikAura
   m_Shader: {fileID: -6465566751694194690, guid: 0bfda78db6a24d5429218497d25b88dc, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -108,7 +108,7 @@ Material:
     - _Gradient_ScrollFrequency: {r: 1, g: 10, b: 2.13, a: 0}
     - _Gradient_WithMinMax: {r: -0.45, g: 1, b: 0, a: 0}
     - _MinMax: {r: -0.45, g: 1, b: 0, a: 0}
-    - _Radial_Center: {r: 0.58, g: 1.32, b: 1.5, a: 0}
+    - _Radial_Center: {r: -12.5, g: 2, b: -13, a: 0}
     - _Radial_EdgeColor: {r: 16, g: 1.4087645, b: 0, a: 1}
     - _Radial_GradientMinMax: {r: 0, g: 0.5, b: 0, a: 0}
     - _Radial_MinMax: {r: 0, g: 0.4, b: 0, a: 0}
