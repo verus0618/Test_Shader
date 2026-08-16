@@ -65,10 +65,12 @@ Material:
     - _Flip: 1
     - _Float: 1
     - _Fresnel: 1
+    - _Gradient_Controller: 0
     - _Gradient_NoiseTexture_Invert: 1
     - _Gradient_Scroll: 1
     - _Gradient_Scroll_1: 1
-    - _NPO: 0.001
+    - _NPO: 0
+    - _NPO_Stroke: 0.019
     - _Noise_Scale: 0.3
     - _NormalType: 0.441
     - _Panner: 1
@@ -86,7 +88,7 @@ Material:
     - _SrcBlend: 5
     - _SrcBlendAlpha: 1
     - _Step: 0
-    - _Strole: 0.884
+    - _Strole: 0.268
     - _Surface: 1
     - _Vector_Rotate: 0
     - _With: 0.12
@@ -98,7 +100,7 @@ Material:
     - _222: {r: 0, g: 1, b: 0, a: 0}
     - _Blik_Color: {r: 1, g: 1, b: 1, a: 1}
     - _Center: {r: 0, g: 2, b: 3, a: 0}
-    - _Color: {r: 0.09573352, g: 1, b: 0, a: 1}
+    - _Color: {r: 0, g: 1, b: 0.12859946, a: 1}
     - _EdgeColor: {r: 6.498019, g: 0.062462408, b: 0, a: 1}
     - _GradientColor: {r: 0.14099193, g: 1.4980392, b: 0, a: 1}
     - _Gradient_ScrollAmplitudeFrequency: {r: 0.5, g: 15, b: 0.87, a: 0}
