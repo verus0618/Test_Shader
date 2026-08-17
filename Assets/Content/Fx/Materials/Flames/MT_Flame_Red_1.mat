@@ -150,6 +150,7 @@ Material:
     - _Noise_to_Core: 2
     - _Noise_to_Shape: 1.25
     - _Panner: 1
+    - _Push: 0
     - _QueueControl: 0
     - _QueueOffset: 0
     - _Rotate_UV: 0
@@ -174,6 +175,7 @@ Material:
     - _Core_BrightnessConrastDisolve: {r: 1, g: 1, b: 0.25, a: 0}
     - _Core_MinMax: {r: 0, g: 1, b: 0, a: 0}
     - _Core_Smoothstep: {r: 0, g: 1, b: 0, a: 0}
+    - _FlamePos: {r: 0, g: 0, b: 0, a: 0}
     - _GradientMask_MinMax: {r: -0.15, g: 0.3, b: 0, a: 0}
     - _Lair1_Br_Con_Int: {r: 1, g: 1, b: 1, a: 0}
     - _Lair1_MinMax: {r: 0, g: 0.3, b: 0, a: 0}
@@ -205,5 +207,6 @@ Material:
     - _Shape_Br_Con_Int: {r: 3, g: 1, b: 1, a: 0}
     - _Shape_BrightnessConrastDisolve: {r: 7.45, g: 1, b: 0, a: 0}
     - _Shape_MinMax: {r: 0, g: 0.25, b: 0, a: 0}
+    - _Velocity: {r: 0, g: 1, b: 0, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1

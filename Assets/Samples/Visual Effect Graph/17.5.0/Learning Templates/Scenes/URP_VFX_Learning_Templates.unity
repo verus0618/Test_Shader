@@ -119,11 +119,220 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &53860431
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 53860432}
+  - component: {fileID: 53860435}
+  - component: {fileID: 53860434}
+  - component: {fileID: 53860433}
+  m_Layer: 0
+  m_Name: VFXG MultiStrips PeriodicBurst (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &53860432
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 53860431}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.1, z: 8.611}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 1
+  m_Children: []
+  m_Father: {fileID: 981389966}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!205 &53860433
+LODGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 53860431}
+  serializedVersion: 3
+  m_LocalReferencePoint: {x: 0, y: 0, z: 0}
+  m_Size: 3
+  m_FadeMode: 0
+  m_AnimateCrossFading: 0
+  m_LastLODIsBillboard: 0
+  m_LODs:
+  - screenRelativeHeight: 0.084024124
+    fadeTransitionWidth: 0
+    renderers:
+    - renderer: {fileID: 53860434}
+  - screenRelativeHeight: 0.002
+    fadeTransitionWidth: 0
+    renderers: []
+  - screenRelativeHeight: 0.001
+    fadeTransitionWidth: 0
+    renderers: []
+  m_Enabled: 1
+  m_GlobalIlluminationLOD: 0
+--- !u!73398921 &53860434
+VFXRenderer:
+  serializedVersion: 1
+  m_ObjectHideFlags: 2
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 53860431}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 0
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 2
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
+  m_RenderingLayerMask: 257
+  m_RendererPriority: 0
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_MaskInteraction: 0
+--- !u!2083052967 &53860435
+VisualEffect:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 53860431}
+  m_Enabled: 1
+  m_Asset: {fileID: 8926484042661614526, guid: 6f1b2eba78337db42b0c077a7efc5cfc, type: 3}
+  m_InitialEventName: OnPlay
+  m_InitialEventNameOverriden: 0
+  m_StartSeed: 0
+  m_ResetSeedOnPlay: 1
+  m_AllowInstancing: 1
+  m_ReleaseInstanceOnDisable: 0
+  m_ResourceVersion: 1
+  m_PropertySheet:
+    m_Float:
+      m_Array: []
+    m_Vector2f:
+      m_Array: []
+    m_Vector3f:
+      m_Array: []
+    m_Vector4f:
+      m_Array: []
+    m_Uint:
+      m_Array: []
+    m_Int:
+      m_Array: []
+    m_Matrix4x4f:
+      m_Array: []
+    m_AnimationCurve:
+      m_Array: []
+    m_Gradient:
+      m_Array: []
+    m_NamedObject:
+      m_Array:
+      - m_Value: {fileID: 0}
+        m_Name: SkinnedMeshRenderer
+        m_Overridden: 1
+      - m_Value: {fileID: 0}
+        m_Name: New SkinnedMeshRenderer
+        m_Overridden: 1
+    m_Bool:
+      m_Array: []
 --- !u!1 &79271156 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 698479673517876194, guid: 4d8073d0ef011eb438162e15c7adf9e5, type: 3}
   m_PrefabInstance: {fileID: 8198510771575036109}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &123372515
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 5337668334015013720, guid: 45752a4f593919b4d80cc8d72c3b7371, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.19418709
+      objectReference: {fileID: 0}
+    - target: {fileID: 5337668334015013720, guid: 45752a4f593919b4d80cc8d72c3b7371, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.50000036
+      objectReference: {fileID: 0}
+    - target: {fileID: 5337668334015013720, guid: 45752a4f593919b4d80cc8d72c3b7371, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 10.712337
+      objectReference: {fileID: 0}
+    - target: {fileID: 5337668334015013720, guid: 45752a4f593919b4d80cc8d72c3b7371, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5337668334015013720, guid: 45752a4f593919b4d80cc8d72c3b7371, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5337668334015013720, guid: 45752a4f593919b4d80cc8d72c3b7371, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5337668334015013720, guid: 45752a4f593919b4d80cc8d72c3b7371, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5337668334015013720, guid: 45752a4f593919b4d80cc8d72c3b7371, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5337668334015013720, guid: 45752a4f593919b4d80cc8d72c3b7371, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5337668334015013720, guid: 45752a4f593919b4d80cc8d72c3b7371, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6701853162588831052, guid: 45752a4f593919b4d80cc8d72c3b7371, type: 3}
+      propertyPath: m_Name
+      value: Flames
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 45752a4f593919b4d80cc8d72c3b7371, type: 3}
 --- !u!1001 &128769921
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -137,8 +346,12 @@ PrefabInstance:
       value: Multi-Strip Periodic Burst
       objectReference: {fileID: 0}
     - target: {fileID: 2480961561797308085, guid: 2be12f8c25180574d8decb431753349d, type: 3}
+      propertyPath: m_text
+      value: Multi-Strip Periodic Burst
+      objectReference: {fileID: 0}
+    - target: {fileID: 2480961561797308085, guid: 2be12f8c25180574d8decb431753349d, type: 3}
       propertyPath: m_fontSize
-      value: 0.33
+      value: 0.25
       objectReference: {fileID: 0}
     - target: {fileID: 4331302149752468931, guid: 2be12f8c25180574d8decb431753349d, type: 3}
       propertyPath: m_CastShadows
@@ -148,9 +361,21 @@ PrefabInstance:
       propertyPath: m_MotionVectors
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5649587174976461374, guid: 2be12f8c25180574d8decb431753349d, type: 3}
+      propertyPath: m_text
+      value: "\nThere are several ways to spawn particles, and when dealing with
+        <b>strips</b>, this can have some implications for how you need to set up
+        your VFX. This example shows you how to make a new <b>trail</b> for each
+        periodic burst within a single system.\n\n<b>Covered Aspects</b>:\n\u2022
+        Strip Output Context\n\u2022 Strip Index"
+      objectReference: {fileID: 0}
+    - target: {fileID: 5762328778465116255, guid: 2be12f8c25180574d8decb431753349d, type: 3}
+      propertyPath: m_text
+      value: Multi-Strip Periodic Burst
+      objectReference: {fileID: 0}
     - target: {fileID: 5762328778465116255, guid: 2be12f8c25180574d8decb431753349d, type: 3}
       propertyPath: m_fontSize
-      value: 1.6
+      value: 1.5
       objectReference: {fileID: 0}
     - target: {fileID: 8670998143652503691, guid: 2be12f8c25180574d8decb431753349d, type: 3}
       propertyPath: m_LocalPosition.x
@@ -194,7 +419,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 5535820041891318753, guid: 2be12f8c25180574d8decb431753349d, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 53860432}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 6154265102511253569, guid: 2be12f8c25180574d8decb431753349d, type: 3}
       insertIndex: -1
@@ -256,17 +484,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 474bcb49853aa07438625e644c072ee6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Version: 3
   m_UsePipelineSettings: 1
   m_AdditionalLightsShadowResolutionTier: 2
-  m_LightLayerMask: 1
-  m_RenderingLayers: 1
   m_CustomShadowLayers: 0
-  m_ShadowLayerMask: 1
-  m_ShadowRenderingLayers: 1
   m_LightCookieSize: {x: 1, y: 1}
   m_LightCookieOffset: {x: 0, y: 0}
   m_SoftShadowQuality: 0
+  m_RenderingLayersMask:
+    serializedVersion: 0
+    m_Bits: 1
+  m_ShadowRenderingLayersMask:
+    serializedVersion: 0
+    m_Bits: 1
+  m_Version: 4
+  m_LightLayerMask: 1
+  m_ShadowLayerMask: 1
+  m_RenderingLayers: 1
+  m_ShadowRenderingLayers: 1
 --- !u!108 &140851902
 Light:
   m_ObjectHideFlags: 0
@@ -275,14 +509,14 @@ Light:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 140851899}
   m_Enabled: 1
-  serializedVersion: 11
+  serializedVersion: 13
   m_Type: 2
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Intensity: 4.22
   m_Range: 1.12
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
-  m_CookieSize: 10
+  m_CookieSize2D: {x: 10, y: 10}
   m_Shadows:
     m_Type: 0
     m_Resolution: -1
@@ -327,7 +561,7 @@ Light:
   m_UseBoundingSphereOverride: 0
   m_UseViewFrustumForShadowCasterCull: 1
   m_ForceVisible: 0
-  m_ShadowRadius: 0
+  m_ShapeRadius: 0
   m_ShadowAngle: 0
   m_LightUnit: 1
   m_LuxAtDistance: 1
@@ -482,6 +716,32 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3224867642992055020, guid: b9a2d3b8c5810894e89ba0e7358504c3, type: 3}
+      propertyPath: m_text
+      value: "\nThis VFX illustrates the differences between a traditional <b>frame
+        blending</b> and a <b>frame blending</b> using <b>motion vectors</b>. <b>Motion
+        vector blending </b>uses a texture to describe the pixel displacement between
+        two frames. This allows for a very smooth transition between frames, which
+        can be extremely useful for reducing the number of frames in a flipbook or
+        for doing slow-motion.\n\n<b>Covered Aspects</b>:\n\u2022 Flipbook Player\n\u2022
+        UVs Mode\n\u2022 TexIndex Attribute"
+      objectReference: {fileID: 0}
+    - target: {fileID: 3265587936859441293, guid: b9a2d3b8c5810894e89ba0e7358504c3, type: 3}
+      propertyPath: m_text
+      value: Flipbook Blending
+      objectReference: {fileID: 0}
+    - target: {fileID: 3265587936859441293, guid: b9a2d3b8c5810894e89ba0e7358504c3, type: 3}
+      propertyPath: m_fontSize
+      value: 1.65
+      objectReference: {fileID: 0}
+    - target: {fileID: 4668105215641249383, guid: b9a2d3b8c5810894e89ba0e7358504c3, type: 3}
+      propertyPath: m_text
+      value: Flipbook Blending
+      objectReference: {fileID: 0}
+    - target: {fileID: 4668105215641249383, guid: b9a2d3b8c5810894e89ba0e7358504c3, type: 3}
+      propertyPath: m_fontSize
+      value: 0.35
+      objectReference: {fileID: 0}
     - target: {fileID: 6826812481613331729, guid: b9a2d3b8c5810894e89ba0e7358504c3, type: 3}
       propertyPath: m_MotionVectors
       value: 0
@@ -595,6 +855,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 6647057183007232127, guid: 880de12b545a1a2438644f5c247282f7, type: 3}
   m_PrefabInstance: {fileID: 2591491200927492331}
   m_PrefabAsset: {fileID: 0}
+--- !u!4 &981389966 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5535820041891318753, guid: 2be12f8c25180574d8decb431753349d, type: 3}
+  m_PrefabInstance: {fileID: 128769921}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1040724026
 GameObject:
   m_ObjectHideFlags: 0
@@ -665,6 +930,131 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 1138625154127575168, guid: 3c7f1b206ee1ad14fa10fe4a52e3ac1d, type: 3}
   m_PrefabInstance: {fileID: 1844571428755184329}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1175915321
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1175915324}
+  - component: {fileID: 1175915323}
+  - component: {fileID: 1175915322}
+  m_Layer: 0
+  m_Name: VFXG MultiStrips SingleBurst (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!73398921 &1175915322
+VFXRenderer:
+  serializedVersion: 1
+  m_ObjectHideFlags: 2
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1175915321}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 0
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 2
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
+  m_RenderingLayerMask: 257
+  m_RendererPriority: 0
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_MaskInteraction: 0
+--- !u!2083052967 &1175915323
+VisualEffect:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1175915321}
+  m_Enabled: 1
+  m_Asset: {fileID: 8926484042661614526, guid: 4c6ad290c6960aa4a863b8d4e223f2ad, type: 3}
+  m_InitialEventName: OnPlay
+  m_InitialEventNameOverriden: 0
+  m_StartSeed: 0
+  m_ResetSeedOnPlay: 1
+  m_AllowInstancing: 1
+  m_ReleaseInstanceOnDisable: 0
+  m_ResourceVersion: 1
+  m_PropertySheet:
+    m_Float:
+      m_Array: []
+    m_Vector2f:
+      m_Array: []
+    m_Vector3f:
+      m_Array: []
+    m_Vector4f:
+      m_Array: []
+    m_Uint:
+      m_Array: []
+    m_Int:
+      m_Array: []
+    m_Matrix4x4f:
+      m_Array: []
+    m_AnimationCurve:
+      m_Array: []
+    m_Gradient:
+      m_Array: []
+    m_NamedObject:
+      m_Array:
+      - m_Value: {fileID: 0}
+        m_Name: SkinnedMeshRenderer
+        m_Overridden: 1
+      - m_Value: {fileID: 0}
+        m_Name: New SkinnedMeshRenderer
+        m_Overridden: 1
+    m_Bool:
+      m_Array: []
+--- !u!4 &1175915324
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1175915321}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0.7420789, y: -0, z: -0, w: 0.6703126}
+  m_LocalPosition: {x: 2.268, y: 0.1, z: 11.266}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 1
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: -95.818, y: 0, z: 0}
 --- !u!1 &1176951105 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6073128696934460062, guid: 437ef85040874a54d853dc0b71970507, type: 3}
@@ -687,9 +1077,33 @@ PrefabInstance:
       propertyPath: m_Name
       value: Multi-Strip Single Burst
       objectReference: {fileID: 0}
+    - target: {fileID: 2480961561797308085, guid: feb637fe12022d74092c99f5541d3ae7, type: 3}
+      propertyPath: m_text
+      value: Multi-Strip Single Burst
+      objectReference: {fileID: 0}
+    - target: {fileID: 2480961561797308085, guid: feb637fe12022d74092c99f5541d3ae7, type: 3}
+      propertyPath: m_fontSize
+      value: 0.3
+      objectReference: {fileID: 0}
     - target: {fileID: 4331302149752468931, guid: feb637fe12022d74092c99f5541d3ae7, type: 3}
       propertyPath: m_MotionVectors
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5649587174976461374, guid: feb637fe12022d74092c99f5541d3ae7, type: 3}
+      propertyPath: m_text
+      value: "\nThere are several ways to spawn particles, and when dealing with
+        <b>strips</b>, this can have some implications for how you need to set up
+        your VFX. This example shows you how to make multiple <b>trails</b> with
+        one single burst of particles.\n\n<b>Covered Aspects</b>:\n\u2022 Strip Output
+        Context\n\u2022 Strip Index"
+      objectReference: {fileID: 0}
+    - target: {fileID: 5762328778465116255, guid: feb637fe12022d74092c99f5541d3ae7, type: 3}
+      propertyPath: m_text
+      value: Multi-Strip Single Burst
+      objectReference: {fileID: 0}
+    - target: {fileID: 5762328778465116255, guid: feb637fe12022d74092c99f5541d3ae7, type: 3}
+      propertyPath: m_fontSize
+      value: 1.65
       objectReference: {fileID: 0}
     - target: {fileID: 8670998143652503691, guid: feb637fe12022d74092c99f5541d3ae7, type: 3}
       propertyPath: m_LocalPosition.x
@@ -850,14 +1264,40 @@ PrefabInstance:
       propertyPath: m_Name
       value: Multi-Strips GPU-Event
       objectReference: {fileID: 0}
+    - target: {fileID: 2480961561797308085, guid: 01826727a168a334c8d8c8d3286dfcfa, type: 3}
+      propertyPath: m_text
+      value: Multi-Strips GPU-Event
+      objectReference: {fileID: 0}
+    - target: {fileID: 2480961561797308085, guid: 01826727a168a334c8d8c8d3286dfcfa, type: 3}
+      propertyPath: m_fontSize
+      value: 0.25
+      objectReference: {fileID: 0}
     - target: {fileID: 4331302149752468931, guid: 01826727a168a334c8d8c8d3286dfcfa, type: 3}
       propertyPath: m_MotionVectors
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5649587174976461374, guid: 01826727a168a334c8d8c8d3286dfcfa, type: 3}
+      propertyPath: m_text
+      value: "\nThere are several ways to spawn particles, and when dealing with
+        <b>strips</b>, this can have some implications for how you need to set up
+        your VFX. This example illustrates how to circumvent the usual limitation
+        that only permits the creation of one strip per parent's particle when dealing
+        with Trigger Events. Each headphone jack is made of a particle mesh and spawns
+        particles along its path.\n\n<b>Covered Aspects</b>:\n\u2022 Strip Output
+        Context\n\u2022 Trigger Event\n\u2022 Strip Index"
       objectReference: {fileID: 0}
     - target: {fileID: 5691893393116993651, guid: 01826727a168a334c8d8c8d3286dfcfa, type: 3}
       propertyPath: 'm_Materials.Array.data[1]'
       value: 
       objectReference: {fileID: 2100000, guid: d5de769d0da64c44fbfe910acbc063ff, type: 2}
+    - target: {fileID: 5762328778465116255, guid: 01826727a168a334c8d8c8d3286dfcfa, type: 3}
+      propertyPath: m_text
+      value: Multi-Strips GPU-Event
+      objectReference: {fileID: 0}
+    - target: {fileID: 5762328778465116255, guid: 01826727a168a334c8d8c8d3286dfcfa, type: 3}
+      propertyPath: m_fontSize
+      value: 1.65
+      objectReference: {fileID: 0}
     - target: {fileID: 8670998143652503691, guid: 01826727a168a334c8d8c8d3286dfcfa, type: 3}
       propertyPath: m_LocalPosition.x
       value: -186
@@ -982,6 +1422,131 @@ ReflectionProbe:
   m_UseOcclusionCulling: 1
   m_Importance: 1
   m_CustomBakedTexture: {fileID: 0}
+--- !u!1 &1555071276
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1555071279}
+  - component: {fileID: 1555071278}
+  - component: {fileID: 1555071277}
+  m_Layer: 0
+  m_Name: VFXG Strip SpawnRate (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!73398921 &1555071277
+VFXRenderer:
+  serializedVersion: 1
+  m_ObjectHideFlags: 2
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1555071276}
+  m_Enabled: 0
+  m_CastShadows: 1
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 0
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 2
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
+  m_RenderingLayerMask: 257
+  m_RendererPriority: 0
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_MaskInteraction: 0
+--- !u!2083052967 &1555071278
+VisualEffect:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1555071276}
+  m_Enabled: 1
+  m_Asset: {fileID: 8926484042661614526, guid: 75eb8b0276933b24798d3b5b8f377ee3, type: 3}
+  m_InitialEventName: OnPlay
+  m_InitialEventNameOverriden: 1
+  m_StartSeed: 38042538
+  m_ResetSeedOnPlay: 1
+  m_AllowInstancing: 1
+  m_ReleaseInstanceOnDisable: 0
+  m_ResourceVersion: 1
+  m_PropertySheet:
+    m_Float:
+      m_Array: []
+    m_Vector2f:
+      m_Array: []
+    m_Vector3f:
+      m_Array: []
+    m_Vector4f:
+      m_Array: []
+    m_Uint:
+      m_Array: []
+    m_Int:
+      m_Array: []
+    m_Matrix4x4f:
+      m_Array: []
+    m_AnimationCurve:
+      m_Array: []
+    m_Gradient:
+      m_Array: []
+    m_NamedObject:
+      m_Array:
+      - m_Value: {fileID: 0}
+        m_Name: SkinnedMeshRenderer
+        m_Overridden: 1
+      - m_Value: {fileID: 0}
+        m_Name: New SkinnedMeshRenderer
+        m_Overridden: 1
+    m_Bool:
+      m_Array: []
+--- !u!4 &1555071279
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1555071276}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 11.93}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1628911306 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8127228675792805945, guid: c31527918c314b74ab9528f8e8dc07c6, type: 3}
@@ -1007,6 +1572,125 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 5212023758593438506, guid: 5ca1ce248ce780c4ca7d6f0a069b4213, type: 3}
   m_PrefabInstance: {fileID: 7656741096807842921}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1843347528
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1843347531}
+  - component: {fileID: 1843347530}
+  - component: {fileID: 1843347529}
+  m_Layer: 0
+  m_Name: Visual Effect
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!73398921 &1843347529
+VFXRenderer:
+  serializedVersion: 1
+  m_ObjectHideFlags: 2
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1843347528}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 0
+  m_LightProbeUsage: 0
+  m_ReflectionProbeUsage: 0
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_MaskInteraction: 0
+--- !u!2083052967 &1843347530
+VisualEffect:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1843347528}
+  m_Enabled: 1
+  m_Asset: {fileID: 8926484042661614526, guid: 25a0b14db210d3f4cbbc06939c2838d1, type: 3}
+  m_InitialEventName: OnPlay
+  m_InitialEventNameOverriden: 0
+  m_StartSeed: 0
+  m_ResetSeedOnPlay: 1
+  m_AllowInstancing: 1
+  m_ReleaseInstanceOnDisable: 0
+  m_ResourceVersion: 1
+  m_PropertySheet:
+    m_Float:
+      m_Array: []
+    m_Vector2f:
+      m_Array: []
+    m_Vector3f:
+      m_Array: []
+    m_Vector4f:
+      m_Array: []
+    m_Uint:
+      m_Array: []
+    m_Int:
+      m_Array: []
+    m_Matrix4x4f:
+      m_Array: []
+    m_AnimationCurve:
+      m_Array: []
+    m_Gradient:
+      m_Array: []
+    m_NamedObject:
+      m_Array: []
+    m_Bool:
+      m_Array: []
+--- !u!4 &1843347531
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1843347528}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0.30620185, z: -0, w: 0.95196664}
+  m_LocalPosition: {x: -0.063, y: 0.037, z: 9.784}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -35.661, z: 0}
 --- !u!1001 &1858049349
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1018,6 +1702,32 @@ PrefabInstance:
     - target: {fileID: 907854142252066071, guid: 0bdb812ac44b5d043a23d6208f6ab07c, type: 3}
       propertyPath: m_Name
       value: Strip Properties
+      objectReference: {fileID: 0}
+    - target: {fileID: 2480961561797308085, guid: 0bdb812ac44b5d043a23d6208f6ab07c, type: 3}
+      propertyPath: m_text
+      value: Strip Properties
+      objectReference: {fileID: 0}
+    - target: {fileID: 2480961561797308085, guid: 0bdb812ac44b5d043a23d6208f6ab07c, type: 3}
+      propertyPath: m_fontSize
+      value: 0.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 5649587174976461374, guid: 0bdb812ac44b5d043a23d6208f6ab07c, type: 3}
+      propertyPath: m_text
+      value: "\nYou can use <b>Strips</b>, also known as <b>Ribbons</b> or <b>Trails</b>,
+        to create a wide range of VFX. The Strip Ouput Context and Strip particle
+        data allow you to draw a quad between each particle. This example demonstrates
+        a straightforward Strip setup. It explains the various strip properties and
+        attributes that control its visual appearance and behavior.\n\n<b>Covered
+        Aspects</b>:\n\u2022 Strip Output Context\n\u2022 Particle Index in Strip\n\u2022
+        Particle Count in Strip\n\u2022 Strip Index"
+      objectReference: {fileID: 0}
+    - target: {fileID: 5762328778465116255, guid: 0bdb812ac44b5d043a23d6208f6ab07c, type: 3}
+      propertyPath: m_text
+      value: Strip Properties
+      objectReference: {fileID: 0}
+    - target: {fileID: 5762328778465116255, guid: 0bdb812ac44b5d043a23d6208f6ab07c, type: 3}
+      propertyPath: m_fontSize
+      value: 1.65
       objectReference: {fileID: 0}
     - target: {fileID: 8670998143652503691, guid: 0bdb812ac44b5d043a23d6208f6ab07c, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1128,17 +1838,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 474bcb49853aa07438625e644c072ee6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Version: 3
   m_UsePipelineSettings: 1
   m_AdditionalLightsShadowResolutionTier: 2
-  m_LightLayerMask: 1
-  m_RenderingLayers: 1
   m_CustomShadowLayers: 0
-  m_ShadowLayerMask: 1
-  m_ShadowRenderingLayers: 1
   m_LightCookieSize: {x: 1, y: 1}
   m_LightCookieOffset: {x: 0, y: 0}
   m_SoftShadowQuality: 0
+  m_RenderingLayersMask:
+    serializedVersion: 0
+    m_Bits: 1
+  m_ShadowRenderingLayersMask:
+    serializedVersion: 0
+    m_Bits: 1
+  m_Version: 4
+  m_LightLayerMask: 1
+  m_ShadowLayerMask: 1
+  m_RenderingLayers: 1
+  m_ShadowRenderingLayers: 1
 --- !u!108 &1908538146
 Light:
   m_ObjectHideFlags: 0
@@ -1147,14 +1863,14 @@ Light:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1908538143}
   m_Enabled: 1
-  serializedVersion: 11
+  serializedVersion: 13
   m_Type: 2
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Intensity: 4.22
   m_Range: 1.12
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
-  m_CookieSize: 10
+  m_CookieSize2D: {x: 10, y: 10}
   m_Shadows:
     m_Type: 0
     m_Resolution: -1
@@ -1199,7 +1915,7 @@ Light:
   m_UseBoundingSphereOverride: 0
   m_UseViewFrustumForShadowCasterCull: 1
   m_ForceVisible: 0
-  m_ShadowRadius: 0
+  m_ShapeRadius: 0
   m_ShadowAngle: 0
   m_LightUnit: 1
   m_LuxAtDistance: 1
@@ -1225,6 +1941,33 @@ PrefabInstance:
     - target: {fileID: 907854142252066071, guid: d77ef93668a41394b94431636b883aa5, type: 3}
       propertyPath: m_Name
       value: Strip GPU-Events
+      objectReference: {fileID: 0}
+    - target: {fileID: 2480961561797308085, guid: d77ef93668a41394b94431636b883aa5, type: 3}
+      propertyPath: m_text
+      value: Strip GPU-Event
+      objectReference: {fileID: 0}
+    - target: {fileID: 2480961561797308085, guid: d77ef93668a41394b94431636b883aa5, type: 3}
+      propertyPath: m_fontSize
+      value: 0.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 5649587174976461374, guid: d77ef93668a41394b94431636b883aa5, type: 3}
+      propertyPath: m_text
+      value: "\nThere are several ways to spawn particles, and when dealing with
+        <b>strips</b>, this can have some implications for how you need to set up
+        your VFX. Using GPU trigger events is often the most straightforward way
+        of creating <b>strips</b>. This example shows an example of a growing mushroom's
+        VFX, with the mushroom\u2019s hat being particle meshes and the mushroom\u2019s
+        foot made with particle <b>strips</b>.\n\n<b>Covered Aspects</b>:\n\u2022
+        Strip Output Context\n\u2022 Strip Index\n\u2022 Trigger Event Rate\n\u2022
+        GPU Events"
+      objectReference: {fileID: 0}
+    - target: {fileID: 5762328778465116255, guid: d77ef93668a41394b94431636b883aa5, type: 3}
+      propertyPath: m_text
+      value: Strip GPU-Event
+      objectReference: {fileID: 0}
+    - target: {fileID: 5762328778465116255, guid: d77ef93668a41394b94431636b883aa5, type: 3}
+      propertyPath: m_fontSize
+      value: 1.65
       objectReference: {fileID: 0}
     - target: {fileID: 8670998143652503691, guid: d77ef93668a41394b94431636b883aa5, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1303,12 +2046,28 @@ PrefabInstance:
       value: Strip SpawnRate
       objectReference: {fileID: 0}
     - target: {fileID: 2480961561797308085, guid: e8c50f0fc83841f499b893adf79a0e0f, type: 3}
+      propertyPath: m_text
+      value: Strip Spawn Rate
+      objectReference: {fileID: 0}
+    - target: {fileID: 2480961561797308085, guid: e8c50f0fc83841f499b893adf79a0e0f, type: 3}
       propertyPath: m_fontSize
-      value: 0.33
+      value: 0.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 5649587174976461374, guid: e8c50f0fc83841f499b893adf79a0e0f, type: 3}
+      propertyPath: m_text
+      value: "\nThere are several ways to spawn particles, and when dealing with
+        <b>strips</b>, this can have some implications for how you need to set up
+        your VFX. This example shows you how to make a single trail out of a continuous
+        spawn rate of particles.\n\n<b>Covered Aspects</b>:\n\u2022 Strip Output
+        Context\n\u2022 Strip Index\n\u2022 Attribute Locations"
+      objectReference: {fileID: 0}
+    - target: {fileID: 5762328778465116255, guid: e8c50f0fc83841f499b893adf79a0e0f, type: 3}
+      propertyPath: m_text
+      value: Strip Spawn Rate
       objectReference: {fileID: 0}
     - target: {fileID: 5762328778465116255, guid: e8c50f0fc83841f499b893adf79a0e0f, type: 3}
       propertyPath: m_fontSize
-      value: 1.6
+      value: 1.65
       objectReference: {fileID: 0}
     - target: {fileID: 8670998143652503691, guid: e8c50f0fc83841f499b893adf79a0e0f, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1380,6 +2139,30 @@ PrefabInstance:
     - target: {fileID: 907854142252066071, guid: 659767d85eed35e4695b209c06ad1b96, type: 3}
       propertyPath: m_Name
       value: Multi-Strip SpawnRate
+      objectReference: {fileID: 0}
+    - target: {fileID: 2480961561797308085, guid: 659767d85eed35e4695b209c06ad1b96, type: 3}
+      propertyPath: m_text
+      value: Multi-Strip SpawnRate
+      objectReference: {fileID: 0}
+    - target: {fileID: 2480961561797308085, guid: 659767d85eed35e4695b209c06ad1b96, type: 3}
+      propertyPath: m_fontSize
+      value: 0.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5649587174976461374, guid: 659767d85eed35e4695b209c06ad1b96, type: 3}
+      propertyPath: m_text
+      value: "\nThere are several ways to spawn particles, and when dealing with
+        <b>strips</b>, this can have some implications for how you need to set up
+        your VFX. This example shows you how to make multiple <b>trails</b> out of
+        a continuous spawn rate of particles\n\n<b>Covered Aspects</b>:\n\u2022 Strip
+        Output Context\n\u2022 Strip Index"
+      objectReference: {fileID: 0}
+    - target: {fileID: 5762328778465116255, guid: 659767d85eed35e4695b209c06ad1b96, type: 3}
+      propertyPath: m_text
+      value: Multi-Strip SpawnRate
+      objectReference: {fileID: 0}
+    - target: {fileID: 5762328778465116255, guid: 659767d85eed35e4695b209c06ad1b96, type: 3}
+      propertyPath: m_fontSize
+      value: 1.65
       objectReference: {fileID: 0}
     - target: {fileID: 8670998143652503691, guid: 659767d85eed35e4695b209c06ad1b96, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1523,6 +2306,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1787987716567005121, guid: f113d0ccb1b81b4479655f9ffc2c6fce, type: 3}
+      propertyPath: m_fontAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: 2f7116f10747a67409388e93052ae222, type: 2}
+    - target: {fileID: 1787987716567005121, guid: f113d0ccb1b81b4479655f9ffc2c6fce, type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: -6055507529455485361, guid: 2f7116f10747a67409388e93052ae222, type: 2}
     - target: {fileID: 1942115000946059353, guid: f113d0ccb1b81b4479655f9ffc2c6fce, type: 3}
       propertyPath: m_RootOrder
       value: 14
@@ -1569,12 +2360,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3224867642992055020, guid: f113d0ccb1b81b4479655f9ffc2c6fce, type: 3}
       propertyPath: m_text
-      value: "This VFX shows how to set up the <b>Uvs mode </b>of the <b>Output</b>
+      value: "\nThis VFX shows how to set up the <b>UVs mode </b>of the <b>Output</b>
         to <b>Flipbook</b> to use a <b>Sprite sheet</b>. It also shows the differences
-        between <b>Flipbook Uvs</b> and <b>Flipbook Blend Uvs</b> and a basic usage
-        of the <b>Flipbook Player Block</b>. <b>Flipbook Blend Uvs</b> mode allows
-        interpolation between the frames. This can help to get smoother looking animation.\n\n<b>Covered
-        Aspects</b>:\nFlipbook operator \nUvs Mode \nTexIndex Attribute"
+        of using <b>Flipbook Blend Frames</b> and a basic usage of the <b>Flipbook
+        Player Block</b>. <b>Flipbook Blend Frames</b> setting allows interpolation
+        between the frames. This can help to get smoother looking animation.\n\n<b>Covered
+        Aspects</b>:\n\u2022 Flipbook Player\n\u2022 UVs Mode\n\u2022 TexIndex Attribute"
       objectReference: {fileID: 0}
     - target: {fileID: 3265587936859441293, guid: f113d0ccb1b81b4479655f9ffc2c6fce, type: 3}
       propertyPath: m_text
@@ -1604,6 +2395,22 @@ PrefabInstance:
       propertyPath: m_Name
       value: Flipbook Mode
       objectReference: {fileID: 0}
+    - target: {fileID: 8301913654554610843, guid: f113d0ccb1b81b4479655f9ffc2c6fce, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: -6055507529455485361, guid: 2f7116f10747a67409388e93052ae222, type: 2}
+    - target: {fileID: 8651947161465316026, guid: f113d0ccb1b81b4479655f9ffc2c6fce, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: -6055507529455485361, guid: 2f7116f10747a67409388e93052ae222, type: 2}
+    - target: {fileID: 8894898126212966781, guid: f113d0ccb1b81b4479655f9ffc2c6fce, type: 3}
+      propertyPath: m_fontAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: 2f7116f10747a67409388e93052ae222, type: 2}
+    - target: {fileID: 8894898126212966781, guid: f113d0ccb1b81b4479655f9ffc2c6fce, type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: -6055507529455485361, guid: 2f7116f10747a67409388e93052ae222, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
@@ -1663,19 +2470,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5789982850138219661, guid: 3565d1a85b574304f9ec453c277da451, type: 3}
       propertyPath: m_text
-      value: 'The <b>pivot attribute</b> control where the <b>output render</b> is
-        <b>instantiated</b> in regard to the particle position. By default, the<b>
-        pivot</b> is centered on the <b>Particle''s Position</b>. But you can offset
+      value: "\nThe <b>pivot attribute</b> controls where the <b>output render</b>
+        is <b>instantiated</b> regarding the particle position. By default, the<b>
+        pivot</b> is centered on the <b>Particle's Position</b>. But you can offset
         it on any axis (XYZ). Offsetting the pivot can be extremely helpful as it
-        can lead to interesting motion when doing scaling or rotation.
-
-
-        <b>Covered
-        Aspects</b>:
-
-        Pivot Attribute
-
-        Angle attribute'
+        can lead to appealing motion when doing scaling or rotation.\n\n<b>Covered
+        Aspects</b>:\n\u2022 Pivot Attribute\n\u2022 Angle attribute"
       objectReference: {fileID: 0}
     - target: {fileID: 5893694987851808492, guid: 3565d1a85b574304f9ec453c277da451, type: 3}
       propertyPath: m_text
@@ -1840,21 +2640,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8033506340959903943, guid: 4efc07ba5e4244f49b669c1195159b31, type: 3}
       propertyPath: m_text
-      value: 'Controlling the <b>Pivot</b> of a particle is a key aspect to unlock
-        interesting motion. This VFX is giving an example of <b>Pivot</b> manipulation.
-        Here the petals, Leafs and Spikes of the Flower are all particles. The<b>
+      value: "\nControlling the <b>Pivot</b> of a particle is a key aspect to unlocking
+        interesting motion. This VFX gives an example of <b>Pivot</b> manipulation.
+        Here the petals, leafs and spikes of the flower are all particles. The<b>
         Pivot attribute</b> is controlled and sometimes animated to be able to properly
-        locate and animate the particles. This example also demonstrates the [ShaderGraph
-        integration]() and how you can control <b>ShaderGraph</b> through <b>VFX
-        Graph</b>.
-
-
-        <b>Covered Aspects</b>:
-
-        Pivot Attribute
-
-        ShaderGraph
-        integration'
+        locate and animate the particles. This example also demonstrates the Shader
+        Graph integration and how you can control a <b>Shader Graph</b> through <b>VFX
+        Graph</b>.\n\n<b>Covered Aspects</b>:\n\u2022 Pivot Attribute\n\u2022 Shader
+        Graph integration\n\u2022 Activation Port"
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1942,8 +2735,8 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1212986846773803833, guid: eebc6455237c7314b9342f9e212e0d6a, type: 3}
       propertyPath: m_text
-      value: "The output context is where everything related to the rendering part
-        of particles is done. You can render particles as <b>billboard quads</b>,
+      value: "\nThe <b>output context</b> is where everything related to the rendering
+        part of particles is done. You can render particles as <b>billboard quads</b>,
         meshes, points, decals, etc...\nThis VFX Graph shows how you can add several
         outputs to render each particle multiple times.\n\n<b>Covered Aspects:</b>\n\u2022
         Output Context\n\u2022 Composition Mode"
@@ -2056,18 +2849,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5562843400984004521, guid: 3c7f1b206ee1ad14fa10fe4a52e3ac1d, type: 3}
       propertyPath: m_text
-      value: 'This VFX is giving an example of how to <b>sample a Mesh</b> to spawn
+      value: "\nThis VFX gives an example of how to <b>sample a Mesh</b> to spawn
         particles on its surface and <b>inherit</b> its <b>Vertex Color</b> of the
-        Mesh. Ambient Occlusion has been baked in the vertex color of the Mesh and
-        is used to set the <b>particles''s color</b>
-
-
-        <b>Covered Aspects:</b>
-
-        Mesh
-        Sampling
-
-        Sample Mesh Operator'
+        Mesh. Ambient Occlusion has been baked into the vertex color of the Mesh
+        and is used to set the <b>particle\u2019s color</b>\n\n<b>Covered Aspects:</b>\n\u2022
+        Mesh Sampling\n\u2022 Sample Mesh Operator"
       objectReference: {fileID: 0}
     - target: {fileID: 8863646866910133532, guid: 3c7f1b206ee1ad14fa10fe4a52e3ac1d, type: 3}
       propertyPath: m_RootOrder
@@ -2209,23 +2995,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7005913298496243970, guid: 7f90fd4140e9047438f25d2a806668af, type: 3}
       propertyPath: m_text
-      value: '<b>Sampling a skinned mesh</b> enables you to get a lot of information
-        from it, like surface position, vertex colors, Uvs, Normals, Velocity etc...
+      value: "\n<b>Sampling a skinned mesh</b> enables you to get a lot of information
+        from it, like surface position, vertex colors, UVs, Normals, Velocity etc.
         This basic example shows how to <b>sample a Skinned Mesh</b> and spawn particles
-        on its surface. We''re also<b> getting the Uvs</b> of the Skinned Mesh to
+        on its surface. We're also<b> getting the UVs</b> of the Skinned Mesh to
         sample the same texture that the Mesh is using so that we can drive where
-        to spawn feathers on our creature''s back.
-
-
-        <b>Covered Aspects</b>:
-
-        SkinnedMesh
-        Sample Operator
-
-        Texture2D Sample Operator
-
-        Set position
-        SkinnedMesh'
+        to spawn feathers on our creature's back.\n\n<b>Covered Aspects</b>:\n\u2022
+        SkinnedMesh Sample Operator\n\u2022 Texture2D Sample Operator\n\u2022 Set
+        position SkinnedMesh"
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2314,11 +3091,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 730941126697930974, guid: 5c74da10001d6b145abc505ecb79699c, type: 3}
       propertyPath: m_text
-      value: "It's pretty common for VFX artists to rely on <b>Sprite sheets</b>.
-        This VFX shows how to use <b>Uvs options</b> in the <b>Output</b> to use
-        a <b>Sprite sheet</b>. It also explains how to set up the Flipbook Settings
-        and the relation with the <b>texIndex attribute</b>.\n\n<b>Covered Aspects</b>:
-        \nTexIndex Attribute \nUvs Mode \nFlipbook"
+      value: "\nIt's quite common for VFX artists to rely on <b>sprite sheets</b>.
+        This VFX shows how to use <b>UVs options</b> in the <b>Output</b> to use
+        a <b>sprite sheet</b>. It also explains how to set up the Flipbook Settings
+        and its relationship with the <b>texIndex attribute</b>.\n\n<b>Covered Aspects</b>:\n\u2022
+        TexIndex Attribute\n\u2022 UVs Mode\n\u2022 Flipbook"
       objectReference: {fileID: 0}
     - target: {fileID: 843415515038894783, guid: 5c74da10001d6b145abc505ecb79699c, type: 3}
       propertyPath: m_text
@@ -2460,21 +3237,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2377313682719652882, guid: 3a08a8ebfe6ab4642b6f075038bdc1c3, type: 3}
       propertyPath: m_text
-      value: 'This VFX demonstrates how to use the <b>texture2D sample</b> operator
+      value: "\nThis VFX demonstrates how to use the <b>texture2D sample</b> operator
         to determine the color of particles and perform <b>rejection sampling</b>.
         We spawn particles in a 2D grid fashion and use their XY coordinates to <b>sample
         the texture</b>. We then kill the particles based on a threshold value of
-        the sampled texture values.
-
-
-        <b>Covered Aspects</b>:
-
-        Texture2D
-        Sample Operator
-
-        Alive attribute
-
-        Rejection Sampling'
+        the sampled texture values.\n\n<b>Covered Aspects</b>:\n\u2022 Texture2D
+        Sample Operator\n\u2022 Alive attribute\n\u2022 Rejection Sampling"
       objectReference: {fileID: 0}
     - target: {fileID: 2408670259278095987, guid: 3a08a8ebfe6ab4642b6f075038bdc1c3, type: 3}
       propertyPath: m_text
@@ -2548,12 +3316,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6812649016629805472, guid: 880de12b545a1a2438644f5c247282f7, type: 3}
       propertyPath: m_text
-      value: "<b>Particle's rotation</b> can be controlled by setting the <b>angle
-        attribute</b>. To get more realistic behavior, you can also, like in this
-        example, use the <b>angular velocity</b>. This attribute is usually set in
-        the <b>Initialize Context</b>, and then, the <b>Update Context</b> is responsible
-        to <b>integrate this angular velocity to update the Rotation</b>.\n\n<b>Covered
-        Aspects</b>: \nAngular Velocity \nAngle \nUpdate Rotation"
+      value: "\nThe <b>Particle\u2019s rotation</b> can be controlled by setting
+        the <b>angle attribute</b>. To get more realistic behavior, you can also,
+        like in this example, use the <b>angular velocity</b>. This attribute is
+        usually set in the <b>Initialize Context</b>, and then, the <b>Update Context</b>
+        is responsible for <b>integrating</b> this <b>angular velocity</b> to update
+        the rotation.\n\n<b>Covered Aspects</b>:\n\u2022 Angular Velocity\n\u2022
+        Angle\n\u2022 Update Rotation"
       objectReference: {fileID: 0}
     - target: {fileID: 6853316224602725313, guid: 880de12b545a1a2438644f5c247282f7, type: 3}
       propertyPath: m_text
@@ -2561,7 +3330,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6853316224602725313, guid: 880de12b545a1a2438644f5c247282f7, type: 3}
       propertyPath: m_fontSize
-      value: 1.35
+      value: 1.4
       objectReference: {fileID: 0}
     - target: {fileID: 7546251127689050901, guid: 880de12b545a1a2438644f5c247282f7, type: 3}
       propertyPath: m_RootOrder
@@ -2678,23 +3447,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3235415230699823432, guid: d0921802ff282224fb72c1b2f4048ec1, type: 3}
       propertyPath: m_text
-      value: 'As VFX Graph is <b>simulating particles on the GPU</b>, they cannot
+      value: "\nAs VFX Graph is <b>simulating particles on the GPU</b>, they cannot
         collide with regular Rigid Body Colliders. But you can still make them collide
-        with different geometry approximations like Boxes, Spheres, Cones, Planes
-        or even complex shapes with the use of SDF and/or Depth Buffer. This example
-        shows you how to combine different <b>collider blocks</b> to get the desired
-        results. It also covers some tricks to leverage <b>boolean ports</b> to get
-        rid of some collision precision issues.
-
-
-        <b>Covered Aspects</b>:
-
-        Collision
-        Properties
-
-        Collider Blocks
-
-        Boolean Port'
+        with different geometry Shapes like Boxes, Spheres, Cones, Planes or even
+        complex ones with the use of SDF and/or Depth Buffer. This example shows
+        you how to combine different <b>collider blocks</b> to get the desired results.\n\n<b>Covered
+        Aspects</b>:\n\u2022 Collision\n\u2022 Collision Properties\n\u2022 Activation
+        Port"
       objectReference: {fileID: 0}
     - target: {fileID: 3275871640633735977, guid: d0921802ff282224fb72c1b2f4048ec1, type: 3}
       propertyPath: m_text
@@ -2837,12 +3596,12 @@ PrefabInstance:
       propertyPath: m_text
       value: "\nAs VFX Graph is <b>simulating particles on the GPU</b>, they cannot
         collide with regular Rigid Body Colliders. But you can still make them collide
-        with different geometry approximations like Boxes, Spheres, Cones, Planes
-        or even complex shapes with the use of SDF and/or Depth Buffer. Sometimes
-        using simple collision shapes isn\u2019t enough to get a precise enough collision
-        with the environment. In this case, using <b>SDF</b> can be a good solution
-        to approximate complex geometry like this sculpture of a hand.\n\n<b>Covered
-        Aspects</b>:\n\u2022 Collision Properties\n\u2022 SDF Collider"
+        with different geometry Shapes like Boxes, Spheres, Cones, Planes or even
+        complex ones with the use of SDF and/or Depth Buffer. Sometimes using simple
+        collision shapes isn\u2019t enough to get a precise enough collision with
+        the environment. In this case, using <b>SDF</b> can be a good solution to
+        approximate complex geometry like this sculpture of a hand.\n\n<b>Covered
+        Aspects</b>:\n\u2022 Collision\n\u2022 Collision Properties\n\u2022 SDF Collider"
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2866,6 +3625,20 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1889893381810861068, guid: e98e03fc6f7f8d04291539d57bfbe5b8, type: 3}
+      propertyPath: m_text
+      value: "\nThis VFX is displaying an advanced usage of the Trigger Event on
+        Collide block. Those GPU Events block that allows us to spawn new particles
+        when a particle collides. Dart particles are thrown at the dartboard. When
+        they collide, they instantaneously die and trigger different GPU Events.
+        Those GPU Events are used to spawn new particles, like the Springy darts
+        or the UI Score particles, that all inherit attributes from their parent.\n\n<b>Covered
+        Aspects</b>:\n\u2022 GPU Events\n\u2022 Trigger Event\n\u2022 Source Attribute"
+      objectReference: {fileID: 0}
+    - target: {fileID: 1993681628220436077, guid: e98e03fc6f7f8d04291539d57bfbe5b8, type: 3}
+      propertyPath: m_text
+      value: Trigger Event on Collide
+      objectReference: {fileID: 0}
     - target: {fileID: 3172943443502239417, guid: e98e03fc6f7f8d04291539d57bfbe5b8, type: 3}
       propertyPath: m_LocalPosition.x
       value: -138
@@ -2910,6 +3683,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Trigger Event on Collide
       objectReference: {fileID: 0}
+    - target: {fileID: 8517213973164195975, guid: e98e03fc6f7f8d04291539d57bfbe5b8, type: 3}
+      propertyPath: m_text
+      value: Trigger Event on Collide
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -2932,6 +3709,25 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1636516738660849079, guid: 437ef85040874a54d853dc0b71970507, type: 3}
+      propertyPath: m_text
+      value: "\nA <b>signed distance field (SDF)</b> is a technique used to efficiently
+        represent the shape and contours of 2D or 3D objects. It allows us to calculate
+        the distance from any point in space to the<b> nearest point</b> on the object's
+        surface. This VFX demonstrates how to <b>sample an SDF</b> to have particles
+        crawling on the surface of a mesh. Note that an <b>SDF Baker tool</b> is
+        provided:\nWindow->Visual Effects->Utilities->SDF Bake Tool\n\n<b>Covered
+        Aspects</b>:\n\u2022 SDF Sample Operator\n\u2022 Conform to SDF\n\u2022 Strip
+        Output Context"
+      objectReference: {fileID: 0}
+    - target: {fileID: 1668207258114445270, guid: 437ef85040874a54d853dc0b71970507, type: 3}
+      propertyPath: m_text
+      value: Sample Signed Distance Field (SDF)
+      objectReference: {fileID: 0}
+    - target: {fileID: 1668207258114445270, guid: 437ef85040874a54d853dc0b71970507, type: 3}
+      propertyPath: m_fontSize
+      value: 1.5
+      objectReference: {fileID: 0}
     - target: {fileID: 2343239637901111042, guid: 437ef85040874a54d853dc0b71970507, type: 3}
       propertyPath: m_LocalPosition.x
       value: -108
@@ -2979,6 +3775,10 @@ PrefabInstance:
     - target: {fileID: 7262809268262206026, guid: 437ef85040874a54d853dc0b71970507, type: 3}
       propertyPath: m_MotionVectors
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8844906607987712316, guid: 437ef85040874a54d853dc0b71970507, type: 3}
+      propertyPath: m_text
+      value: Sample Signed Distance Field (SDF)
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -3048,21 +3848,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2907208119206293761, guid: 74327bb163ab0b64d918a785f48866eb, type: 3}
       propertyPath: m_text
-      value: 'This VFX is intended to provide information related to the <b>Spawn
+      value: "\nThis VFX is intended to provide information related to the <b>Spawn
         Context</b>.What is the <b>Spawn Context</b>, what options can be found in
-        the inspector but also extra informations like: What are Spawn Event Attributes
-        ? How to setup Spawn Event Attributes? What is the Spawn State Operator.
-
-
-        <b>Covered
-        Aspects:</b>
-
-        Spawn Context
-
-        Spawn Event Attributes
-
-        Spawn
-        State'
+        the inspector but also extra informations like: What are Spawn Event Attributes?
+        How to setup Spawn Event Attributes? What is the Spawn State Operator.\n\n<b>Covered
+        Aspects:</b>\n\u2022 Spawn Context\n\u2022 Spawn Event Attributes\n\u2022
+        Spawn State"
       objectReference: {fileID: 0}
     - target: {fileID: 3010868030945340256, guid: 74327bb163ab0b64d918a785f48866eb, type: 3}
       propertyPath: m_text
@@ -3188,13 +3979,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7407249256583847100, guid: 412c1cdff46ae03479699e5a7f3a04c3, type: 3}
       propertyPath: m_text
-      value: "Capacity Count is used for the particle <b>Memory allocation</b> of
-        a system. Increasing this number will increase the memory allocated.This
+      value: "\nCapacity Count is used for the particle <b>Memory allocation</b>
+        of a system. Increasing this number will increase the memory allocated.This
         capacity can be seen as the <b>max active particles</b>.It's a good practice
         to keep this number as close as possible to the Maximum alive particles.This
         VFX explains what capacity is and how to use the <b>VFX Control</b> to set
-        the Capacity.\n \n<b>Covered Aspects:</b> \nCapacity\nMemory allocation \nVFX
-        Control"
+        the Capacity.\n\n<b>Covered Aspects:</b>\n\u2022 Capacity\n\u2022 Memory
+        allocation\n\u2022 VFX Control"
       objectReference: {fileID: 0}
     - target: {fileID: 7447668523935680221, guid: 412c1cdff46ae03479699e5a7f3a04c3, type: 3}
       propertyPath: m_text
@@ -3228,19 +4019,13 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 479498361658825341, guid: 6eb8621b47204894c9333821234ac421, type: 3}
       propertyPath: m_text
-      value: 'The <b>Bounds</b> are used to <b>cull</b> the VFX when it''s not in
+      value: "\nThe <b>Bounds</b> are used to <b>cull</b> the VFX when it's not in
         the <b>camera frustum</b>. <b>Bounds</b> can be manually or automatically
         set. The <b>VFX Bound</b> is the cumulative Bounds of each System within
-        a VFX Graph. In this example, the <b>Bounds</b> aren''t properly set up,
-        so the particles aren''t rendering correctly. Don''t hesitate to open the
-        VFX to correctly set the <b>Bounds.</b>
-
-
-        <b>Covered Aspects:</b>
-
-        Bounds
-
-        Culling'
+        a VFX Graph. In this example, the <b>Bounds</b> aren't properly set up, so
+        the particles aren't rendering correctly. Don't hesitate to open the VFX
+        to correctly set the <b>Bounds.</b>\n\n<b>Covered Aspects:</b>\n\u2022 Bounds\n\u2022
+        Culling"
       objectReference: {fileID: 0}
     - target: {fileID: 519954496486490140, guid: 6eb8621b47204894c9333821234ac421, type: 3}
       propertyPath: m_text
@@ -3249,6 +4034,10 @@ PrefabInstance:
     - target: {fileID: 519954496486490140, guid: 6eb8621b47204894c9333821234ac421, type: 3}
       propertyPath: m_fontSize
       value: 1.65
+      objectReference: {fileID: 0}
+    - target: {fileID: 1355774276573270485, guid: 6eb8621b47204894c9333821234ac421, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.255
       objectReference: {fileID: 0}
     - target: {fileID: 3500786184226332872, guid: 6eb8621b47204894c9333821234ac421, type: 3}
       propertyPath: m_RootOrder
@@ -3297,14 +4086,6 @@ PrefabInstance:
     - target: {fileID: 4925108586219070804, guid: 6eb8621b47204894c9333821234ac421, type: 3}
       propertyPath: m_Name
       value: Bounds
-      objectReference: {fileID: 0}
-    - target: {fileID: 7687360645801373430, guid: 6eb8621b47204894c9333821234ac421, type: 3}
-      propertyPath: m_text
-      value: Bounds
-      objectReference: {fileID: 0}
-    - target: {fileID: 7687360645801373430, guid: 6eb8621b47204894c9333821234ac421, type: 3}
-      propertyPath: m_fontSize
-      value: 0.4
       objectReference: {fileID: 0}
     - target: {fileID: 8134145414663817242, guid: 6eb8621b47204894c9333821234ac421, type: 3}
       propertyPath: m_text
@@ -3382,12 +4163,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3224390043962556660, guid: 1a6c43a48e42673409aa07b3b71ee93d, type: 3}
       propertyPath: m_text
-      value: "Whether the <b>Output</b> is set to Quads, Meshes, or even Strips,
-        we often want to control how to instantiate the geometry on a particle. Should
-        it be <b>facing the camera</b>? What is the <b>forward</b> and/or <b>Up-Axis</b>
-        ? The Orient Block helps us to easily <b>orient</b> our particles as it comes
-        with a number of different modes. This example shows how to use the <b>Fixed
-        Axis mode</b>.\n\n<b>Covered Aspects:</b> \nOrient\nAxisX AxisY AxisZ \n "
+      value: "\nWhether the <b>Output</b> is set to Quads, Meshes, or even Strips,
+        we often want to control how to orient the geometry on a particle. Should
+        it be <b>facing the camera</b>? What is the <b>forward</b> or <b>Up-Axis</b>?
+        The Orient Block helps us to easily <b>orient</b> our particles, as it comes
+        with several modes. This example shows how to use the <b>Fixed Axis mode</b>.\n\n<b>Covered
+        Aspects:</b>\n\u2022 Orient\n\u2022 AxisX AxisY AxisZ\n\u2022 Custom Attribute"
       objectReference: {fileID: 0}
     - target: {fileID: 3256084171362032277, guid: 1a6c43a48e42673409aa07b3b71ee93d, type: 3}
       propertyPath: m_text
@@ -3441,9 +4222,13 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 768662997383351299, guid: 5ca1ce248ce780c4ca7d6f0a069b4213, type: 3}
       propertyPath: m_text
-      value: "\n\nIt's often really useful to be able to <b>rotate</b> particles.
-        This VFX shows how to <b>rotate</b> particles thanks to the <b>Angle attribute</b>.\n\n<b>Covered
+      value: "\nIt's often really useful to be able to <b>rotate</b> particles. This
+        VFX shows how to <b>rotate</b> particles thanks to the <b>Angle attribute</b>.\n\n<b>Covered
         Aspects:</b>\n\u2022 Rotation\n\u2022 Angle attribute\n\u2022 Pivot attribute"
+      objectReference: {fileID: 0}
+    - target: {fileID: 809077866099250786, guid: 5ca1ce248ce780c4ca7d6f0a069b4213, type: 3}
+      propertyPath: m_text
+      value: Rotation & Angle
       objectReference: {fileID: 0}
     - target: {fileID: 4366268051627980470, guid: 5ca1ce248ce780c4ca7d6f0a069b4213, type: 3}
       propertyPath: m_LocalPosition.x
@@ -3568,10 +4353,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3618557061197045520, guid: c31527918c314b74ab9528f8e8dc07c6, type: 3}
       propertyPath: m_text
-      value: "This complex VFX is composed of several systems that are playing with
-        the <b>texIndex attribute</b> in a creative way in order to:Control the <b>texIndex</b>
-        thanks to time, noise, and even particle position.\n\n<b>Covered Aspects</b>:\nFlipbook
-        Uvs\nTexIndex Attribute \nFlipbook Player"
+      value: "\nThis complex VFX is composed of several systems that are playing
+        with the <b>texIndex attribute</b> creatively. Time, noise, and even particle
+        position are used to control the </b>texIndex attribute</b> and give life
+        to this VFX.\n\n<b>Covered Aspects</b>:\n\u2022 Flipbook UVs\n\u2022 TexIndex
+        Attribute\n\u2022 Flipbook Player"
       objectReference: {fileID: 0}
     - target: {fileID: 3721953089920304497, guid: c31527918c314b74ab9528f8e8dc07c6, type: 3}
       propertyPath: m_text
@@ -3637,24 +4423,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5649587174976461374, guid: 285dcf63ee4210a4999b554f0d509a18, type: 3}
       propertyPath: m_text
-      value: '<b>Decal</b> is a very powerful tool that can add a lot of visual complexity
+      value: "\n<b>Decal</b> is powerful tool that can add a lot of visual complexity
         to an environment. We can use <b>decals</b> to project textures on the environment
         and even on dynamic objects or skinned meshes. Output Decals allow you to
         render particles as <b>decals</b> and to project its properties onto a surface
         using a Base Color map (albedo), a Normal Map, or a Mask Map. This example
         shows how to leverage the <b>Output Decal</b> to stick and project animated
-        <b>decals</b> onto an animated skinned mesh renderer.
-
-
-        <b>Covered
-        Aspects</b>:
-
-        Skinned Mesh Position.html)
-
-        Output Decals
-        HDRP
-
-        Output Decals URP'
+        <b>decals</b> onto an animated skinned mesh renderer.\n\n<i><b>Warning</b>:
+        For this feature to work in URP, make sure to add an <b>Decal Renderer Feature</b>
+        in your <b>URP Renderer Data</b> file.</i>\n\n<b>Covered Aspects</b>:\n\u2022
+        Skinned Mesh Position\n\u2022 Output Decals HDRP\n\u2022 Output Decals URP"
       objectReference: {fileID: 0}
     - target: {fileID: 5762328778465116255, guid: 285dcf63ee4210a4999b554f0d509a18, type: 3}
       propertyPath: m_text
@@ -3738,6 +4516,10 @@ PrefabInstance:
       propertyPath: m_text
       value: Contexts & Data Flow
       objectReference: {fileID: 0}
+    - target: {fileID: 2829952039776397376, guid: 4d8073d0ef011eb438162e15c7adf9e5, type: 3}
+      propertyPath: m_fontSize
+      value: 0.3
+      objectReference: {fileID: 0}
     - target: {fileID: 4398527606486830764, guid: 4d8073d0ef011eb438162e15c7adf9e5, type: 3}
       propertyPath: m_text
       value: Contexts & Data Flow
@@ -3748,7 +4530,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5426690894659263691, guid: 4d8073d0ef011eb438162e15c7adf9e5, type: 3}
       propertyPath: m_text
-      value: "This VFX is intended to provide an overview and basic understanding
+      value: "\nThis VFX is intended to provide an overview and basic understanding
         of how <b>data flow</b> is articulated in VFX Graph. It also presents an
         overview of the most frequently used <b>Context Blocks</b>.\n\n<b>Covered
         Aspects:</b>\n\u2022 Data Flow\n\u2022 Context Block"
@@ -3845,13 +4627,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6468024190762892872, guid: 12e803e211bda394c8e3552d3bc250f6, type: 3}
       propertyPath: m_text
-      value: "Whether the <b>output</b> is set to quads, meshes, or even strips,
-        we often want to control how the geometry is instantiated on a particle.
-        Should it <b>face the camera</b>? What is the <b>forward</b> and/or <b>up-axis</b>?\nThe
+      value: "\nWhether the <b>output</b> is set to quads, meshes, or even strips,
+        we often want to control how the geometry is oriented on a particle. Should
+        it <b>face the camera</b>? What is the <b>forward</b> and/or <b>up-axis</b>?\nThe
         Orient Block helps us to easily <b>orient</b> our particles with its various
         modes. In this example, we're using the <b>Face Camera Position</b> mode,
         which will ensure that the particles are always facing the Camera position.\n\n<b>Covered
-        Aspects:</b> \nOrient\nAxisX AxisY AxisZ"
+        Aspects:</b>\n\u2022 Orient\n\u2022 AxisX AxisY AxisZ"
       objectReference: {fileID: 0}
     - target: {fileID: 8066447207146423549, guid: 12e803e211bda394c8e3552d3bc250f6, type: 3}
       propertyPath: m_RootOrder
@@ -3946,12 +4728,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1236211679365451255, guid: e87a782c1562c324b8cc5d10beb585ad, type: 3}
       propertyPath: m_text
-      value: "Whether the <b>Output</b> is set to Quads, Meshes, or even Strips,
-        we often want to control how to instantiate the geometry on a particle. Should
-        it be <b>facing the camera</b>? What is the <b>forward</b> and/or <b>Up-Axis</b>
-        ? The Orient Block helps us to easily <b>orient</b> our particles as it comes
-        with a number of different modes. This example shows how to use the <b>Advanced
-        Mode</b>.\n\n<b>Covered Aspects:</b> \nOrient\nAxisX AxisY AxisZ \n "
+      value: "\nWhether the <b>Output</b> is set to Quads, Meshes, or even strips,
+        we often want to control how to orient the geometry on a particle. Should
+        it be <b>facing the camera</b>? What is the <b>forward</b> or <b>Up-Axis</b>?
+        The Orient Block helps us to easily <b>orient</b> our particles as it comes
+        with many handy modes. This example shows how to use the <b>Advanced Mode</b>.\n\n<b>Covered
+        Aspects:</b>\n\u2022 Orient\n\u2022 AxisX AxisY AxisZ"
       objectReference: {fileID: 0}
     - target: {fileID: 1236211679365451255, guid: e87a782c1562c324b8cc5d10beb585ad, type: 3}
       propertyPath: m_fontSize
@@ -4043,6 +4825,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 395367163600343476, guid: 512607ad8326da14a8971578416b180f, type: 3}
+      propertyPath: m_fontAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: 2f7116f10747a67409388e93052ae222, type: 2}
+    - target: {fileID: 395367163600343476, guid: 512607ad8326da14a8971578416b180f, type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: -6055507529455485361, guid: 2f7116f10747a67409388e93052ae222, type: 2}
+    - target: {fileID: 1832926402259699753, guid: 512607ad8326da14a8971578416b180f, type: 3}
+      propertyPath: m_fontAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: 2f7116f10747a67409388e93052ae222, type: 2}
+    - target: {fileID: 1832926402259699753, guid: 512607ad8326da14a8971578416b180f, type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: -6055507529455485361, guid: 2f7116f10747a67409388e93052ae222, type: 2}
     - target: {fileID: 2195565631300495718, guid: 512607ad8326da14a8971578416b180f, type: 3}
       propertyPath: m_text
       value: Collision Properties
@@ -4053,21 +4851,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2299243375985390343, guid: 512607ad8326da14a8971578416b180f, type: 3}
       propertyPath: m_text
-      value: 'As VFX Graph is <b>simulating particles on the GPU</b>, they cannot
+      value: "\nAs VFX Graph is <b>simulating particles on the GPU</b>, they cannot
         collide with regular Rigid Body Colliders. But you can still make them collide
-        with different geometry approximations like Boxes, Spheres, Cones, Planes
-        or even complex shapes with the use of SDF and/or Depth Buffer. This VFX
-        Graph, shows the use of a standard <b>Collider Block</b> and how the different
-        Collision Properties like <b>Bounce</b>, <b>Friction</b> and/or <b>Roughness</b>
-        can influence the <b>collision response</b> of the particles.
-
-
-        <b>Covered
-        Aspects</b>:
-
-        Collision Properties
-
-        Collider Blocks'
+        with different geometry Shapes like Boxes, Spheres, Cones, Planes or even
+        complex ones with the use of SDF and/or Depth Buffer. This VFX Graph, shows
+        the use of a standard <b>Collider Block</b> and how the different Collision
+        Properties like <b>Bounce</b>, <b>Friction</b> and/or <b>Roughness</b> can
+        influence the <b>collision response</b> of the particles.\n\n<b>Covered Aspects</b>:\n\u2022
+        Collision\n\u2022 Collision Properties"
       objectReference: {fileID: 0}
     - target: {fileID: 3015796497320954290, guid: 512607ad8326da14a8971578416b180f, type: 3}
       propertyPath: m_RootOrder
@@ -4113,10 +4904,42 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3248124814246133621, guid: 512607ad8326da14a8971578416b180f, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: -6055507529455485361, guid: 2f7116f10747a67409388e93052ae222, type: 2}
+    - target: {fileID: 3747270522739653706, guid: 512607ad8326da14a8971578416b180f, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: -6055507529455485361, guid: 2f7116f10747a67409388e93052ae222, type: 2}
+    - target: {fileID: 4017872948596302745, guid: 512607ad8326da14a8971578416b180f, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: -6055507529455485361, guid: 2f7116f10747a67409388e93052ae222, type: 2}
+    - target: {fileID: 4419181483856523952, guid: 512607ad8326da14a8971578416b180f, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: -6055507529455485361, guid: 2f7116f10747a67409388e93052ae222, type: 2}
     - target: {fileID: 6707699024123218990, guid: 512607ad8326da14a8971578416b180f, type: 3}
       propertyPath: m_Name
       value: Collision Properties
       objectReference: {fileID: 0}
+    - target: {fileID: 6810305744775604190, guid: 512607ad8326da14a8971578416b180f, type: 3}
+      propertyPath: m_fontAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: 2f7116f10747a67409388e93052ae222, type: 2}
+    - target: {fileID: 6810305744775604190, guid: 512607ad8326da14a8971578416b180f, type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: -6055507529455485361, guid: 2f7116f10747a67409388e93052ae222, type: 2}
+    - target: {fileID: 6945398536537601173, guid: 512607ad8326da14a8971578416b180f, type: 3}
+      propertyPath: m_fontAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: 2f7116f10747a67409388e93052ae222, type: 2}
+    - target: {fileID: 6945398536537601173, guid: 512607ad8326da14a8971578416b180f, type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: -6055507529455485361, guid: 2f7116f10747a67409388e93052ae222, type: 2}
     - target: {fileID: 7614815917769351520, guid: 512607ad8326da14a8971578416b180f, type: 3}
       propertyPath: m_text
       value: Collision Properties
@@ -4164,6 +4987,10 @@ SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 598609723193756365}
+  - {fileID: 1555071279}
+  - {fileID: 1175915324}
+  - {fileID: 1843347531}
+  - {fileID: 123372515}
   - {fileID: 1406233240}
   - {fileID: 2029994001}
   - {fileID: 128769921}
