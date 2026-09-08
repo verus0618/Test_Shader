@@ -1,0 +1,100 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: DMK_VC_Fire
+  m_Shader: {fileID: -6465566751694194690, guid: b169f58d93fdd3c4ab1404a6d245a2f4, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses:
+  - MOTIONVECTORS
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _SampleTexture2DLOD_b23df91b447a4a88ae1f96ed55075838_Texture_1_Texture2D:
+        m_Texture: {fileID: 2800000, guid: 436a9795b61fad940b220d307d584af0, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SampleTexture2DLOD_b5444d429a314e82a398623b1c5907d6_Texture_1_Texture2D:
+        m_Texture: {fileID: 2800000, guid: 436a9795b61fad940b220d307d584af0, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Texture2D:
+        m_Texture: {fileID: 2800000, guid: 41851cb0bbaf74b1a8ad2cc7a0a9a95a, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_Lightmaps:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_LightmapsInd:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_ShadowMasks:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _AlphaHeadOffset: 0
+    - _AlphaHead_Intensity: 1
+    - _AlphaHead_Offset: 0.75
+    - _BlueCaneelInyensity: 1
+    - _Displacement: 0.04
+    - _Displacement_Normal: 0.2
+    - _Displacement_Up: 0.25
+    - _FaceColor_Blend: 1
+    - _Float: 0.25
+    - _Fresnel_Power: 1
+    - _PowerGreenVC: 1
+    - _PowerRedVC: 3
+    - _QueueControl: 0
+    - _QueueOffset: 0
+    - _Scroll: 1
+    - _Tiling: 2
+    - _Triplanar_Blend: 1
+    m_Colors:
+    - _AlphaHeadMinMax: {r: 0, g: 0.3, b: 0, a: 0}
+    - _DisplacementUpVector: {r: 0, g: 0, b: 1, a: 0}
+    - _DisplacementVector: {r: 0, g: 0, b: 1, a: 0}
+    - _DressColor: {r: 0.03773582, g: 0.019579902, b: 0.03159367, a: 1}
+    - _FaceColor: {r: 7.999999, g: 4.746285, b: 0.40799993, a: 1}
+    - _FireColor1: {r: 1, g: 0.05553278, b: 0, a: 1}
+    - _FireColor1_1: {r: 0, g: 0, b: 0, a: 1}
+    - _FireColor2: {r: 8, g: 1.662252, b: 0, a: 1}
+    - _FresnelCore_MinMax: {r: 0.5, g: 1.38, b: 0, a: 0}
+    - _FresnelEdge_MinMax: {r: 0.3, g: 0.75, b: 0, a: 0}
+    - _Fresnel_MinMax: {r: 0.3, g: 0.7, b: 0, a: 0}
+    - _ScrollVector3: {r: 0.1, g: 0.2, b: 0.5, a: 0}
+    - _TIllingVector: {r: 2, g: 2, b: 1.5, a: 0}
+    - _TopProjection: {r: 0, g: 1, b: 0, a: 0}
+    - _Vector3: {r: 0, g: 0, b: 1, a: 0}
+  m_BuildTextureStacks: []
+  m_AllowLocking: 1
+--- !u!114 &4481213604274679759
+MonoBehaviour:
+  m_ObjectHideFlags: 11
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0353a89b1f911e48b9e16bdc9f2e058, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.RenderPipelines.Universal.Editor::UnityEditor.Rendering.Universal.AssetVersion
+  version: 10
