@@ -277,9 +277,6 @@
             "m_Id": "d818399c1dfa43119d9f58e73e527ebe"
         },
         {
-            "m_Id": "d7f8e0b81cea4c5085233790ad009848"
-        },
-        {
             "m_Id": "ac238579244c46d8994ac80604efcc7e"
         },
         {
@@ -581,6 +578,9 @@
         },
         {
             "m_Id": "ef79323ae6084391bc0e8694fa5ed820"
+        },
+        {
+            "m_Id": "d766579405e6416291bd5e2caaeeeb60"
         }
     ],
     "m_GroupDatas": [
@@ -2637,7 +2637,7 @@
         {
             "m_OutputSlot": {
                 "m_Node": {
-                    "m_Id": "d7f8e0b81cea4c5085233790ad009848"
+                    "m_Id": "d766579405e6416291bd5e2caaeeeb60"
                 },
                 "m_SlotId": 0
             },
@@ -3661,8 +3661,8 @@
     "m_ObjectId": "0ad75e7374814355b92fdc8135bee7c9",
     "m_Title": "TopProjection",
     "m_Position": {
-        "x": -114.66664123535156,
-        "y": -2564.6669921875
+        "x": -114.0,
+        "y": -2564.0
     }
 }
 
@@ -10401,24 +10401,6 @@
         "z": 0.0
     },
     "m_Labels": []
-}
-
-{
-    "m_SGVersion": 0,
-    "m_Type": "UnityEditor.ShaderGraph.Vector1MaterialSlot",
-    "m_ObjectId": "589404153fc94c80809e864d68d06c89",
-    "m_Id": 0,
-    "m_DisplayName": "PowerRedVC",
-    "m_SlotType": 1,
-    "m_Hidden": false,
-    "m_HideConnector": false,
-    "m_ShaderOutputName": "Out",
-    "m_StageCapability": 3,
-    "m_CustomBinding": "",
-    "m_Value": 0.0,
-    "m_DefaultValue": 0.0,
-    "m_Labels": [],
-    "m_LiteralMode": false
 }
 
 {
@@ -19767,7 +19749,7 @@
 {
     "m_SGVersion": 0,
     "m_Type": "UnityEditor.ShaderGraph.PropertyNode",
-    "m_ObjectId": "d7f8e0b81cea4c5085233790ad009848",
+    "m_ObjectId": "d766579405e6416291bd5e2caaeeeb60",
     "m_Group": {
         "m_Id": ""
     },
@@ -19776,15 +19758,15 @@
         "m_Expanded": true,
         "m_Position": {
             "serializedVersion": "2",
-            "x": 591.0,
-            "y": -1685.9998779296875,
-            "width": 143.0001220703125,
-            "height": 33.9998779296875
+            "x": 586.0,
+            "y": -1690.0,
+            "width": 153.99993896484376,
+            "height": 34.0
         }
     },
     "m_Slots": [
         {
-            "m_Id": "589404153fc94c80809e864d68d06c89"
+            "m_Id": "db108f51fedc49708b67a3ef0dca7cf6"
         }
     ],
     "synonyms": [],
@@ -19796,7 +19778,7 @@
         "m_SerializableColors": []
     },
     "m_Property": {
-        "m_Id": "bd3fbd6fd22740e294a80b89d88136f2"
+        "m_Id": "54dc473817a047dc8071b398480717c8"
     }
 }
 
@@ -19995,6 +19977,24 @@
     },
     "isMainColor": false,
     "m_ColorMode": 0
+}
+
+{
+    "m_SGVersion": 0,
+    "m_Type": "UnityEditor.ShaderGraph.Vector1MaterialSlot",
+    "m_ObjectId": "db108f51fedc49708b67a3ef0dca7cf6",
+    "m_Id": 0,
+    "m_DisplayName": "PowerGreenVC",
+    "m_SlotType": 1,
+    "m_Hidden": false,
+    "m_HideConnector": false,
+    "m_ShaderOutputName": "Out",
+    "m_StageCapability": 3,
+    "m_CustomBinding": "",
+    "m_Value": 0.0,
+    "m_DefaultValue": 0.0,
+    "m_Labels": [],
+    "m_LiteralMode": false
 }
 
 {
