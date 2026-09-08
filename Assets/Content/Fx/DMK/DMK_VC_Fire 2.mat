@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: DMK_VC_Fire
+  m_Name: DMK_VC_Fire 2
   m_Shader: {fileID: -6465566751694194690, guid: b169f58d93fdd3c4ab1404a6d245a2f4, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -24,7 +24,23 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
+    - _MaskTexture:
+        m_Texture: {fileID: 2800000, guid: b9eb49da45ebbf145b52baa84ec9d647, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _NoiseTexture:
+        m_Texture: {fileID: 2800000, guid: 41851cb0bbaf74b1a8ad2cc7a0a9a95a, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SampleTexture2DLOD_b23df91b447a4a88ae1f96ed55075838_Texture_1_Texture2D:
+        m_Texture: {fileID: 2800000, guid: 436a9795b61fad940b220d307d584af0, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SampleTexture2DLOD_b5444d429a314e82a398623b1c5907d6_Texture_1_Texture2D:
+        m_Texture: {fileID: 2800000, guid: 436a9795b61fad940b220d307d584af0, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Texture2D:
         m_Texture: {fileID: 2800000, guid: 41851cb0bbaf74b1a8ad2cc7a0a9a95a, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
@@ -42,39 +58,60 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _AlphaHeadOffset: 0
     - _AlphaHead_Intensity: 1
     - _AlphaHead_Max: 0.3
     - _AlphaHead_Min: 0
     - _AlphaHead_Offset: 0.75
+    - _BlueCaneelInyensity: 1
+    - _Displacement: 0.04
     - _Displacement_Normal: 0.2
+    - _Displacement_Up: 1
     - _Displacement_Up_X: 0
     - _Displacement_Up_Y: 0
     - _Displacement_Up_Z: 0.25
+    - _FaceColor_Blend: 1.55
     - _FaceColor_Intensity: 5
     - _FireColor1_Intensity: 1
     - _FireColor2_Intensity: 15
+    - _Float: 0.25
     - _FresnelCore_Max: 1.2
     - _FresnelCore_Min: 0.5
     - _FresnelEdge_Max: 0.75
     - _FresnelEdge_Min: 0.3
+    - _Fresnel_Power: 1
     - _PowerGreenVC: 1
     - _PowerRedVC: 2
     - _QueueControl: 0
     - _QueueOffset: 0
+    - _Scroll: 1
     - _Scroll_X: 0.1
     - _Scroll_Y: 0.2
     - _Scroll_Z: 0.5
     - _TIlling_X: 4
     - _TIlling_Y: 4
     - _TIlling_Z: 3
+    - _Tiling: 1
     - _TopProjection_X: 0
     - _TopProjection_Y: 1
     - _TopProjection_Z: 0
-    - _Triplanar_Blend: 2
+    - _Triplanar_Blend: 1
     m_Colors:
-    - _FaceColor: {r: 1, g: 0.7568628, b: 0.26666668, a: 1}
-    - _FireColor1: {r: 1, g: 0.24313727, b: 0, a: 1}
-    - _FireColor2: {r: 1, g: 0.43529406, b: 0, a: 1}
+    - _AlphaHeadMinMax: {r: 0, g: 0.3, b: 0, a: 0}
+    - _DisplacementUpVector: {r: 0, g: 0, b: 0.25, a: 0}
+    - _DisplacementVector: {r: 0, g: 0, b: 1, a: 0}
+    - _DressColor: {r: 0.03773582, g: 0.019579902, b: 0.03159367, a: 1}
+    - _FaceColor: {r: 1, g: 0.7569053, b: 0.26729542, a: 1}
+    - _FireColor1: {r: 1, g: 0.43529412, b: 0, a: 1}
+    - _FireColor1_1: {r: 0, g: 0, b: 0, a: 1}
+    - _FireColor2: {r: 1, g: 0.43529412, b: 0, a: 1}
+    - _FresnelCore_MinMax: {r: 0.5, g: 1.2, b: 0, a: 0}
+    - _FresnelEdge_MinMax: {r: 0.3, g: 0.75, b: 0, a: 0}
+    - _Fresnel_MinMax: {r: 0.3, g: 0.7, b: 0, a: 0}
+    - _ScrollVector3: {r: 0.1, g: 0.2, b: 0.5, a: 0}
+    - _TIllingVector: {r: 4, g: 4, b: 3, a: 0}
+    - _TopProjection: {r: 0, g: 1, b: 0, a: 0}
+    - _Vector3: {r: 0, g: 0, b: 1, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
 --- !u!114 &4481213604274679759
