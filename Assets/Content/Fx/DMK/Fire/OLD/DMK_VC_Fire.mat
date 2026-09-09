@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: DMK_VC_Water
+  m_Name: DMK_VC_Fire
   m_Shader: {fileID: -6465566751694194690, guid: b169f58d93fdd3c4ab1404a6d245a2f4, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -25,7 +25,7 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _NoiseTexture:
-        m_Texture: {fileID: 2800000, guid: af8e09d22721a3f4499009999a20b49b, type: 3}
+        m_Texture: {fileID: 2800000, guid: 41851cb0bbaf74b1a8ad2cc7a0a9a95a, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - unity_Lightmaps:
@@ -45,11 +45,11 @@ Material:
     - _AlphaHead_Intensity: 1
     - _AlphaHead_Max: 0.3
     - _AlphaHead_Min: 0
-    - _AlphaHead_Offset: 1.31
-    - _Displacement_Normal: 0.1
+    - _AlphaHead_Offset: 0.75
+    - _Displacement_Normal: 0.2
     - _Displacement_Up_X: 0
     - _Displacement_Up_Y: 0
-    - _Displacement_Up_Z: 0
+    - _Displacement_Up_Z: 0.2
     - _FaceColor_Intensity: 2
     - _FireColor1_Intensity: 1
     - _FireColor2_Intensity: 2
@@ -64,17 +64,17 @@ Material:
     - _Scroll_X: 0.1
     - _Scroll_Y: 0.2
     - _Scroll_Z: 0.5
-    - _TIlling_X: 1
-    - _TIlling_Y: 1
-    - _TIlling_Z: 1
+    - _TIlling_X: 4
+    - _TIlling_Y: 4
+    - _TIlling_Z: 3
     - _TopProjection_X: 0
-    - _TopProjection_Y: 0
+    - _TopProjection_Y: 1
     - _TopProjection_Z: 0
     - _Triplanar_Blend: 2
     m_Colors:
-    - _FaceColor: {r: 0.51257855, g: 0.99191976, b: 1, a: 1}
-    - _FireColor1: {r: 0, g: 0.07634807, b: 1, a: 1}
-    - _FireColor2: {r: 0, g: 0.9028268, b: 1, a: 1}
+    - _FaceColor: {r: 1, g: 0.8745098, b: 0.40784308, a: 1}
+    - _FireColor1: {r: 1, g: 0.19999996, b: 0, a: 1}
+    - _FireColor2: {r: 1, g: 0.6901961, b: 0, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
 --- !u!114 &4481213604274679759
