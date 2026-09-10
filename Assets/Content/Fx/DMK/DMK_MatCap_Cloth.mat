@@ -21,36 +21,130 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: DMK_MatCap_Cloth
-  m_Shader: {fileID: -6465566751694194690, guid: f4b02707c61b39e4e8a3f9815ec061ae, type: 3}
-  m_Parent: {fileID: 2100000, guid: 54f811d2574c9524fa0530299b07bbc8, type: 2}
-  m_ModifiedSerializedProperties: 16
+  m_Shader: {fileID: -6465566751694194690, guid: 2dbb2e64a523ee440801220dba496641, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
   m_InvalidKeywords: []
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: 2000
-  stringTagMap:
-    RenderType: Opaque
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
   disabledShaderPasses:
   - MOTIONVECTORS
   m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
+    - _BubblesTexture:
+        m_Texture: {fileID: 2800000, guid: 49a8519acd39caa4aa5d6b84c11cf5c2, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _DiffuseMap:
         m_Texture: {fileID: 2800000, guid: 31e56df60f9d8be47afd0a434f7bbd6a, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _MatCap:
+        m_Texture: {fileID: 2800000, guid: bc428a4495eef4ea4a6df4f88071bd5c, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _NoiseTexture:
+        m_Texture: {fileID: 2800000, guid: af8e09d22721a3f4499009999a20b49b, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _NoiseTexture_1:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Texture2D:
+        m_Texture: {fileID: 2800000, guid: 31e56df60f9d8be47afd0a434f7bbd6a, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_Lightmaps:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_LightmapsInd:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_ShadowMasks:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _: 0
     - _AdditiveBurn_X: 1
+    - _AdditiveBurn_Y: 1
+    - _AlphaClip: 0
+    - _AlphaHead_Intensity: 1
+    - _AlphaHead_Max: 0.3
+    - _AlphaHead_Min: 0
+    - _AlphaHead_Offset: 0.75
+    - _AlphaToMask: 0
+    - _AlphaWater: 0.95
+    - _AlphaWaterFresnel: 0.7
+    - _Blend: 0
+    - _CastShadows: 1
+    - _Cull: 2
+    - _DifScroll_X: 0.02
+    - _DifScroll_Y: 0.02
+    - _DifScroll_Z: 0.05
+    - _DifTIlling_X: 4
+    - _DifTIlling_Y: 4
+    - _DifTIlling_Z: 4
+    - _DifTriplanar_Blend: 12
+    - _Displacement_Normal: 0.05
+    - _Displacement_Up_X: 0
+    - _Displacement_Up_Y: 0
+    - _Displacement_Up_Z: -0.02
+    - _DistortionAmount: 0.05
+    - _DistortionFrequency: 2
+    - _DistortionSpeed: -3
     - _DstBlend: 0
     - _DstBlendAlpha: 0
+    - _FaceColor_Intensity: 5
+    - _FireColor1_Intensity: 1.5
+    - _FireColor2_Intensity: 1
+    - _Fresnel: 3
+    - _FresnelCore_Max: 1
+    - _FresnelCore_Min: 0.3
+    - _FresnelEdge_Max: 0.8
+    - _FresnelEdge_Min: 0.5
+    - _Green_Channel: 1
+    - _PowerGreenVC: 1
+    - _PowerRedVC: 2
+    - _QueueControl: 0
+    - _QueueOffset: 0
+    - _Scroll_X: 0.3
+    - _Scroll_Y: 0.3
+    - _Scroll_Z: 0.3
     - _SrcBlend: 1
+    - _SrcBlendAlpha: 1
     - _Surface: 0
+    - _TIlling_X: 1
+    - _TIlling_Y: 1
+    - _TIlling_Z: 1
+    - _TopProjection_X: 0
+    - _TopProjection_Y: 1
+    - _TopProjection_Z: 0
+    - _Triplanar_Blend: 2
     - _UseMatcap: 1
+    - _UseTexture: 1
+    - _UseTopProjection: 0
+    - _WaterFresnel: 1
+    - _ZTest: 4
     - _ZWrite: 1
-    m_Colors: []
+    - _ZWriteControl: 1
+    m_Colors:
+    - _Color_1: {r: 0, g: 0.35337615, b: 2, a: 1}
+    - _Color_2: {r: 0.18553454, g: 0.677408, b: 1, a: 1}
+    - _Displacement_NormalRemap: {r: -1, g: 1, b: 0, a: 0}
+    - _FaceColor: {r: 0.45098042, g: 0.7734282, b: 1, a: 1}
+    - _FireColor1: {r: 0.68867916, g: 0.82244986, b: 1, a: 1}
+    - _FireColor2: {r: 0.25138432, g: 0.2235294, b: 1, a: 1}
+    - _WaterFresnel_MinMax: {r: 0, g: 0.25, b: 0, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1

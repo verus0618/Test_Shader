@@ -39,6 +39,10 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
+    - _BubblesTexture:
+        m_Texture: {fileID: 2800000, guid: 49a8519acd39caa4aa5d6b84c11cf5c2, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _DiffuseMap:
         m_Texture: {fileID: 2800000, guid: 6a8ebae8081e8da4f80376419c51e7bc, type: 3}
         m_Scale: {x: 1, y: 1}
@@ -83,37 +87,48 @@ Material:
     - _Blend: 0
     - _CastShadows: 1
     - _Cull: 2
+    - _DifScroll_X: 0.02
+    - _DifScroll_Y: 0.02
+    - _DifScroll_Z: 0.1
+    - _DifTIlling_X: 4
+    - _DifTIlling_Y: 4
+    - _DifTIlling_Z: 4
+    - _DifTriplanar_Blend: 12
     - _Displacement_Normal: 0.05
     - _Displacement_Up_X: 0
     - _Displacement_Up_Y: 0
     - _Displacement_Up_Z: -0.02
     - _DistortionAmount: 0.05
-    - _DistortionFrequency: 10
-    - _DistortionSpeed: 8
+    - _DistortionFrequency: 2
+    - _DistortionSpeed: -3
     - _DstBlend: 10
     - _DstBlendAlpha: 10
-    - _FaceColor_Intensity: 1
-    - _FireColor1_Intensity: 1
-    - _FireColor2_Intensity: 1
+    - _FaceColor_Intensity: 5
+    - _FireColor1_Intensity: 1.5
+    - _FireColor2_Intensity: 2
     - _Fresnel: 3
-    - _FresnelCore_Max: 1.2
-    - _FresnelCore_Min: 0.5
-    - _FresnelEdge_Max: 0.75
-    - _FresnelEdge_Min: 0.3
+    - _FresnelCore_Max: 1
+    - _FresnelCore_Min: 0.3
+    - _FresnelEdge_Max: 0.8
+    - _FresnelEdge_Min: 0.5
     - _Green_Channel: 1
+    - _LightDirrection_Rotate: 180
+    - _MatcapColor1_Intensity: 4
+    - _MatcapColor2_Intensity: 2
+    - _NL_Rotate: 45
     - _PowerGreenVC: 1
     - _PowerRedVC: 2
     - _QueueControl: 0
     - _QueueOffset: 0
-    - _Scroll_X: 0.5
-    - _Scroll_Y: 0.5
-    - _Scroll_Z: 0.2
+    - _Scroll_X: 0.3
+    - _Scroll_Y: 0.3
+    - _Scroll_Z: 0.3
     - _SrcBlend: 5
     - _SrcBlendAlpha: 1
     - _Surface: 1
-    - _TIlling_X: 0.7
-    - _TIlling_Y: 0.7
-    - _TIlling_Z: 0.7
+    - _TIlling_X: 1
+    - _TIlling_Y: 1
+    - _TIlling_Z: 1
     - _TopProjection_X: 0
     - _TopProjection_Y: 1
     - _TopProjection_Z: 0
@@ -127,9 +142,14 @@ Material:
     m_Colors:
     - _Color_1: {r: 0, g: 0.35337615, b: 2, a: 1}
     - _Color_2: {r: 0.18553454, g: 0.677408, b: 1, a: 1}
-    - _FaceColor: {r: 0.29259002, g: 0.24842751, b: 1, a: 1}
-    - _FireColor1: {r: 0.49999988, g: 0.7122558, b: 1, a: 1}
-    - _FireColor2: {r: 0.2358489, g: 0.45312363, b: 1, a: 1}
+    - _Displacement_NormalRemap: {r: -1, g: 1, b: 0, a: 0}
+    - _FaceColor: {r: 0.45098042, g: 0.7734282, b: 1, a: 1}
+    - _FireColor1: {r: 0.68867916, g: 0.82244986, b: 1, a: 1}
+    - _FireColor2: {r: 0.3927903, g: 0.27843142, b: 1, a: 1}
+    - _LightDirrection: {r: 1, g: 0, b: 0, a: 0}
+    - _MatcapColor1: {r: 0.36163503, g: 0.62520033, b: 1, a: 1}
+    - _MatcapColor2: {r: 0.3046008, g: 0.28616333, b: 1, a: 1}
+    - _Vector3: {r: 1, g: 0, b: 0, a: 0}
     - _WaterFresnel_MinMax: {r: 0, g: 0.25, b: 0, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
