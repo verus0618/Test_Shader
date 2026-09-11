@@ -26,9 +26,9 @@ Material:
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
   - _ALPHAPREMULTIPLY_ON
-  - _DEBUG_DISPLACEMENT_TRIPLANAR
   - _SURFACE_TYPE_TRANSPARENT
-  m_InvalidKeywords: []
+  m_InvalidKeywords:
+  - _DEBUG_NONE
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -58,7 +58,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Displacement_TriplanarTexture:
-        m_Texture: {fileID: 2800000, guid: 7c94fc215eea930408bad4d9a7cfc2db, type: 3}
+        m_Texture: {fileID: 2800000, guid: af8e09d22721a3f4499009999a20b49b, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MatCap:
@@ -74,7 +74,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Normal_TriplanarTexture:
-        m_Texture: {fileID: 2800000, guid: a70e23621889b6d419843579846f5958, type: 3}
+        m_Texture: {fileID: 2800000, guid: 16ad1fc18e70cd5409319fd88d972b9a, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _SampleTexture2D_631ce2ca149a43e2b5c7d2bef3f2ad34_Texture_1_Texture2D:
@@ -122,7 +122,9 @@ Material:
     - _BlendModePreserveSpecular: 1
     - _CastShadows: 1
     - _Cull: 2
-    - _DEBUG: 1
+    - _DEBUG: 0
+    - _Depth: 0
+    - _Depth_Strength: 20
     - _DifScroll_X: 0.02
     - _DifScroll_Y: 0.02
     - _DifScroll_Z: 0.1
@@ -131,9 +133,11 @@ Material:
     - _DifTIlling_Z: 4
     - _DifTriplanar_Blend: 12
     - _Diffuse_TriplanarBlend: 2
-    - _Displacement_NoiseScale: 30
+    - _Displacement_Intensity: 1
+    - _Displacement_NoiseScale: 33.8
     - _Displacement_Normal: 0
-    - _Displacement_TriplanarBlend: 3
+    - _Displacement_TriplanarBlend: 2
+    - _Displacement_TriplanarScale: 0.1
     - _Displacement_Up_X: 0
     - _Displacement_Up_Y: 0
     - _Displacement_Up_Z: -0.02
@@ -151,8 +155,8 @@ Material:
     - _LightDirrection_Rotate: 180
     - _MatcapColor1_Intensity: 4
     - _MatcapColor2_Intensity: 2.96
-    - _Metallic: 0.117
-    - _NormalStrenght: -1.5
+    - _Metallic: 0
+    - _NormalStrenght: 1
     - _Normal_Tilling: 0.32
     - _Normal_TriplanarBlend: 1
     - _Normal_TriplanarScale: 0.1
@@ -162,10 +166,11 @@ Material:
     - _QueueControl: 0
     - _QueueOffset: 0
     - _ReceiveShadows: 1
+    - _Refraction: 0
     - _Scroll_X: 0.3
     - _Scroll_Y: 0.3
     - _Scroll_Z: 0.3
-    - _Smoothness: 0.496
+    - _Smoothness: 0.8
     - _SrcBlend: 1
     - _SrcBlendAlpha: 1
     - _Surface: 1
@@ -183,23 +188,25 @@ Material:
     - _ZWrite: 1
     - _ZWriteControl: 1
     m_Colors:
+    - _Color_Depth: {r: 1, g: 1, b: 1, a: 0.9019608}
+    - _Color_Shallow: {r: 0, g: 0, b: 0, a: 0.28235295}
     - _Diffuse_TriplanarRemap: {r: 0, g: 1, b: 0, a: 0}
     - _Diffuse_TriplanarScoll: {r: 0.2, g: 0.2, b: 0.5, a: 0}
     - _Diffuse_TriplanarTilling: {r: 0.5, g: 0.5, b: 0.5, a: 0}
     - _Displacement_NormalRemap: {r: -1, g: 1, b: 0, a: 0}
     - _Displacement_Scoll: {r: 0, g: 0, b: 0, a: 0}
     - _Displacement_Tilling: {r: 1, g: 1, b: 1, a: 0}
-    - _Displacement_TriplanarMinMax: {r: -1, g: 1, b: 0, a: 0}
+    - _Displacement_TriplanarMinMax: {r: -0.5, g: 1, b: 0, a: 0}
     - _Displacement_TriplanarRemap: {r: -1, g: 1, b: 0, a: 0}
-    - _Displacement_TriplanarScoll: {r: 0.5, g: 0.2, b: -0.5, a: 0}
-    - _Displacement_TriplanarTilling: {r: 0.03, g: 0.03, b: 0.03, a: 0}
+    - _Displacement_TriplanarScoll: {r: 16, g: 16, b: 64, a: 0}
+    - _Displacement_TriplanarTilling: {r: 0.2, g: 0.2, b: 0.2, a: 0}
     - _FaceColor: {r: 0.45098042, g: 0.7734282, b: 1, a: 1}
     - _FireColor1: {r: 0.68867916, g: 0.82244986, b: 1, a: 1}
     - _LightDirrection: {r: 1, g: 0, b: 0, a: 0}
     - _MatcapColor1: {r: 0.36163503, g: 0.62520033, b: 1, a: 1}
     - _MatcapColor2: {r: 0.3046008, g: 0.28616333, b: 1, a: 1}
     - _Normal_Tilling: {r: 1.42, g: 1.49, b: 1, a: 0}
-    - _Normal_TriplanarScoll: {r: 1, g: -1, b: 1, a: 0}
+    - _Normal_TriplanarScoll: {r: 2, g: 2, b: -4, a: 0}
     - _Normal_TriplanarTilling: {r: 1, g: 1, b: 1, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
