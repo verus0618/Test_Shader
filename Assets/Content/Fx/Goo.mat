@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-2486081254544564897
+--- !u!114 &-6640591676796929095
 MonoBehaviour:
   m_ObjectHideFlags: 11
   m_CorrespondingSourceObject: {fileID: 0}
@@ -20,11 +20,13 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: DMK_MatCap_Water
-  m_Shader: {fileID: -6465566751694194690, guid: f4b02707c61b39e4e8a3f9815ec061ae, type: 3}
+  m_Name: Goo
+  m_Shader: {fileID: -6465566751694194690, guid: bb85c59d3aa49944b9b982fb6dba7be2, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
+  - _ALPHAPREMULTIPLY_ON
+  - _DEBUG_DISPLACEMENT_TRIPLANAR
   - _SURFACE_TYPE_TRANSPARENT
   m_InvalidKeywords: []
   m_LightmapFlags: 4
@@ -44,18 +46,50 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _DiffuseMap:
-        m_Texture: {fileID: 2800000, guid: 6a8ebae8081e8da4f80376419c51e7bc, type: 3}
+        m_Texture: {fileID: 2800000, guid: b8aa35b1f4ce5ee5bbf0376cb9eb10cb, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Diffuse_TriplanarTexture:
+        m_Texture: {fileID: 2800000, guid: bdfa2c9c8d2f9c34f90a7c62e74c3a96, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Displacement_Texture:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Displacement_TriplanarTexture:
+        m_Texture: {fileID: 2800000, guid: 7c94fc215eea930408bad4d9a7cfc2db, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MatCap:
-        m_Texture: {fileID: 2800000, guid: 5d05b363bb18f5744a5a2ecd7774c2ba, type: 3}
+        m_Texture: {fileID: 2800000, guid: 9ee20d12abdfa774dac4adbd493c0c96, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _NoiseTexture:
         m_Texture: {fileID: 2800000, guid: af8e09d22721a3f4499009999a20b49b, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - _NoiseTexture_1:
+    - _NormalMap:
+        m_Texture: {fileID: 2800000, guid: b7bd76597d7ffa946b2d608459dcc81c, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Normal_TriplanarTexture:
+        m_Texture: {fileID: 2800000, guid: a70e23621889b6d419843579846f5958, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_631ce2ca149a43e2b5c7d2bef3f2ad34_Texture_1_Texture2D:
+        m_Texture: {fileID: 2800000, guid: a70e23621889b6d419843579846f5958, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Texture2DAsset_cccf8b258ad4450e88582cd834c61086_Out_0_Texture2D:
+        m_Texture: {fileID: 2800000, guid: a70e23621889b6d419843579846f5958, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Triplanar_03e42747e3f440e09182fcc7044019df_Texture_1_Texture2D:
+        m_Texture: {fileID: 2800000, guid: a70e23621889b6d419843579846f5958, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Triplanar_41048206144c448aa6da323ec14e2358_Texture_1_Texture2D:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
@@ -74,7 +108,9 @@ Material:
     m_Ints: []
     m_Floats:
     - _: 0
-    - _AdditiveBurn_X: 1
+    - _AdditiveBurn: 0
+    - _AdditiveBurn_Normal: 1
+    - _AdditiveBurn_X: 0
     - _AdditiveBurn_Y: 1
     - _AlphaClip: 0
     - _AlphaHead_Intensity: 1
@@ -82,11 +118,11 @@ Material:
     - _AlphaHead_Min: 0
     - _AlphaHead_Offset: 0.75
     - _AlphaToMask: 0
-    - _AlphaWater: 0.95
-    - _AlphaWaterFresnel: 0.7
     - _Blend: 0
+    - _BlendModePreserveSpecular: 1
     - _CastShadows: 1
     - _Cull: 2
+    - _DEBUG: 1
     - _DifScroll_X: 0.02
     - _DifScroll_Y: 0.02
     - _DifScroll_Z: 0.1
@@ -94,36 +130,43 @@ Material:
     - _DifTIlling_Y: 4
     - _DifTIlling_Z: 4
     - _DifTriplanar_Blend: 12
-    - _Displacement_Normal: 0.05
+    - _Diffuse_TriplanarBlend: 2
+    - _Displacement_NoiseScale: 30
+    - _Displacement_Normal: 0
+    - _Displacement_TriplanarBlend: 3
     - _Displacement_Up_X: 0
     - _Displacement_Up_Y: 0
     - _Displacement_Up_Z: -0.02
     - _DistortionAmount: 0.05
-    - _DistortionFrequency: 2
-    - _DistortionSpeed: -3
+    - _DistortionFrequency: 1
+    - _DistortionSpeed: 0
     - _DstBlend: 10
     - _DstBlendAlpha: 10
     - _FaceColor_Intensity: 5
     - _FireColor1_Intensity: 1.5
-    - _FireColor2_Intensity: 2
-    - _Fresnel: 3
     - _FresnelCore_Max: 1
     - _FresnelCore_Min: 0.3
     - _FresnelEdge_Max: 0.8
     - _FresnelEdge_Min: 0.5
-    - _Green_Channel: 1
     - _LightDirrection_Rotate: 180
     - _MatcapColor1_Intensity: 4
     - _MatcapColor2_Intensity: 2.96
-    - _NL_Rotate: 45
+    - _Metallic: 0.117
+    - _NormalStrenght: -1.5
+    - _Normal_Tilling: 0.32
+    - _Normal_TriplanarBlend: 1
+    - _Normal_TriplanarScale: 0.1
+    - _Normal_Triplanar_NoiseScale: 12.7
     - _PowerGreenVC: 1
     - _PowerRedVC: 2
     - _QueueControl: 0
     - _QueueOffset: 0
+    - _ReceiveShadows: 1
     - _Scroll_X: 0.3
     - _Scroll_Y: 0.3
     - _Scroll_Z: 0.3
-    - _SrcBlend: 5
+    - _Smoothness: 0.496
+    - _SrcBlend: 1
     - _SrcBlendAlpha: 1
     - _Surface: 1
     - _TIlling_X: 1
@@ -135,21 +178,28 @@ Material:
     - _Triplanar_Blend: 2
     - _UseMatcap: 0
     - _UseTopProjection: 0
-    - _WaterFresnel: 1
+    - _WorkflowMode: 1
     - _ZTest: 4
     - _ZWrite: 1
     - _ZWriteControl: 1
     m_Colors:
-    - _Color_1: {r: 0, g: 0.35337615, b: 2, a: 1}
-    - _Color_2: {r: 0.18553454, g: 0.677408, b: 1, a: 1}
+    - _Diffuse_TriplanarRemap: {r: 0, g: 1, b: 0, a: 0}
+    - _Diffuse_TriplanarScoll: {r: 0.2, g: 0.2, b: 0.5, a: 0}
+    - _Diffuse_TriplanarTilling: {r: 0.5, g: 0.5, b: 0.5, a: 0}
     - _Displacement_NormalRemap: {r: -1, g: 1, b: 0, a: 0}
+    - _Displacement_Scoll: {r: 0, g: 0, b: 0, a: 0}
+    - _Displacement_Tilling: {r: 1, g: 1, b: 1, a: 0}
+    - _Displacement_TriplanarMinMax: {r: -1, g: 1, b: 0, a: 0}
+    - _Displacement_TriplanarRemap: {r: -1, g: 1, b: 0, a: 0}
+    - _Displacement_TriplanarScoll: {r: 0.5, g: 0.2, b: -0.5, a: 0}
+    - _Displacement_TriplanarTilling: {r: 0.03, g: 0.03, b: 0.03, a: 0}
     - _FaceColor: {r: 0.45098042, g: 0.7734282, b: 1, a: 1}
     - _FireColor1: {r: 0.68867916, g: 0.82244986, b: 1, a: 1}
-    - _FireColor2: {r: 0.3927903, g: 0.27843142, b: 1, a: 1}
     - _LightDirrection: {r: 1, g: 0, b: 0, a: 0}
     - _MatcapColor1: {r: 0.36163503, g: 0.62520033, b: 1, a: 1}
     - _MatcapColor2: {r: 0.3046008, g: 0.28616333, b: 1, a: 1}
-    - _Vector3: {r: 1, g: 0, b: 0, a: 0}
-    - _WaterFresnel_MinMax: {r: 0, g: 0.25, b: 0, a: 0}
+    - _Normal_Tilling: {r: 1.42, g: 1.49, b: 1, a: 0}
+    - _Normal_TriplanarScoll: {r: 1, g: -1, b: 1, a: 0}
+    - _Normal_TriplanarTilling: {r: 1, g: 1, b: 1, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
