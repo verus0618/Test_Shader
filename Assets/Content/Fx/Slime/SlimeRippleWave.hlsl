@@ -52,16 +52,19 @@ void CalculateSlimeRipple_float(
 
         float wave = sin(dist * Frequency - age * Speed);
 
-        // Ring-shaped radial falloff: 0 at the center, 1 at the middle of the
-        // radius, 0 again at MaxDistance (a ring, not a filled disc). Smooth
-        // controls how sharp/narrow that ring is.
+        // Ring-shaped radial falloff: 0 right at the point (normDist = 0),
+        // rises smoothly to 1 around the middle of the radius, and fades
+        // back to 0 at the edge (MaxDistance) — a pure spatial shape, with
+        // no dependency on time at all. Built from two smoothsteps around a
+        // peak, so it is always continuous — unlike pow()-based approaches,
+        // it never "snaps" to full brightness near the center for small
+        // Smooth values.
         float normDist = saturate(dist / MaxDistance);
-        float ring = sin(normDist * 3.14159265); // 0 -> 1 -> 0 across the radius
-        float distFade = pow(saturate(ring), max(Smooth, 0.0001));
-
-        // DistanceFalloff still tapers overall intensity toward MaxDistance,
-        // on top of the ring shape.
-        distFade *= pow(saturate(1.0 - normDist), max(DistanceFalloff, 0.0) * 0.25);
+        float peakPos = 0.5; // ring peaks at the middle of the radius
+        float halfWidth = lerp(0.04, 0.5, saturate(Smooth)); // 0 = thin/sharp ring, 1 = wide/soft ring
+        float rise = smoothstep(peakPos - halfWidth, peakPos, normDist);
+        float fall = smoothstep(peakPos, peakPos + halfWidth, normDist);
+        float distFade = saturate(rise - fall);
 
         // Fade-in: point ramps 0 -> 1 over FadeInTime seconds after it appears.
         float fadeIn = (FadeInTime > 0.0001) ? saturate(age / FadeInTime) : 1.0;

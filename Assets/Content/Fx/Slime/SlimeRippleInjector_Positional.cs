@@ -9,6 +9,13 @@ using UnityEngine;
 /// intersection between the entering object and the slime cube — not just a
 /// circle or a bounding-box blob.
 ///
+/// Each grid cell tracks its OWN birth time and (if it stops being inside the
+/// silhouette) its own death time — independently of every other cell. This
+/// means that as the object moves and individual cells flicker in/out of the
+/// silhouette (e.g. a partially submerged object's edge), each cell fades in
+/// and out on its own via the shader's Fade_In_Time/Fade_Out_Time, instead of
+/// snapping instantly to full strength or vanishing instantly.
+///
 /// IMPORTANT LIMITATION:
 /// The inside/outside test is exact for convex colliders (Box, Sphere,
 /// Capsule, Convex Mesh Collider). For a single non-convex Mesh Collider
@@ -39,19 +46,29 @@ public class SlimeRippleInjector_Positional : MonoBehaviour
     public float pointTestEpsilon = 0.01f;
 
     [Header("Timing")]
-    [Tooltip("Safety cleanup only — how long to keep a contact's data around after the object exits, before removing it entirely. Set this to at least the Fade_Out_Time value on the material, so points aren't deleted before they've visually finished fading out.")]
+    [Tooltip("Safety cleanup only — how long to keep a point's (or a whole contact's) data around after it stops being active, before removing it entirely. Set this to at least the Fade_Out_Time value on the material, so points aren't deleted before they've visually finished fading out.")]
     public float exitFadeTime = 0.5f;
 
     private Renderer targetRenderer;
     private MaterialPropertyBlock propBlock;
 
+    /// <summary>Per-grid-cell state: its own birth time and (if fading out) death time.</summary>
+    private class GridPointState
+    {
+        public Vector3 localPos;
+        public float birthTime;
+        public float deathTime = -1f; // -1 = still active / not fading out
+    }
+
     private class ActiveContact
     {
-        public float startTime;
         public bool isExiting;
-        public float exitStartTime;
         public Collider[] childColliders;
-        public readonly List<Vector3> localPoints = new List<Vector3>();
+        public readonly Dictionary<(int, int), GridPointState> gridPoints = new Dictionary<(int, int), GridPointState>();
+        // Reused every frame inside SampleIntersectionGrid to know which cells
+        // were found inside the silhouette this pass, without allocating a new
+        // collection each time.
+        public readonly HashSet<(int, int)> insideThisFrame = new HashSet<(int, int)>();
     }
 
     private readonly Dictionary<Collider, ActiveContact> activeContacts = new Dictionary<Collider, ActiveContact>();
@@ -69,7 +86,6 @@ public class SlimeRippleInjector_Positional : MonoBehaviour
 
         var contact = new ActiveContact
         {
-            startTime = Time.time,
             childColliders = other.GetComponentsInChildren<Collider>()
         };
 
@@ -82,13 +98,25 @@ public class SlimeRippleInjector_Positional : MonoBehaviour
         if (activeContacts.TryGetValue(other, out var contact) && !contact.isExiting)
         {
             contact.isExiting = true;
-            contact.exitStartTime = Time.time;
+
+            // The object has fully left the cube — every cell that was still
+            // active starts its own fade-out now, exactly like a cell that
+            // individually drops out of the silhouette.
+            float now = Time.time;
+            foreach (var state in contact.gridPoints.Values)
+            {
+                if (state.deathTime < 0f)
+                {
+                    state.deathTime = now;
+                }
+            }
         }
     }
 
     private void Update()
     {
         pendingRemoval.Clear();
+        float now = Time.time;
 
         foreach (var kvp in activeContacts)
         {
@@ -104,15 +132,35 @@ public class SlimeRippleInjector_Positional : MonoBehaviour
             if (!contact.isExiting)
             {
                 // Re-sample every frame so the silhouette updates as the object moves through.
+                // Cells that are still inside keep their birth time; cells that newly appear
+                // get a fresh birth time; cells that drop out start their own fade-out.
                 SampleIntersectionGrid(other, contact);
             }
-            else
+
+            // Safety cleanup: once a cell has been dead for longer than exitFadeTime,
+            // its shader-side fade-out is long finished — remove it from memory.
+            List<(int, int)> deadKeys = null;
+            foreach (var pointKvp in contact.gridPoints)
             {
-                float t = (Time.time - contact.exitStartTime) / Mathf.Max(exitFadeTime, 0.0001f);
-                if (t >= 1f)
+                var state = pointKvp.Value;
+                if (state.deathTime >= 0f && (now - state.deathTime) > Mathf.Max(exitFadeTime, 0.0001f))
                 {
-                    pendingRemoval.Add(other);
+                    (deadKeys ??= new List<(int, int)>()).Add(pointKvp.Key);
                 }
+            }
+            if (deadKeys != null)
+            {
+                foreach (var key in deadKeys)
+                {
+                    contact.gridPoints.Remove(key);
+                }
+            }
+
+            // Once the whole object has exited and every one of its points has
+            // fully faded out and been cleaned up, drop the contact entirely.
+            if (contact.isExiting && contact.gridPoints.Count == 0)
+            {
+                pendingRemoval.Add(other);
             }
         }
 
@@ -126,7 +174,7 @@ public class SlimeRippleInjector_Positional : MonoBehaviour
 
     private void SampleIntersectionGrid(Collider other, ActiveContact contact)
     {
-        contact.localPoints.Clear();
+        contact.insideThisFrame.Clear();
 
         if (slimeSurfaceCollider == null)
         {
@@ -165,32 +213,72 @@ public class SlimeRippleInjector_Positional : MonoBehaviour
 
         if (!foundSlimeHit)
         {
-            return; // Could not locate the contact point on the slime surface this frame.
+            // Could not locate the contact point on the slime surface this frame.
+            // Treat it like "nothing is inside right now" so existing points
+            // still get their fade-out started below, instead of freezing.
+        }
+        else
+        {
+            Vector3 planeOrigin = hit.point;
+            Vector3 planeNormal = hit.normal;
+
+            Vector3 tangent1 = Vector3.Cross(planeNormal, Vector3.up);
+            if (tangent1.sqrMagnitude < 0.001f) tangent1 = Vector3.Cross(planeNormal, Vector3.forward);
+            tangent1.Normalize();
+            Vector3 tangent2 = Vector3.Cross(planeNormal, tangent1).normalized;
+
+            float halfSize = other.bounds.extents.magnitude * gridMarginFactor;
+            int res = Mathf.Clamp(gridResolution, 2, Mathf.FloorToInt(Mathf.Sqrt(MAX_SLIME_IMPULSES)));
+
+            float now = Time.time;
+
+            for (int i = 0; i < res; i++)
+            {
+                float u = Mathf.Lerp(-halfSize, halfSize, res == 1 ? 0.5f : i / (float)(res - 1));
+                for (int j = 0; j < res; j++)
+                {
+                    float v = Mathf.Lerp(-halfSize, halfSize, res == 1 ? 0.5f : j / (float)(res - 1));
+                    Vector3 worldPoint = planeOrigin + tangent1 * u + tangent2 * v;
+
+                    if (!IsPointInsideAnyCollider(worldPoint, contact.childColliders)) continue;
+
+                    var key = (i, j);
+                    contact.insideThisFrame.Add(key);
+                    Vector3 localPos = transform.InverseTransformPoint(worldPoint);
+
+                    if (contact.gridPoints.TryGetValue(key, out var state))
+                    {
+                        // Keep updating its position as the object moves, but only
+                        // give it a fresh birth time if it had previously died and
+                        // is now being revived (fading back in as a "new" point).
+                        state.localPos = localPos;
+                        if (state.deathTime >= 0f)
+                        {
+                            state.birthTime = now;
+                            state.deathTime = -1f;
+                        }
+                    }
+                    else
+                    {
+                        contact.gridPoints[key] = new GridPointState
+                        {
+                            localPos = localPos,
+                            birthTime = now,
+                            deathTime = -1f
+                        };
+                    }
+                }
+            }
         }
 
-        Vector3 planeOrigin = hit.point;
-        Vector3 planeNormal = hit.normal;
-
-        Vector3 tangent1 = Vector3.Cross(planeNormal, Vector3.up);
-        if (tangent1.sqrMagnitude < 0.001f) tangent1 = Vector3.Cross(planeNormal, Vector3.forward);
-        tangent1.Normalize();
-        Vector3 tangent2 = Vector3.Cross(planeNormal, tangent1).normalized;
-
-        float halfSize = other.bounds.extents.magnitude * gridMarginFactor;
-        int res = Mathf.Clamp(gridResolution, 2, Mathf.FloorToInt(Mathf.Sqrt(MAX_SLIME_IMPULSES)));
-
-        for (int i = 0; i < res; i++)
+        // Any cell that was still active but wasn't found inside the silhouette
+        // this frame starts its own individual fade-out now.
+        float nowForExit = Time.time;
+        foreach (var pointKvp in contact.gridPoints)
         {
-            float u = Mathf.Lerp(-halfSize, halfSize, res == 1 ? 0.5f : i / (float)(res - 1));
-            for (int j = 0; j < res; j++)
+            if (!contact.insideThisFrame.Contains(pointKvp.Key) && pointKvp.Value.deathTime < 0f)
             {
-                float v = Mathf.Lerp(-halfSize, halfSize, res == 1 ? 0.5f : j / (float)(res - 1));
-                Vector3 worldPoint = planeOrigin + tangent1 * u + tangent2 * v;
-
-                if (IsPointInsideAnyCollider(worldPoint, contact.childColliders))
-                {
-                    contact.localPoints.Add(transform.InverseTransformPoint(worldPoint));
-                }
+                pointKvp.Value.deathTime = nowForExit;
             }
         }
     }
@@ -229,16 +317,15 @@ public class SlimeRippleInjector_Positional : MonoBehaviour
         {
             var contact = kvp.Value;
 
-            // -1 tells the shader "this point is not exiting yet" — full fade-out
-            // math only kicks in once a real exit time is present.
-            float exitStartTimeForShader = contact.isExiting ? contact.exitStartTime : -1f;
-
-            foreach (var localPoint in contact.localPoints)
+            foreach (var pointKvp in contact.gridPoints)
             {
                 if (count >= MAX_SLIME_IMPULSES) break;
 
-                positions[count] = new Vector4(localPoint.x, localPoint.y, localPoint.z, 0f);
-                data[count] = new Vector4(contact.startTime, exitStartTimeForShader, 1f, 1f);
+                var state = pointKvp.Value;
+                positions[count] = new Vector4(state.localPos.x, state.localPos.y, state.localPos.z, 0f);
+                // x = this point's own birth time, y = this point's own death time
+                // (-1 = still alive), z = weight, w = manual intensity override.
+                data[count] = new Vector4(state.birthTime, state.deathTime, 1f, 1f);
                 count++;
             }
 

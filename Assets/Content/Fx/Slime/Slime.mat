@@ -20,7 +20,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Goo
+  m_Name: Slime
   m_Shader: {fileID: -6465566751694194690, guid: bb85c59d3aa49944b9b982fb6dba7be2, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -42,6 +42,10 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
+    - _Bubbles:
+        m_Texture: {fileID: 2800000, guid: bdfa2c9c8d2f9c34f90a7c62e74c3a96, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _BubblesTexture:
         m_Texture: {fileID: 2800000, guid: 49a8519acd39caa4aa5d6b84c11cf5c2, type: 3}
         m_Scale: {x: 1, y: 1}
@@ -151,6 +155,7 @@ Material:
     - _Displacement_Up_X: 0
     - _Displacement_Up_Y: 0
     - _Displacement_Up_Z: -0.02
+    - _Distance: 1864.4
     - _DistortionAmount: 0.05
     - _DistortionFrequency: 1
     - _DistortionSpeed: 0
@@ -158,8 +163,9 @@ Material:
     - _DstBlendAlpha: 10
     - _FaceColor_Intensity: 5
     - _FireColor1_Intensity: 1.5
-    - _Float: 1
-    - _Float_1: 1
+    - _Float: 554.9
+    - _Float_1: 0
+    - _Float_2: 198
     - _FresnelCore_Max: 1
     - _FresnelCore_Min: 0.3
     - _FresnelEdge_Max: 0.8
@@ -193,14 +199,14 @@ Material:
     - _Ripple_DistanceFalloff: 3
     - _Ripple_FadeDistance: 2
     - _Ripple_FadeInTime: 2
-    - _Ripple_FadeOutTime: 0.2
-    - _Ripple_Frequency: 6
+    - _Ripple_FadeOutTime: 2
+    - _Ripple_Frequency: 10
     - _Ripple_Intensity: 0
-    - _Ripple_MaxDistance: 3
+    - _Ripple_MaxDistance: 2
     - _Ripple_Normal: 0.01
     - _Ripple_Power: 2
     - _Ripple_Refraction: 0.036
-    - _Ripple_Smooth: 0.2
+    - _Ripple_Smooth: 1
     - _Ripple_Speed: 5
     - _Ripple_TimeFalloff: 0.5
     - _Ripple_inDisplacement: 0.01
@@ -222,9 +228,12 @@ Material:
     - _TIlling_X: 1
     - _TIlling_Y: 1
     - _TIlling_Z: 1
+    - _Tiling: 1024
     - _TopProjection_X: 0
     - _TopProjection_Y: 1
     - _TopProjection_Z: 0
+    - _TriplanarBlend_1: 2
+    - _TriplanarScale_1: 1
     - _Triplanar_Blend: 2
     - _UseMatcap: 0
     - _UseTopProjection: 0
@@ -235,7 +244,7 @@ Material:
     m_Colors:
     - _Color_Depth: {r: 0.39999992, g: 1, b: 0, a: 1}
     - _Color_Shallow: {r: 1.0906298, g: 2.9960783, b: 0, a: 1}
-    - _Color_TEST: {r: 0, g: 0.2438154, b: 2, a: 1}
+    - _Color_TEST: {r: 1.0906298, g: 2.9960783, b: 0, a: 1}
     - _DepthFresnel_MinMax: {r: 0.4, g: 1, b: 0, a: 0}
     - _Diffuse_TriplanarRemap: {r: 0, g: 1, b: 0, a: 0}
     - _Diffuse_TriplanarScoll: {r: 0.2, g: 0.2, b: 0.5, a: 0}
@@ -264,7 +273,10 @@ Material:
     - _RimColor_MinMax: {r: 0.5, g: 1, b: 0, a: 0}
     - _Rim_MinMax: {r: 0.44, g: 1, b: 0, a: 0}
     - _SSS_Color: {r: 1, g: 1, b: 1, a: 1}
+    - _Scroll: {r: 0.2, g: 0, b: 0, a: 0}
     - _StickTip: {r: 0, g: 0, b: 0, a: 0}
+    - _TriplanarScol_1: {r: 0, g: 1, b: 1, a: 0}
+    - _TriplanarTilling_1: {r: 1, g: 1, b: 1, a: 0}
     - _Vector2: {r: 0.25, g: 1, b: 0, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
