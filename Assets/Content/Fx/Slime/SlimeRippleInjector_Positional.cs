@@ -145,7 +145,8 @@ public class SlimeRippleInjector_Positional : MonoBehaviour
                 var state = pointKvp.Value;
                 if (state.deathTime >= 0f && (now - state.deathTime) > Mathf.Max(exitFadeTime, 0.0001f))
                 {
-                    (deadKeys ??= new List<(int, int)>()).Add(pointKvp.Key);
+                    if (deadKeys == null) deadKeys = new List<(int, int)>();
+                    deadKeys.Add(pointKvp.Key);
                 }
             }
             if (deadKeys != null)
