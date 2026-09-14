@@ -128,8 +128,8 @@ Material:
     - _AlphaHead_Min: 0
     - _AlphaHead_Offset: 0.75
     - _AlphaToMask: 0
-    - _Alpha_Depth: 0
-    - _Alpha_Shallow: 0
+    - _Alpha_Depth: 0.4
+    - _Alpha_Shallow: 0.036
     - _Blend: 0
     - _BlendModePreserveSpecular: 1
     - _Bubbles_1_Distance: 400
@@ -146,7 +146,7 @@ Material:
     - _DEBUG: 0
     - _Depth: 0
     - _DepthFresnel_Intensity: 1
-    - _Depth_Strength: 5.71
+    - _Depth_Strength: 5
     - _DifScroll_X: 0.02
     - _DifScroll_Y: 0.02
     - _DifScroll_Z: 0.1
@@ -185,7 +185,7 @@ Material:
     - _MatcapColor1_Intensity: 4
     - _MatcapColor2_Intensity: 2.96
     - _Metallic: 0.1
-    - _NormalStrenght: 1
+    - _NormalStrenght: 0.7
     - _Normal_1_TriplanarScale: 0.2
     - _Normal_2_TriplanarScale: -0.05
     - _Normal_Influence: 0.5
@@ -201,10 +201,10 @@ Material:
     - _QueueOffset: 0
     - _ReceiveShadows: 1
     - _Refraction: 0
-    - _Refraction_Intensity: 0.05
+    - _Refraction_Intensity: 0.1
     - _Refraction_TriplanarBlend: 1
     - _Refraction_TriplanarScale: 0.2
-    - _RimColor_InTensity: 1
+    - _RimColor_InTensity: 0
     - _RimPower: 1
     - _RimPower_1: 1
     - _Ripple: -0.6
@@ -226,6 +226,7 @@ Material:
     - _Ripple_inNormal: 0.492
     - _Ripple_inRefraction: 0.264
     - _SSS_Intensity: 3
+    - _SSS_Normal_Influence: 0.5
     - _SSS_Power: 1
     - _Scroll_X: 0.3
     - _Scroll_Y: 0.3
@@ -259,10 +260,11 @@ Material:
     - _Bubbles_1_Tile: {r: 2, g: 2, b: 0, a: 0}
     - _Bubbles_2_Scroll: {r: 0, g: -0.01, b: 0, a: 0}
     - _Bubbles_2_Tile: {r: 1, g: 1, b: 0, a: 0}
+    - _Bubbles_Color: {r: 0.7329843, g: 2, b: 0, a: 1}
     - _Bubbles_VerticalMask_MinMax: {r: -1, g: 2, b: 0, a: 0}
     - _Bubbles_VerticalMask_Offset: {r: 5, g: 4, b: 0, a: 0}
-    - _Color_Depth: {r: 0.39999992, g: 1, b: 0, a: 1}
-    - _Color_Shallow: {r: 1.0906298, g: 2.9960783, b: 0, a: 0.6}
+    - _Color_Depth: {r: 0.06784315, g: 0.14901961, b: 0.014901965, a: 0.8}
+    - _Color_Shallow: {r: 0.5913313, g: 1.4980391, b: 0, a: 0.29803923}
     - _Color_TEST: {r: 1.0906298, g: 2.9960783, b: 0, a: 1}
     - _Color_Test1: {r: 1, g: 0, b: 0, a: 1}
     - _Color_Test2: {r: 0, g: 0.087194204, b: 1, a: 1}
@@ -290,7 +292,7 @@ Material:
     - _Refraction_TriplanarMinMax: {r: 0, g: 1, b: 0, a: 0}
     - _Refraction_TriplanarScol: {r: 0, g: 0, b: 0, a: 0}
     - _Refraction_TriplanarTilling: {r: 1, g: 1, b: 1, a: 0}
-    - _RimColor: {r: 1.0906298, g: 2.9960783, b: 0, a: 1}
+    - _RimColor: {r: 1.0906298, g: 2.9960783, b: 0, a: 0}
     - _RimColor_MinMax: {r: 0.5, g: 1, b: 0, a: 0}
     - _Rim_MinMax: {r: 0.44, g: 1, b: 0, a: 0}
     - _SSS_Color: {r: 1, g: 1, b: 1, a: 1}
