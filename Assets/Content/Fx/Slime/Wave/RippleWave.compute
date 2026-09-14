@@ -1,0 +1,171 @@
+// RippleWave.compute
+// Wave simulation running on the adjacency graph of welded surface vertices.
+// Two kernels:
+//   UpdateMask — smooths the raw occupancy signal (from the CPU-side collider
+//                test) and records the entry/exit times used for the
+//                periodic pulse's phase and the fade in/out envelope.
+//   UpdateWave — the wave equation itself, plus the enveloped periodic
+//                pulse injection.
+
+#pragma kernel UpdateMask
+#pragma kernel UpdateWave
+
+// ---- Shared buffers (size = weldedVertexCount) ----
+RWStructuredBuffer<float> _RawOccupancy;      // 0/1, written from CPU every frame (collider test)
+RWStructuredBuffer<float> _PrevRawOccupancy;  // previous frame's raw occupancy, for entry/exit edge-detect
+RWStructuredBuffer<float> _Mask;              // smoothed 0..1 mask, read by the wave kernel
+RWStructuredBuffer<float> _EntryTime;         // time of the last silhouette entry (-1 if never entered)
+RWStructuredBuffer<float> _ExitTime;          // time of the last silhouette exit (-1 if never exited)
+
+RWStructuredBuffer<float> _HCurrent;   // wave field, current frame (read-only in this dispatch)
+RWStructuredBuffer<float> _HPrevious;  // wave field, previous frame (read-only)
+RWStructuredBuffer<float> _HNext;      // output buffer for the new frame (write-only)
+
+// Running approximate geodesic distance (along the surface graph) from the
+// nearest point that is currently part of the contact silhouette. Relaxes
+// outward by one hop per simulation step, riding the same cadence as the
+// wave itself, so it stays roughly in sync with how far the wave has
+// actually had time to physically reach.
+StructuredBuffer<float> _SourceDistanceCurrent;
+RWStructuredBuffer<float> _SourceDistanceNext;
+
+// ---- Adjacency (CSR) ----
+StructuredBuffer<int> _NeighborOffsets;     // length weldedVertexCount + 1
+StructuredBuffer<int> _NeighborIndices;     // flat neighbor index list
+StructuredBuffer<float> _NeighborDistances; // parallel to _NeighborIndices, world/local-space edge length
+
+// ---- Parameters ----
+uint _WeldedVertexCount;
+float _DeltaTime;
+float _Time;
+
+float _MaskSmoothRate; // occupancy -> mask smoothing rate (1/sec), derived from Wave Softening
+float _WaveSpeed2;     // c^2 in the wave equation, kept within a numerically stable range internally
+float _Damping;        // per-step decay multiplier, derived from Fade Out
+float _PulsePeriod;    // time between new rings while contact holds, derived from 1 / Waves Frequency
+float _PulseStrength;  // overall amplitude of injected pulses (Waves Amplitude)
+float _FadeIn;         // seconds for the source to ramp up to full strength after entering the silhouette
+float _FadeOut;        // seconds for the source to ramp down to zero after leaving the silhouette
+float _MaxDistance;    // hard-ish reach limit along the surface, in world units, from the nearest contact point
+
+[numthreads(64, 1, 1)]
+void UpdateMask(uint3 id : SV_DispatchThreadID)
+{
+    uint i = id.x;
+    if (i >= _WeldedVertexCount) return;
+
+    float raw = _RawOccupancy[i];
+    float prevRaw = _PrevRawOccupancy[i];
+
+    // Entry/exit times are keyed off the raw (unsmoothed) signal — these are
+    // the reference points the pulse phase and the fade envelope are
+    // measured from. Unlike before, exiting no longer clears entryTime: the
+    // periodic pulse keeps a continuous phase through the fade-out tail
+    // instead of snapping to a new phase in one frame.
+    if (raw > 0.5 && prevRaw <= 0.5)
+    {
+        _EntryTime[i] = _Time;
+    }
+    else if (raw <= 0.5 && prevRaw > 0.5)
+    {
+        _ExitTime[i] = _Time;
+    }
+
+    // Exponential smoothing of occupancy -> mask avoids a hard step at the
+    // silhouette boundary (a spatial pop at the edge of the contact patch).
+    // This is what "Wave Softening" controls.
+    float t = saturate(_MaskSmoothRate * _DeltaTime);
+    _Mask[i] = lerp(_Mask[i], raw, t);
+
+    _PrevRawOccupancy[i] = raw;
+}
+
+[numthreads(64, 1, 1)]
+void UpdateWave(uint3 id : SV_DispatchThreadID)
+{
+    uint i = id.x;
+    if (i >= _WeldedVertexCount) return;
+
+    // ---- Distance-weighted graph Laplacian ----
+    // Plain unweighted neighbor averaging makes perceived wave speed depend
+    // on local vertex density (dense areas "slow down" the wave relative to
+    // sparse ones). Weighting by inverse squared edge length keeps closer
+    // neighbors dominant regardless of local tessellation, so a given
+    // _WaveSpeed2 behaves consistently across the whole mesh.
+    int start = _NeighborOffsets[i];
+    int end = _NeighborOffsets[i + 1];
+
+    float weightedSum = 0.0;
+    float weightTotal = 0.0;
+    for (int n = start; n < end; n++)
+    {
+        float dist = _NeighborDistances[n];
+        float weight = 1.0 / max(dist * dist, 1e-6);
+        weightedSum += _HCurrent[_NeighborIndices[n]] * weight;
+        weightTotal += weight;
+    }
+    float neighborAverage = weightTotal > 0.0 ? weightedSum / weightTotal : _HCurrent[i];
+
+    float h = _HCurrent[i];
+    float hPrev = _HPrevious[i];
+
+    // ---- Classic leapfrog wave equation ----
+    // _Damping (derived from Fade Out) governs how quickly ripple energy
+    // dies out over time — independent of the source envelope below.
+    float hNew = 2.0 * h - hPrev + _WaveSpeed2 * (neighborAverage - h);
+    hNew *= _Damping;
+
+    // ---- Running geodesic distance from the nearest current contact point ----
+    // Zero at points currently in the silhouette; elsewhere, relaxed from
+    // neighbors' previous-step distance plus the edge length to that
+    // neighbor. Not reset when a point leaves contact, so it only ever
+    // tightens (via the min below) rather than snapping back to "far away"
+    // the instant the object moves on — approximates distance from
+    // wherever this ripple actually originated, not from the object's
+    // current position.
+    float sourceDist = _Mask[i] > 0.5 ? 0.0 : _SourceDistanceCurrent[i];
+    for (int n2 = start; n2 < end; n2++)
+    {
+        float candidate = _SourceDistanceCurrent[_NeighborIndices[n2]] + _NeighborDistances[n2];
+        sourceDist = min(sourceDist, candidate);
+    }
+    _SourceDistanceNext[i] = sourceDist;
+
+    // Soft falloff over the last 15% of the reach instead of a hard cutoff,
+    // so the boundary doesn't read as a visible wall where ripples vanish.
+    float distanceAttenuation = 1.0 - smoothstep(_MaxDistance * 0.85, _MaxDistance, sourceDist);
+    hNew *= distanceAttenuation;
+
+    // ---- Source envelope: Fade In / Fade Out ----
+    // entryTime/exitTime tell us which event was more recent, i.e. whether
+    // this point is currently "in contact" (entry more recent) or "recently
+    // left" (exit more recent, ramping down over _FadeOut).
+    float entryTime = _EntryTime[i];
+    float exitTime = _ExitTime[i];
+    bool everEntered = entryTime >= 0.0;
+    bool currentlyInContact = everEntered && exitTime < entryTime;
+
+    float envelope = 0.0;
+    if (currentlyInContact)
+    {
+        envelope = saturate((_Time - entryTime) / max(_FadeIn, 1e-4));
+    }
+    else if (exitTime >= 0.0)
+    {
+        float sinceExit = _Time - exitTime;
+        envelope = saturate(1.0 - sinceExit / max(_FadeOut, 1e-4));
+    }
+
+    // ---- Periodic injection ("dripping tap"), phase measured from entryTime ----
+    if (envelope > 0.0)
+    {
+        float localTime = _Time - entryTime;
+        float phase = frac(localTime / _PulsePeriod) * 6.2831853; // 2*PI
+        // max(0, sin(...)) gives a smooth half-sine pulse: 0 -> peak -> 0,
+        // with no derivative discontinuity at the start or end of the pulse.
+        float pulse = max(0.0, sin(phase));
+        hNew += _Mask[i] * pulse * envelope * _PulseStrength * _DeltaTime;
+    }
+
+    _HNext[i] = hNew;
+}

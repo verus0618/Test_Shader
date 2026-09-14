@@ -37,7 +37,6 @@ Material:
     RenderType: Transparent
   disabledShaderPasses:
   - MOTIONVECTORS
-  - SHADOWCASTER
   m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
@@ -142,7 +141,7 @@ Material:
     - _Bubbles_2_ParallaxTiling: 1024
     - _Bubbles_2_Tiling: 512
     - _Bubbles_VerticalMask_Offset: 3.45
-    - _CastShadows: 0
+    - _CastShadows: 1
     - _Cull: 2
     - _DEBUG: 0
     - _Depth: 0
@@ -187,7 +186,7 @@ Material:
     - _MatcapColor2_Intensity: 2.96
     - _Metallic: 0.1
     - _NormalStrenght: 1
-    - _Normal_1_TriplanarScale: 0.1
+    - _Normal_1_TriplanarScale: 0.2
     - _Normal_2_TriplanarScale: -0.05
     - _Normal_Influence: 0.5
     - _Normal_Tilling: 0.32
@@ -223,9 +222,9 @@ Material:
     - _Ripple_Smooth: 1
     - _Ripple_Speed: 5
     - _Ripple_TimeFalloff: 0.5
-    - _Ripple_inDisplacement: 0.001
-    - _Ripple_inNormal: 0.1
-    - _Ripple_inRefraction: 0.1
+    - _Ripple_inDisplacement: 0
+    - _Ripple_inNormal: 1
+    - _Ripple_inRefraction: 1
     - _SSS_Intensity: 3
     - _SSS_Power: 1
     - _Scroll_X: 0.3
@@ -286,7 +285,7 @@ Material:
     - _MatcapColor1: {r: 0.36163503, g: 0.62520033, b: 1, a: 1}
     - _MatcapColor2: {r: 0.3046008, g: 0.28616333, b: 1, a: 1}
     - _Normal_Tilling: {r: 1.42, g: 1.49, b: 1, a: 0}
-    - _Normal_TriplanarScoll: {r: 1, g: 1, b: -10, a: 0}
+    - _Normal_TriplanarScoll: {r: 1, g: 1, b: -1, a: 0}
     - _Normal_TriplanarTilling: {r: 1, g: 1, b: 1, a: 0}
     - _Refraction_TriplanarMinMax: {r: 0, g: 1, b: 0, a: 0}
     - _Refraction_TriplanarScol: {r: 0, g: 0, b: 0, a: 0}
