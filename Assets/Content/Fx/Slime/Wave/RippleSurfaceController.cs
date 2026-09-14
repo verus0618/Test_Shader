@@ -34,19 +34,21 @@ namespace RippleSystem
         [Header("Wave Shape")]
         [Tooltip("How fast ripples spread across the surface, in world units per second.")]
         [Min(0.01f)] public float wavesSpeed = 2f;
-        [Tooltip("How often a new ring is born at an active contact point, in rings per second.")]
-        [Min(0.05f)] public float wavesFrequency = 1.25f;
+        [Tooltip("Distance between successive ripple crests, in world units — the wavelength. Smaller = tighter, more frequent rings.")]
+        [Min(0.001f)] public float wavesLength = 0.5f;
         [Tooltip("How far along the surface a ripple can reach from its point of contact, in world units (measured along the surface, not in a straight line).")]
         [Min(0.01f)] public float wavesMaxDistance = 5f;
         [Tooltip("How soft the ripple's silhouette edge is — higher softens the contact boundary, both spatially and in how quickly it responds.")]
         [Min(0.005f)] public float waveSoftening = 0.05f;
         [Tooltip("Overall strength of newly generated ripples.")]
         public float wavesAmplitude = 6f;
+        [Tooltip("Purely cosmetic: blends each vertex's value with a distance-weighted average of its neighbors before display, softening the visible steps between vertices on a coarse mesh. 0 = off. Does not affect propagation speed, decay, or timing — only what the renderer sees.")]
+        [Range(0f, 1f)] public float visualSmoothing = 0f;
 
         [Header("Contact Envelope")]
         [Tooltip("Delay before ripples reach full strength after an object starts intersecting the surface, in seconds.")]
         [Min(0f)] public float fadeIn = 0.1f;
-        [Tooltip("How long ripple energy takes to decay to near-nothing (~5%), in seconds — governs both actively-propagating ripples and how quickly generation dies out after an object leaves.")]
+        [Tooltip("How long after an object stops intersecting the surface new ripples keep being generated, at the same periodicity as during contact, ramping down to nothing over this time. Does not affect ripples already generated — they always live out their full natural lifetime (Waves Max Distance / Speed) regardless of this value.")]
         [Min(0.01f)] public float fadeOut = 0.4f;
 
         [Header("Simulation Timing")]
@@ -64,6 +66,7 @@ namespace RippleSystem
         private int _weldedCount;
         private int _kernelUpdateMask;
         private int _kernelUpdateWave;
+        private int _kernelSmoothForDisplay;
         private int _threadGroups;
         private float _averageEdgeLength;
         private bool _loggedSpeedClamp;
@@ -134,6 +137,7 @@ namespace RippleSystem
             _weldedCount = adjacency.weldedVertexCount;
             _kernelUpdateMask = waveCompute.FindKernel("UpdateMask");
             _kernelUpdateWave = waveCompute.FindKernel("UpdateWave");
+            _kernelSmoothForDisplay = waveCompute.FindKernel("SmoothForDisplay");
             _threadGroups = Mathf.CeilToInt(_weldedCount / 64f);
             _averageEdgeLength = ComputeAverageEdgeLength(adjacency.neighborDistances);
             _loggedSpeedClamp = false;
@@ -278,12 +282,17 @@ namespace RippleSystem
             UpdateRawOccupancyCpu();
 
             float maskSmoothRate = 1f / waveSoftening;
-            float pulsePeriod = 1f / wavesFrequency;
+            // Wavelength is the authored value; the emission period follows
+            // from it and the travel speed (period = length / speed), so
+            // crest spacing stays fixed when speed changes.
+            float pulsePeriod = wavesLength / wavesSpeed;
             float waveSpeed2 = ComputeStableWaveSpeed2(wavesSpeed, simulationStep, _averageEdgeLength);
-            // Fade Out is now the single source of truth for how quickly
-            // wave energy decays, both while contact is active and after it
-            // ends — amplitude falls to ~5% after "fadeOut" seconds.
-            float dampingPerStep = Mathf.Pow(0.05f, simulationStep / Mathf.Max(fadeOut, 0.01f));
+            // Energy decay is tied to reach, not to Fade Out: a ripple should
+            // still be alive by the time it has travelled wavesMaxDistance,
+            // otherwise it dies before the distance limit ever applies and
+            // Max Distance appears to do nothing.
+            float rippleLifetime = wavesMaxDistance / wavesSpeed;
+            float dampingPerStep = Mathf.Pow(0.05f, simulationStep / Mathf.Max(rippleLifetime, 1e-4f));
 
             _accumulatedTime += Time.deltaTime;
             int steps = 0;
@@ -303,11 +312,13 @@ namespace RippleSystem
             // to burn through it over many subsequent frames.
             if (steps >= maxStepsPerFrame) _accumulatedTime = 0f;
 
-            // Push the latest simulated state into the display buffer via a
-            // GPU-side copy. The renderer's bound buffer object (_hDisplay)
-            // never changes identity, so this never touches the property
-            // block / renderer state — only the buffer's contents change.
-            if (steps > 0) Graphics.CopyBuffer(_hCurrent, _hDisplay);
+            // Push the latest simulated state into the display buffer.
+            // Previously a raw GPU-side buffer copy; now a compute pass so
+            // Visual Smoothing can be applied on the way in. The renderer's
+            // bound buffer object (_hDisplay) never changes identity, so
+            // this never touches the property block / renderer state —
+            // only the buffer's contents change.
+            if (steps > 0) DispatchDisplaySmoothing();
         }
 
         /// <summary>
@@ -413,6 +424,10 @@ namespace RippleSystem
             waveCompute.SetFloat("_FadeIn", fadeIn);
             waveCompute.SetFloat("_FadeOut", fadeOut);
             waveCompute.SetFloat("_MaxDistance", wavesMaxDistance);
+            // Age the distance field back at the wave's own speed so it
+            // tracks contact that has moved on, without outrunning the
+            // min-relaxation that pulls it back down near live contacts.
+            waveCompute.SetFloat("_DistanceAgingRate", wavesSpeed);
 
             // --- UpdateMask ---
             waveCompute.SetBuffer(_kernelUpdateMask, "_RawOccupancy", _rawOccupancy);
@@ -435,6 +450,23 @@ namespace RippleSystem
             waveCompute.SetBuffer(_kernelUpdateWave, "_SourceDistanceCurrent", _sourceDistanceCurrent);
             waveCompute.SetBuffer(_kernelUpdateWave, "_SourceDistanceNext", _sourceDistanceNext);
             waveCompute.Dispatch(_kernelUpdateWave, _threadGroups, 1, 1);
+        }
+
+        /// <summary>
+        /// Writes the cosmetic, Visual-Smoothing-blended copy of the wave
+        /// field into _hDisplay — the only buffer the renderer reads. Does
+        /// not touch _hCurrent/_hPrevious/_hNext, so the simulation itself
+        /// is completely unaffected by this setting.
+        /// </summary>
+        private void DispatchDisplaySmoothing()
+        {
+            waveCompute.SetFloat("_DisplaySmoothing", visualSmoothing);
+            waveCompute.SetBuffer(_kernelSmoothForDisplay, "_HCurrent", _hCurrent);
+            waveCompute.SetBuffer(_kernelSmoothForDisplay, "_NeighborOffsets", _neighborOffsets);
+            waveCompute.SetBuffer(_kernelSmoothForDisplay, "_NeighborIndices", _neighborIndices);
+            waveCompute.SetBuffer(_kernelSmoothForDisplay, "_NeighborDistances", _neighborDistances);
+            waveCompute.SetBuffer(_kernelSmoothForDisplay, "_HDisplay", _hDisplay);
+            waveCompute.Dispatch(_kernelSmoothForDisplay, _threadGroups, 1, 1);
         }
 
         private void RotateBuffers()

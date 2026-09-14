@@ -1,14 +1,19 @@
 // RippleWave.compute
 // Wave simulation running on the adjacency graph of welded surface vertices.
-// Two kernels:
-//   UpdateMask — smooths the raw occupancy signal (from the CPU-side collider
-//                test) and records the entry/exit times used for the
-//                periodic pulse's phase and the fade in/out envelope.
-//   UpdateWave — the wave equation itself, plus the enveloped periodic
-//                pulse injection.
+// Three kernels:
+//   UpdateMask       — smooths the raw occupancy signal (from the CPU-side
+//                       collider test) and records the entry/exit times used
+//                       for the periodic pulse's phase and the fade in/out
+//                       envelope.
+//   UpdateWave       — the wave equation itself (decay governed solely by
+//                       Waves Max Distance / Speed, never by Fade Out), plus
+//                       the enveloped periodic pulse injection (Fade In/Out
+//                       govern only how long the source keeps emitting).
+//   SmoothForDisplay — optional cosmetic neighbor-blend for rendering only.
 
 #pragma kernel UpdateMask
 #pragma kernel UpdateWave
+#pragma kernel SmoothForDisplay
 
 // ---- Shared buffers (size = weldedVertexCount) ----
 RWStructuredBuffer<float> _RawOccupancy;      // 0/1, written from CPU every frame (collider test)
@@ -20,6 +25,7 @@ RWStructuredBuffer<float> _ExitTime;          // time of the last silhouette exi
 RWStructuredBuffer<float> _HCurrent;   // wave field, current frame (read-only in this dispatch)
 RWStructuredBuffer<float> _HPrevious;  // wave field, previous frame (read-only)
 RWStructuredBuffer<float> _HNext;      // output buffer for the new frame (write-only)
+RWStructuredBuffer<float> _HDisplay;   // cosmetic, smoothed copy of _HCurrent the renderer actually reads
 
 // Running approximate geodesic distance (along the surface graph) from the
 // nearest point that is currently part of the contact silhouette. Relaxes
@@ -41,12 +47,14 @@ float _Time;
 
 float _MaskSmoothRate; // occupancy -> mask smoothing rate (1/sec), derived from Wave Softening
 float _WaveSpeed2;     // c^2 in the wave equation, kept within a numerically stable range internally
-float _Damping;        // per-step decay multiplier, derived from Fade Out
+float _Damping;        // per-step decay multiplier, derived from Waves Max Distance / Speed (a ripple's natural lifetime)
 float _PulsePeriod;    // time between new rings while contact holds, derived from 1 / Waves Frequency
 float _PulseStrength;  // overall amplitude of injected pulses (Waves Amplitude)
 float _FadeIn;         // seconds for the source to ramp up to full strength after entering the silhouette
-float _FadeOut;        // seconds for the source to ramp down to zero after leaving the silhouette
+float _FadeOut;        // seconds the source keeps emitting (ramping down) after leaving the silhouette
 float _MaxDistance;    // hard-ish reach limit along the surface, in world units, from the nearest contact point
+float _DistanceAgingRate; // how fast the distance field decays back toward "far", in world units/sec
+float _DisplaySmoothing;  // 0 = show the raw simulated value, 1 = fully neighbor-averaged (cosmetic only)
 
 [numthreads(64, 1, 1)]
 void UpdateMask(uint3 id : SV_DispatchThreadID)
@@ -110,20 +118,25 @@ void UpdateWave(uint3 id : SV_DispatchThreadID)
     float hPrev = _HPrevious[i];
 
     // ---- Classic leapfrog wave equation ----
-    // _Damping (derived from Fade Out) governs how quickly ripple energy
-    // dies out over time — independent of the source envelope below.
+    // _Damping is derived purely from Waves Max Distance / Speed (see the
+    // C# side) — a born ripple always lives out this same natural lifetime,
+    // regardless of how briefly the contact that created it lasted or
+    // whether it was born during contact or during the Fade Out tail below.
+    // Fade Out never accelerates decay of energy already in the field.
     float hNew = 2.0 * h - hPrev + _WaveSpeed2 * (neighborAverage - h);
     hNew *= _Damping;
 
     // ---- Running geodesic distance from the nearest current contact point ----
     // Zero at points currently in the silhouette; elsewhere, relaxed from
     // neighbors' previous-step distance plus the edge length to that
-    // neighbor. Not reset when a point leaves contact, so it only ever
-    // tightens (via the min below) rather than snapping back to "far away"
-    // the instant the object moves on — approximates distance from
-    // wherever this ripple actually originated, not from the object's
-    // current position.
-    float sourceDist = _Mask[i] > 0.5 ? 0.0 : _SourceDistanceCurrent[i];
+    // neighbor. The stored value also ages upward every step: without that,
+    // distances would only ever shrink, so once an object swept across the
+    // surface every point would stay permanently at distance ~0 and the
+    // Max Distance limit would silently stop applying. Ageing lets the
+    // field continuously re-derive itself from wherever contact currently
+    // is, while the min-relaxation keeps it correct near live contacts.
+    float aged = _SourceDistanceCurrent[i] + _DistanceAgingRate * _DeltaTime;
+    float sourceDist = _Mask[i] > 0.5 ? 0.0 : aged;
     for (int n2 = start; n2 < end; n2++)
     {
         float candidate = _SourceDistanceCurrent[_NeighborIndices[n2]] + _NeighborDistances[n2];
@@ -136,14 +149,16 @@ void UpdateWave(uint3 id : SV_DispatchThreadID)
     float distanceAttenuation = 1.0 - smoothstep(_MaxDistance * 0.85, _MaxDistance, sourceDist);
     hNew *= distanceAttenuation;
 
-    // ---- Source envelope: Fade In / Fade Out ----
-    // entryTime/exitTime tell us which event was more recent, i.e. whether
-    // this point is currently "in contact" (entry more recent) or "recently
-    // left" (exit more recent, ramping down over _FadeOut).
+    // ---- Source envelope: Fade In while in contact, Fade Out after ----
+    // While actively in contact, pulses ramp up over Fade In. Once contact
+    // ends, new pulses keep being generated at the same periodicity for up
+    // to Fade Out seconds, ramping down to zero strength over that window —
+    // this is purely about how long the SOURCE keeps emitting; it has no
+    // effect on ripples already emitted, which decay at their own natural
+    // rate via _Damping above regardless of Fade Out.
     float entryTime = _EntryTime[i];
     float exitTime = _ExitTime[i];
-    bool everEntered = entryTime >= 0.0;
-    bool currentlyInContact = everEntered && exitTime < entryTime;
+    bool currentlyInContact = entryTime >= 0.0 && exitTime < entryTime;
 
     float envelope = 0.0;
     if (currentlyInContact)
@@ -154,6 +169,24 @@ void UpdateWave(uint3 id : SV_DispatchThreadID)
     {
         float sinceExit = _Time - exitTime;
         envelope = saturate(1.0 - sinceExit / max(_FadeOut, 1e-4));
+    }
+
+    // ---- Guaranteed onset/closing kicks ----
+    // The periodic pulse below is a half-sine that only reaches full
+    // strength a quarter of _PulsePeriod after entry, and injection is a
+    // rate (multiplied by _DeltaTime) meant to be integrated over several
+    // steps. A fast-moving occluder can clear the surface again before
+    // either of those has had time to build up any real energy, so nothing
+    // would visibly ripple at all for a quick touch. Firing one
+    // fixed-strength kick on the exact step contact begins — and another on
+    // the exact step it ends — guarantees a visible ripple regardless of
+    // how brief the contact turns out to be, independent of Waves
+    // Length/Speed, Fade Out, and of frame rate. For the fastest possible
+    // touch these two kicks (one step apart at minimum) are the "one or two
+    // ripples" a quick pass produces.
+    if (entryTime == _Time || exitTime == _Time)
+    {
+        hNew += _Mask[i] * _PulseStrength;
     }
 
     // ---- Periodic injection ("dripping tap"), phase measured from entryTime ----
@@ -168,4 +201,44 @@ void UpdateWave(uint3 id : SV_DispatchThreadID)
     }
 
     _HNext[i] = hNew;
+}
+
+// ---- Cosmetic smoothing pass, decoupled from physics ----
+// The wave equation above is the source of truth for propagation speed,
+// interference and decay — none of that runs here. This kernel only
+// decides what the *renderer* sees: it blends each vertex's simulated
+// value with a distance-weighted average of its neighbors, purely to
+// soften the visible steps between vertices on a coarse mesh. Written
+// into _HDisplay, the one buffer the renderer actually reads, so the
+// simulation state itself (_HCurrent/_HPrevious/_HNext) stays untouched
+// and wave speed/timing are unaffected regardless of this setting.
+[numthreads(64, 1, 1)]
+void SmoothForDisplay(uint3 id : SV_DispatchThreadID)
+{
+    uint i = id.x;
+    if (i >= _WeldedVertexCount) return;
+
+    float h = _HCurrent[i];
+
+    if (_DisplaySmoothing <= 0.0)
+    {
+        _HDisplay[i] = h;
+        return;
+    }
+
+    int start = _NeighborOffsets[i];
+    int end = _NeighborOffsets[i + 1];
+
+    float weightedSum = 0.0;
+    float weightTotal = 0.0;
+    for (int n = start; n < end; n++)
+    {
+        float dist = _NeighborDistances[n];
+        float weight = 1.0 / max(dist * dist, 1e-6);
+        weightedSum += _HCurrent[_NeighborIndices[n]] * weight;
+        weightTotal += weight;
+    }
+    float neighborAverage = weightTotal > 0.0 ? weightedSum / weightTotal : h;
+
+    _HDisplay[i] = lerp(h, neighborAverage, _DisplaySmoothing);
 }

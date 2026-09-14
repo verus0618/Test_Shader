@@ -132,11 +132,11 @@ Material:
     - _Alpha_Shallow: 0
     - _Blend: 0
     - _BlendModePreserveSpecular: 1
-    - _Bubbles_1_Distance: 1000
+    - _Bubbles_1_Distance: 400
     - _Bubbles_1_Intensity: 1
     - _Bubbles_1_ParallaxTiling: 1024
     - _Bubbles_1_Tiling: 1024
-    - _Bubbles_2_Distance: 300
+    - _Bubbles_2_Distance: 100
     - _Bubbles_2_Intensity: 1
     - _Bubbles_2_ParallaxTiling: 1024
     - _Bubbles_2_Tiling: 512
@@ -204,7 +204,7 @@ Material:
     - _Refraction_Intensity: 0.05
     - _Refraction_TriplanarBlend: 1
     - _Refraction_TriplanarScale: 0.2
-    - _RimColor_InTensity: 0
+    - _RimColor_InTensity: 1
     - _RimPower: 1
     - _RimPower_1: 1
     - _Ripple: -0.6
@@ -222,9 +222,9 @@ Material:
     - _Ripple_Smooth: 1
     - _Ripple_Speed: 5
     - _Ripple_TimeFalloff: 0.5
-    - _Ripple_inDisplacement: 0
-    - _Ripple_inNormal: 1
-    - _Ripple_inRefraction: 1
+    - _Ripple_inDisplacement: 0.1
+    - _Ripple_inNormal: 0.492
+    - _Ripple_inRefraction: 0.264
     - _SSS_Intensity: 3
     - _SSS_Power: 1
     - _Scroll_X: 0.3
@@ -258,7 +258,7 @@ Material:
     - _Bubbles_1_Scroll: {r: 0, g: -0.08, b: 0, a: 0}
     - _Bubbles_1_Tile: {r: 2, g: 2, b: 0, a: 0}
     - _Bubbles_2_Scroll: {r: 0, g: -0.01, b: 0, a: 0}
-    - _Bubbles_2_Tile: {r: 0.5, g: 0.5, b: 0, a: 0}
+    - _Bubbles_2_Tile: {r: 1, g: 1, b: 0, a: 0}
     - _Bubbles_VerticalMask_MinMax: {r: -1, g: 2, b: 0, a: 0}
     - _Bubbles_VerticalMask_Offset: {r: 5, g: 4, b: 0, a: 0}
     - _Color_Depth: {r: 0.39999992, g: 1, b: 0, a: 1}
