@@ -160,6 +160,8 @@ Material:
     - _Displacement_Normal: 0
     - _Displacement_TriplanarBlend: 2
     - _Displacement_TriplanarScale: 0.025
+    - _Displacement_UpMask_Multiply: 0.5
+    - _Displacement_UpMask_Power: 1
     - _Displacement_Up_X: 0
     - _Displacement_Up_Y: 0
     - _Displacement_Up_Z: -0.02
@@ -204,7 +206,8 @@ Material:
     - _Refraction_Intensity: 0.1
     - _Refraction_TriplanarBlend: 1
     - _Refraction_TriplanarScale: 0.2
-    - _RimColor_InTensity: 0
+    - _RimColor_InTensity: 1
+    - _RimColor_Normal: 1
     - _RimPower: 1
     - _RimPower_1: 1
     - _Ripple: -0.6
@@ -222,12 +225,14 @@ Material:
     - _Ripple_Smooth: 1
     - _Ripple_Speed: 5
     - _Ripple_TimeFalloff: 0.5
-    - _Ripple_inDisplacement: 0.1
-    - _Ripple_inNormal: 0.492
-    - _Ripple_inRefraction: 0.264
+    - _Ripple_inDisplacement: 0.5
+    - _Ripple_inNormal: 1
+    - _Ripple_inRefraction: 1
+    - _SSS_AdditionalLights_Intensity: 50
     - _SSS_Intensity: 3
-    - _SSS_Normal_Influence: 0.5
-    - _SSS_Power: 1
+    - _SSS_MainLight_Intensity: 3
+    - _SSS_Normal_Influence: 0.1
+    - _SSS_Power: 2
     - _Scroll_X: 0.3
     - _Scroll_Y: 0.3
     - _Scroll_Z: 0.3
@@ -263,7 +268,7 @@ Material:
     - _Bubbles_Color: {r: 0.7329843, g: 2, b: 0, a: 1}
     - _Bubbles_VerticalMask_MinMax: {r: -1, g: 2, b: 0, a: 0}
     - _Bubbles_VerticalMask_Offset: {r: 5, g: 4, b: 0, a: 0}
-    - _Color_Depth: {r: 0.06784315, g: 0.14901961, b: 0.014901965, a: 0.8}
+    - _Color_Depth: {r: 0.104342766, g: 0.18867922, b: 0.010086612, a: 0.8}
     - _Color_Shallow: {r: 0.5913313, g: 1.4980391, b: 0, a: 0.29803923}
     - _Color_TEST: {r: 1.0906298, g: 2.9960783, b: 0, a: 1}
     - _Color_Test1: {r: 1, g: 0, b: 0, a: 1}
@@ -292,10 +297,11 @@ Material:
     - _Refraction_TriplanarMinMax: {r: 0, g: 1, b: 0, a: 0}
     - _Refraction_TriplanarScol: {r: 0, g: 0, b: 0, a: 0}
     - _Refraction_TriplanarTilling: {r: 1, g: 1, b: 1, a: 0}
-    - _RimColor: {r: 1.0906298, g: 2.9960783, b: 0, a: 0}
-    - _RimColor_MinMax: {r: 0.5, g: 1, b: 0, a: 0}
+    - _RimColor: {r: 0.10807173, g: 0.24528301, b: 0, a: 0.5019608}
+    - _RimColor_MinMax: {r: 0.3, g: 1, b: 0, a: 0}
     - _Rim_MinMax: {r: 0.44, g: 1, b: 0, a: 0}
     - _SSS_Color: {r: 1, g: 1, b: 1, a: 1}
+    - _SSS_DL_Color: {r: 1.0906298, g: 2.9960783, b: 0, a: 0.047058824}
     - _Scroll: {r: 0, g: -0.2, b: 0, a: 0}
     - _StickTip: {r: 0, g: 0, b: 0, a: 0}
     - _TriplanarScol_1: {r: 0, g: 1, b: 1, a: 0}

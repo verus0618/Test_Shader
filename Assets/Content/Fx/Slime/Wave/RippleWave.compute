@@ -14,26 +14,31 @@
 #pragma kernel UpdateMask
 #pragma kernel UpdateWave
 #pragma kernel SmoothForDisplay
+#pragma kernel ExtractReleaseBoundary
+#pragma kernel DilateRelease
+#pragma kernel InjectRelease
+#pragma kernel BlurRelease
 
 // ---- Shared buffers (size = weldedVertexCount) ----
 RWStructuredBuffer<float> _RawOccupancy;      // 0/1, written from CPU every frame (collider test)
-RWStructuredBuffer<float> _PrevRawOccupancy;  // previous frame's raw occupancy, for entry/exit edge-detect
-RWStructuredBuffer<float> _Mask;              // smoothed 0..1 mask, read by the wave kernel
-RWStructuredBuffer<float> _EntryTime;         // time of the last silhouette entry (-1 if never entered)
-RWStructuredBuffer<float> _ExitTime;          // time of the last silhouette exit (-1 if never exited)
+RWStructuredBuffer<float> _Mask;              // smoothed 0..1 mask; sole remaining job is seeding the distance field
+
+// The emission source, written by the CPU on release steps only: the entire
+// contact silhouette at one instant, already softened by BlurRelease. Scaled
+// by _ReleaseScale, which is 1 on exactly the step consuming a release and 0
+// on every other step. Emission is therefore a discrete stamp of a whole
+// shape rather than a rate integrated along a moving contact — see the
+// _releaseMaskA comment on the C# side for why a swept source cannot work.
+StructuredBuffer<float> _ReleaseMask;
+
+// Ping-pong pair for the release-softening blur (Wave Softening).
+StructuredBuffer<float> _BlurSource;
+RWStructuredBuffer<float> _BlurTarget;
 
 RWStructuredBuffer<float> _HCurrent;   // wave field, current frame (read-only in this dispatch)
 RWStructuredBuffer<float> _HPrevious;  // wave field, previous frame (read-only)
 RWStructuredBuffer<float> _HNext;      // output buffer for the new frame (write-only)
 RWStructuredBuffer<float> _HDisplay;   // cosmetic, smoothed copy of _HCurrent the renderer actually reads
-
-// Running approximate geodesic distance (along the surface graph) from the
-// nearest point that is currently part of the contact silhouette. Relaxes
-// outward by one hop per simulation step, riding the same cadence as the
-// wave itself, so it stays roughly in sync with how far the wave has
-// actually had time to physically reach.
-StructuredBuffer<float> _SourceDistanceCurrent;
-RWStructuredBuffer<float> _SourceDistanceNext;
 
 // ---- Adjacency (CSR) ----
 StructuredBuffer<int> _NeighborOffsets;     // length weldedVertexCount + 1
@@ -48,12 +53,8 @@ float _Time;
 float _MaskSmoothRate; // occupancy -> mask smoothing rate (1/sec), derived from Wave Softening
 float _WaveSpeed2;     // c^2 in the wave equation, kept within a numerically stable range internally
 float _Damping;        // per-step decay multiplier, derived from Waves Max Distance / Speed (a ripple's natural lifetime)
-float _PulsePeriod;    // time between new rings while contact holds, derived from 1 / Waves Frequency
-float _PulseStrength;  // overall amplitude of injected pulses (Waves Amplitude)
-float _FadeIn;         // seconds for the source to ramp up to full strength after entering the silhouette
-float _FadeOut;        // seconds the source keeps emitting (ramping down) after leaving the silhouette
-float _MaxDistance;    // hard-ish reach limit along the surface, in world units, from the nearest contact point
-float _DistanceAgingRate; // how fast the distance field decays back toward "far", in world units/sec
+float _PulseStrength;  // overall amplitude of a released ring (Wave Amplitude)
+float _ReleaseScale;   // 1 only on the step that consumes a release, 0 otherwise
 float _DisplaySmoothing;  // 0 = show the raw simulated value, 1 = fully neighbor-averaged (cosmetic only)
 
 [numthreads(64, 1, 1)]
@@ -63,29 +64,16 @@ void UpdateMask(uint3 id : SV_DispatchThreadID)
     if (i >= _WeldedVertexCount) return;
 
     float raw = _RawOccupancy[i];
-    float prevRaw = _PrevRawOccupancy[i];
 
-    // Entry/exit times are keyed off the raw (unsmoothed) signal — these are
-    // the reference points the pulse phase and the fade envelope are
-    // measured from. Unlike before, exiting no longer clears entryTime: the
-    // periodic pulse keeps a continuous phase through the fade-out tail
-    // instead of snapping to a new phase in one frame.
-    if (raw > 0.5 && prevRaw <= 0.5)
-    {
-        _EntryTime[i] = _Time;
-    }
-    else if (raw <= 0.5 && prevRaw > 0.5)
-    {
-        _ExitTime[i] = _Time;
-    }
-
-    // Exponential smoothing of occupancy -> mask avoids a hard step at the
-    // silhouette boundary (a spatial pop at the edge of the contact patch).
-    // This is what "Wave Softening" controls.
+    // Entry/exit edge detection used to live here, per vertex. It now lives
+    // on the CPU, per contact EVENT, because per-vertex detection is exactly
+    // what made a fast pass break: each vertex started its own ripple at its
+    // own moment, dragging the source across the surface faster than the
+    // wave could travel. The mask's only remaining job is to seed the
+    // geodesic distance field in UpdateWave with a slightly softened
+    // silhouette boundary.
     float t = saturate(_MaskSmoothRate * _DeltaTime);
     _Mask[i] = lerp(_Mask[i], raw, t);
-
-    _PrevRawOccupancy[i] = raw;
 }
 
 [numthreads(64, 1, 1)]
@@ -118,89 +106,58 @@ void UpdateWave(uint3 id : SV_DispatchThreadID)
     float hPrev = _HPrevious[i];
 
     // ---- Classic leapfrog wave equation ----
-    // _Damping is derived purely from Waves Max Distance / Speed (see the
-    // C# side) — a born ripple always lives out this same natural lifetime,
-    // regardless of how briefly the contact that created it lasted or
-    // whether it was born during contact or during the Fade Out tail below.
-    // Fade Out never accelerates decay of energy already in the field.
+    // Reach is governed ENTIRELY by _Damping now, which is derived from
+    // Wave Max Distance / effective Lifetime on the C# side: a ring decays
+    // to 5% of its birth amplitude by the time it has had exactly enough
+    // time to travel Max Distance at its own propagation speed. That is the
+    // same reach guarantee a separate spatial cutoff was trying to enforce,
+    // but as a plain per-step multiply with no spatial gradient anywhere in
+    // the field — which means there is nothing here that can reflect. A
+    // spatial cutoff (an earlier version of this file had one, via a
+    // geodesic distance-from-source field relaxed every step) was removed:
+    // it required its own relaxation kernel and cold-start handling, and it
+    // caused real bugs twice — a flash-then-die on first contact when the
+    // field hadn't relaxed yet, and a reflected "wave reversing near the
+    // end" from the field's edge acting as a soft wall. None of that
+    // complexity was buying anything that time-based damping doesn't
+    // already give for free.
     float hNew = 2.0 * h - hPrev + _WaveSpeed2 * (neighborAverage - h);
     hNew *= _Damping;
 
-    // ---- Running geodesic distance from the nearest current contact point ----
-    // Zero at points currently in the silhouette; elsewhere, relaxed from
-    // neighbors' previous-step distance plus the edge length to that
-    // neighbor. The stored value also ages upward every step: without that,
-    // distances would only ever shrink, so once an object swept across the
-    // surface every point would stay permanently at distance ~0 and the
-    // Max Distance limit would silently stop applying. Ageing lets the
-    // field continuously re-derive itself from wherever contact currently
-    // is, while the min-relaxation keeps it correct near live contacts.
-    float aged = _SourceDistanceCurrent[i] + _DistanceAgingRate * _DeltaTime;
-    float sourceDist = _Mask[i] > 0.5 ? 0.0 : aged;
-    for (int n2 = start; n2 < end; n2++)
-    {
-        float candidate = _SourceDistanceCurrent[_NeighborIndices[n2]] + _NeighborDistances[n2];
-        sourceDist = min(sourceDist, candidate);
-    }
-    _SourceDistanceNext[i] = sourceDist;
-
-    // Soft falloff over the last 15% of the reach instead of a hard cutoff,
-    // so the boundary doesn't read as a visible wall where ripples vanish.
-    float distanceAttenuation = 1.0 - smoothstep(_MaxDistance * 0.85, _MaxDistance, sourceDist);
-    hNew *= distanceAttenuation;
-
-    // ---- Source envelope: Fade In while in contact, Fade Out after ----
-    // While actively in contact, pulses ramp up over Fade In. Once contact
-    // ends, new pulses keep being generated at the same periodicity for up
-    // to Fade Out seconds, ramping down to zero strength over that window —
-    // this is purely about how long the SOURCE keeps emitting; it has no
-    // effect on ripples already emitted, which decay at their own natural
-    // rate via _Damping above regardless of Fade Out.
-    float entryTime = _EntryTime[i];
-    float exitTime = _ExitTime[i];
-    bool currentlyInContact = entryTime >= 0.0 && exitTime < entryTime;
-
-    float envelope = 0.0;
-    if (currentlyInContact)
-    {
-        envelope = saturate((_Time - entryTime) / max(_FadeIn, 1e-4));
-    }
-    else if (exitTime >= 0.0)
-    {
-        float sinceExit = _Time - exitTime;
-        envelope = saturate(1.0 - sinceExit / max(_FadeOut, 1e-4));
-    }
-
-    // ---- Guaranteed onset/closing kicks ----
-    // The periodic pulse below is a half-sine that only reaches full
-    // strength a quarter of _PulsePeriod after entry, and injection is a
-    // rate (multiplied by _DeltaTime) meant to be integrated over several
-    // steps. A fast-moving occluder can clear the surface again before
-    // either of those has had time to build up any real energy, so nothing
-    // would visibly ripple at all for a quick touch. Firing one
-    // fixed-strength kick on the exact step contact begins — and another on
-    // the exact step it ends — guarantees a visible ripple regardless of
-    // how brief the contact turns out to be, independent of Waves
-    // Length/Speed, Fade Out, and of frame rate. For the fastest possible
-    // touch these two kicks (one step apart at minimum) are the "one or two
-    // ripples" a quick pass produces.
-    if (entryTime == _Time || exitTime == _Time)
-    {
-        hNew += _Mask[i] * _PulseStrength;
-    }
-
-    // ---- Periodic injection ("dripping tap"), phase measured from entryTime ----
-    if (envelope > 0.0)
-    {
-        float localTime = _Time - entryTime;
-        float phase = frac(localTime / _PulsePeriod) * 6.2831853; // 2*PI
-        // max(0, sin(...)) gives a smooth half-sine pulse: 0 -> peak -> 0,
-        // with no derivative discontinuity at the start or end of the pulse.
-        float pulse = max(0.0, sin(phase));
-        hNew += _Mask[i] * pulse * envelope * _PulseStrength * _DeltaTime;
-    }
-
+    // Emission no longer happens here — see InjectRelease below for why.
     _HNext[i] = hNew;
+}
+
+// ---- Release injection ----
+// Adds a newly released silhouette into the wave field with correctly zero
+// initial velocity, dispatched BEFORE UpdateWave on a release step (and
+// skipped entirely otherwise, since _ReleaseScale is 0).
+//
+// The leapfrog integrator above computes hNew = 2h - hPrev + c^2*(avg - h).
+// That formula assumes h and hPrev already represent a physically consistent
+// state one timestep apart. Adding the release amplitude to the OUTPUT of a
+// single step (as an earlier version of this file did) leaves hPrev at its
+// old, lower value, which the very next step reads as "this vertex moved a
+// large distance in one timestep" — a spurious velocity of roughly
+// amplitude / dt baked in by the seeding itself, not by the wave equation.
+// Leapfrog then amplifies that spurious velocity for several steps before
+// damping catches up, which is exactly the single sharp flash on release:
+// numerically it overshot the injected amplitude by roughly 6x here before
+// settling, an artifact of how the pulse was seeded, not the wave itself.
+//
+// Adding the same amplitude to BOTH h and hPrev cancels that: the implied
+// velocity (h - hPrev) / dt is unchanged by an equal shift to both, so the
+// ring is seeded at rest and only starts moving because of its own spatial
+// curvature (the Laplacian term), which is what should be driving it.
+[numthreads(64, 1, 1)]
+void InjectRelease(uint3 id : SV_DispatchThreadID)
+{
+    uint i = id.x;
+    if (i >= _WeldedVertexCount) return;
+
+    float amount = _ReleaseMask[i] * _PulseStrength * _ReleaseScale;
+    _HCurrent[i] += amount;
+    _HPrevious[i] += amount;
 }
 
 // ---- Cosmetic smoothing pass, decoupled from physics ----
@@ -241,4 +198,90 @@ void SmoothForDisplay(uint3 id : SV_DispatchThreadID)
     float neighborAverage = weightTotal > 0.0 ? weightedSum / weightTotal : h;
 
     _HDisplay[i] = lerp(h, neighborAverage, _DisplaySmoothing);
+}
+
+// ---- Release softening (Wave Softening) ----
+// Distance-weighted neighbor blur over the adjacency graph, run a few times
+// on the release buffer before it is emitted. Blurring the SOURCE rather
+// than the field means softening changes how soft the ring's edge is
+// without touching propagation, decay, or timing in any way. Dispatched
+// only on release steps, so its cost is negligible.
+[numthreads(64, 1, 1)]
+void BlurRelease(uint3 id : SV_DispatchThreadID)
+{
+    uint i = id.x;
+    if (i >= _WeldedVertexCount) return;
+
+    int start = _NeighborOffsets[i];
+    int end = _NeighborOffsets[i + 1];
+
+    float weightedSum = 0.0;
+    float weightTotal = 0.0;
+    for (int n = start; n < end; n++)
+    {
+        float dist = _NeighborDistances[n];
+        float weight = 1.0 / max(dist * dist, 1e-6);
+        weightedSum += _BlurSource[_NeighborIndices[n]] * weight;
+        weightTotal += weight;
+    }
+
+    float self = _BlurSource[i];
+    float neighborAverage = weightTotal > 0.0 ? weightedSum / weightTotal : self;
+    _BlurTarget[i] = lerp(self, neighborAverage, 0.5);
+}
+
+
+// ---- Silhouette outline extraction ----
+// A filled silhouette is not a wave source. The wave equation moves energy
+// through the Laplacian (neighborAverage - h), and inside a uniform patch
+// every neighbor equals the vertex itself, so the Laplacian is exactly zero
+// and the patch simply sits there decaying in place — a solid flash in the
+// shape of the occluder, which is precisely the fast-pass symptom. Curvature
+// exists only at the patch BOUNDARY, so that is what must be emitted: the
+// outline of the intersection, one vertex wide here and widened below.
+[numthreads(64, 1, 1)]
+void ExtractReleaseBoundary(uint3 id : SV_DispatchThreadID)
+{
+    uint i = id.x;
+    if (i >= _WeldedVertexCount) return;
+
+    float self = _BlurSource[i];
+    if (self <= 0.0) { _BlurTarget[i] = 0.0; return; }
+
+    int start = _NeighborOffsets[i];
+    int end = _NeighborOffsets[i + 1];
+
+    float minNeighbor = self;
+    for (int n = start; n < end; n++)
+    {
+        minNeighbor = min(minNeighbor, _BlurSource[_NeighborIndices[n]]);
+    }
+
+    // Zero deep inside the patch (all neighbors equally occupied), full
+    // strength where the patch meets open surface. Using the difference
+    // rather than a hard test keeps this correct when two events of
+    // different amplitude touch.
+    _BlurTarget[i] = max(0.0, self - minNeighbor);
+}
+
+// ---- Outline widening ----
+// Dilation (max over neighbors) rather than blurring, because a blur would
+// spread the one-vertex outline while dividing its amplitude down with every
+// pass, so ring strength would depend on Wave Softening. Max propagation
+// widens the ring while preserving its height exactly.
+[numthreads(64, 1, 1)]
+void DilateRelease(uint3 id : SV_DispatchThreadID)
+{
+    uint i = id.x;
+    if (i >= _WeldedVertexCount) return;
+
+    int start = _NeighborOffsets[i];
+    int end = _NeighborOffsets[i + 1];
+
+    float widest = _BlurSource[i];
+    for (int n = start; n < end; n++)
+    {
+        widest = max(widest, _BlurSource[_NeighborIndices[n]]);
+    }
+    _BlurTarget[i] = widest;
 }

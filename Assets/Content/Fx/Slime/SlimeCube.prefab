@@ -179,14 +179,13 @@ MonoBehaviour:
   occluderLayerMask:
     serializedVersion: 2
     m_Bits: 4294967295
-  wavesSpeed: 1
-  wavesLength: 3
-  wavesMaxDistance: 3
-  waveSoftening: 1
-  wavesAmplitude: 1
+  waveLifetime: 1
+  waveMaxDistance: 1
+  waveSpeed: 2
+  waveSize: 0
+  waveSoftening: 0.025
+  waveAmplitude: 1
   visualSmoothing: 1
-  fadeIn: 0
-  fadeOut: 0.01
   simulationStep: 0.02
   maxStepsPerFrame: 4
   waveCompute: {fileID: 7200000, guid: 0a2402cce7a00ac43ab351598d95fc42, type: 3}
