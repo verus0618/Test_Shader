@@ -144,6 +144,15 @@ namespace RippleSystem
         private float[] _releaseMaskCpu;
         private bool _pendingRelease;
 
+        // How many simulation steps the current release's attack still has
+        // left to run; 0 means no ramp is in progress.
+        private int _releaseRampStepsLeft;
+
+        // Short enough to stay imperceptible as a delay on a single touch,
+        // long enough to turn a stationary object's periodic drip from a
+        // series of pops into something that reads as continuous.
+        private const int ReleaseRampSteps = 4;
+
         private readonly List<int> _areaPerOccluder = new List<int>();
         private readonly Dictionary<Collider, ContactEvent> _contactEvents = new Dictionary<Collider, ContactEvent>();
         private readonly List<Collider> _eventKeyScratch = new List<Collider>();
@@ -209,6 +218,7 @@ namespace RippleSystem
             _areaPerOccluder.Clear();
             _previousOccluderCentres.Clear();
             _pendingRelease = false;
+            _releaseRampStepsLeft = 0;
 
             AllocateBuffers();
             UploadStaticData();
@@ -388,17 +398,38 @@ namespace RippleSystem
                 // inconsistent from one run to the next for the same motion.
                 UpdateContactEvents(_simulationTime, pulsePeriod);
 
-                // A pending release is consumed by exactly one step. If no
-                // step runs this frame it simply stays pending and lands on
-                // the next one, so a release can never be silently dropped;
-                // and _ReleaseScale is zero on every other step, so the stale
-                // contents of the release buffer contribute nothing.
-                float releaseScale = 0f;
-                if (_pendingRelease)
+                // A release is spread over a short attack instead of being
+                // injected in one instantaneous step. A single full-strength
+                // stamp is correct for physics (see InjectRelease's own
+                // comment on zero-velocity seeding) but reads as a jarring
+                // pop for the periodic drip off an object sitting in the
+                // wall, since the exact same shape flashes to full
+                // brightness over and over at a fixed cadence. Spreading the
+                // SAME total amount across a few steps, each individually
+                // still seeded into both h and hPrev (so no step introduces
+                // spurious velocity on its own), keeps every numerical
+                // guarantee already established while making the arrival
+                // itself gradual. This is not a delay — the ramp starts on
+                // the very step the release is due, it just doesn't finish
+                // delivering all at once.
+                //
+                // A pending release only starts a new ramp once the current
+                // one has finished; if another fires while one is still in
+                // progress, it simply waits its turn on a later step rather
+                // than being dropped or corrupting the ramp already running.
+                if (_pendingRelease && _releaseRampStepsLeft <= 0)
                 {
                     UploadAndSoftenRelease();
-                    releaseScale = 1f;
+                    _releaseRampStepsLeft = ReleaseRampSteps;
                     _pendingRelease = false;
+                }
+
+                float releaseScale = 0f;
+                if (_releaseRampStepsLeft > 0)
+                {
+                    int k = ReleaseRampSteps - _releaseRampStepsLeft;
+                    releaseScale = ReleaseRampFraction(k);
+                    _releaseRampStepsLeft--;
                 }
 
                 DispatchCompute(simulationStep, _simulationTime, maskSmoothRate, waveSpeed2, dampingPerStep, releaseScale);
@@ -424,7 +455,7 @@ namespace RippleSystem
         }
 
         /// <summary>
-        /// Converts the friendly "Waves Speed" (world units/sec) into the
+        /// Converts the derived propagation speed (world units/sec) into the
         /// wave equation's internal c^2 coefficient, using the mesh's
         /// average edge length and the fixed simulation step so a given
         /// speed value means roughly the same thing regardless of mesh
@@ -440,9 +471,10 @@ namespace RippleSystem
 
             if (!_loggedSpeedClamp && !Mathf.Approximately(clamped, speed2))
             {
-                Debug.LogWarning($"[RippleSystem] Waves Speed ({desiredSpeed:F2}) was clamped for numerical " +
-                                  "stability. Lower Simulation Step or Waves Speed if the visible speed doesn't " +
-                                  "match what you dialed in.", this);
+                Debug.LogWarning($"[RippleSystem] Ring propagation speed ({desiredSpeed:F2} m/s, derived from Wave Max " +
+                                  "Distance / effective Lifetime) was clamped for numerical stability. Lower " +
+                                  "Simulation Step, raise Wave Lifetime, or lower Wave Max Distance if the " +
+                                  "visible speed doesn't match what you dialed in.", this);
                 _loggedSpeedClamp = true;
             }
 
@@ -531,12 +563,6 @@ namespace RippleSystem
 
                 _contactEvents[collider] = new ContactEvent { StartTime = simTime };
                 _eventKeyScratch.Add(collider);
-                // TEMPORARY DIAGNOSTIC — remove once the repeated-rings issue
-                // is understood. Shows exactly when the system thinks contact
-                // began, and with how much area, so we can tell a real
-                // re-touch from sensor noise.
-                Debug.Log($"[RippleSystem] Contact STARTED with '{(collider != null ? collider.name : "null")}' " +
-                          $"at t={simTime:F3}s, area={_areaPerOccluder[o]} vertices", this);
             }
 
             for (int e = 0; e < _eventKeyScratch.Count; e++)
@@ -585,10 +611,6 @@ namespace RippleSystem
                     {
                         ReleaseSilhouette(ev, simTime);
                     }
-                    // TEMPORARY DIAGNOSTIC — see the matching log in the
-                    // "start" branch above.
-                    Debug.Log($"[RippleSystem] Contact ENDED with '{(collider != null ? collider.name : "null")}' " +
-                              $"at t={simTime:F3}s, duration={simTime - ev.StartTime:F3}s, peakArea={ev.PeakArea}", this);
                     _contactEvents.Remove(collider);
                 }
             }
@@ -770,6 +792,22 @@ namespace RippleSystem
         /// always read as on the inspector: how soft the emitted ring's edge
         /// is. Runs only on release steps, roughly once per pulse period.
         /// </summary>
+        /// <summary>
+        /// Fraction of the total release amplitude to inject on ramp step k
+        /// (0-indexed, out of ReleaseRampSteps). Fractions across the whole
+        /// ramp sum to exactly 1 — this reshapes WHEN the amplitude arrives,
+        /// never how much of it arrives in total. Built from a raised-cosine
+        /// ease (zero slope at both ends) so the ramp has no sudden jerk at
+        /// its start or its handoff into steady propagation.
+        /// </summary>
+        private static float ReleaseRampFraction(int k)
+        {
+            float t0 = (float)k / ReleaseRampSteps;
+            float t1 = (float)(k + 1) / ReleaseRampSteps;
+            float Ease(float t) => 0.5f * (1f - Mathf.Cos(t * Mathf.PI));
+            return Ease(t1) - Ease(t0);
+        }
+
         private void UploadAndSoftenRelease()
         {
             _releaseMaskA.SetData(_releaseMaskCpu);

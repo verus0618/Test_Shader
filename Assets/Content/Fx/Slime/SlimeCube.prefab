@@ -179,12 +179,12 @@ MonoBehaviour:
   occluderLayerMask:
     serializedVersion: 2
     m_Bits: 4294967295
-  waveLifetime: 1
-  waveMaxDistance: 1
-  waveSpeed: 2
+  waveLifetime: 0.5
+  waveMaxDistance: 3
+  waveSpeed: 1
   waveSize: 0
   waveSoftening: 0.025
-  waveAmplitude: 1
+  waveAmplitude: 3
   visualSmoothing: 1
   simulationStep: 0.02
   maxStepsPerFrame: 4
