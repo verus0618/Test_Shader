@@ -20,13 +20,14 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: FX_Slime
+  m_Name: FX_Slime_Cube
   m_Shader: {fileID: -6465566751694194690, guid: bb85c59d3aa49944b9b982fb6dba7be2, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
   - _ALPHAPREMULTIPLY_ON
   - _ALPHATEST_ON
+  - _DISPLACEMENTTYPE_TRIPLANAR
   - _SURFACE_TYPE_TRANSPARENT
   m_InvalidKeywords:
   - _DEBUG_NONE
@@ -146,6 +147,7 @@ Material:
     - _CastShadows: 1
     - _Cull: 2
     - _DEBUG: 0
+    - _DISPLACEMENTTYPE: 1
     - _Depth: 0
     - _DepthFresnel_Intensity: 1
     - _Depth_Strength: 1.5
@@ -162,7 +164,9 @@ Material:
     - _Displacement_Normal: 0
     - _Displacement_TriplanarBlend: 2
     - _Displacement_TriplanarScale: 0.02
+    - _Displacement_TriplanarScollMultipler: 3
     - _Displacement_UpMask_Multiply: 0.2
+    - _Displacement_UpMask_Offset: 0.5
     - _Displacement_UpMask_Power: 1
     - _Displacement_Up_X: 0
     - _Displacement_Up_Y: 0
@@ -190,7 +194,7 @@ Material:
     - _MatcapColor1_Intensity: 4
     - _MatcapColor2_Intensity: 2.96
     - _Metallic: 0.1
-    - _NormalStrenght: 0.7
+    - _NormalStrenght: 0
     - _Normal_1_TriplanarScale: 0.2
     - _Normal_2_TriplanarScale: -0.05
     - _Normal_Influence: 0.5
@@ -229,8 +233,8 @@ Material:
     - _Ripple_Speed: 5
     - _Ripple_TimeFalloff: 0.5
     - _Ripple_inDisplacement: 0.2
-    - _Ripple_inNormal: 1
-    - _Ripple_inRefraction: 1
+    - _Ripple_inNormal: 0.7
+    - _Ripple_inRefraction: 0.5
     - _SSS_AdditionalLights_Intensity: 50
     - _SSS_Intensity: 3
     - _SSS_MainLight_Intensity: 3
@@ -288,8 +292,12 @@ Material:
     - _Displacement_TriplanarMinMax: {r: 0, g: 1, b: 0, a: 0}
     - _Displacement_TriplanarMinMax_1: {r: 0, g: 1, b: 0, a: 0}
     - _Displacement_TriplanarRemap: {r: -1, g: 1, b: 0, a: 0}
-    - _Displacement_TriplanarScoll: {r: 100, g: 150, b: -200, a: 0}
+    - _Displacement_TriplanarScoll: {r: 1, g: 1.5, b: -2, a: 0}
     - _Displacement_TriplanarTilling: {r: 1, g: 1, b: 1, a: 0}
+    - _Displacement_UV_Mask_MinMax: {r: 0, g: 1, b: 0, a: 0}
+    - _Displacement_UV_Mask_Offset: {r: 0, g: 0, b: 0, a: 0}
+    - _Displacement_UV_Scoll: {r: 0, g: 0, b: 0, a: 0}
+    - _Displacement_UV_Tilling: {r: 1, g: 1, b: 0, a: 0}
     - _FaceColor: {r: 0.45098042, g: 0.7734282, b: 1, a: 1}
     - _FireColor1: {r: 0.68867916, g: 0.82244986, b: 1, a: 1}
     - _Fresnel_MinMax: {r: 0.5, g: 1, b: 0, a: 0}
