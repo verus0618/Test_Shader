@@ -2548,7 +2548,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1124013304
 Transform:
   m_ObjectHideFlags: 0
@@ -3234,9 +3234,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -6435399192587130656, guid: 4e66426dc93b8074396db3623ca86747, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 4e66426dc93b8074396db3623ca86747, type: 3}
       propertyPath: m_Name
       value: DMK_Fire_Blender
+      objectReference: {fileID: 0}
+    - target: {fileID: 4246033775202154418, guid: 4e66426dc93b8074396db3623ca86747, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
