@@ -57,11 +57,12 @@ Material:
     - _AlphaToMask: 1
     - _Blend: 0
     - _BlendModePreserveSpecular: 1
-    - _CastShadowStrength: 0.508
+    - _CastShadowStrength: 0.399
     - _CastShadows: 1
     - _Cull: 2
     - _DstBlend: 0
     - _DstBlendAlpha: 0
+    - _Fill_Strength: 1
     - _Float: 0
     - _QueueControl: 0
     - _QueueOffset: 0
@@ -71,6 +72,8 @@ Material:
     - _SSS_MainLight_Intensity: 1
     - _SSS_Normal_Influence: 1
     - _SSS_Power: 1
+    - _SelfShadowStrength: 1
+    - _ShadowWrap: 1
     - _SrcBlend: 1
     - _SrcBlendAlpha: 1
     - _Surface: 0

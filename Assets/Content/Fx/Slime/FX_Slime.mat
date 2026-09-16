@@ -26,6 +26,7 @@ Material:
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
   - _ALPHAPREMULTIPLY_ON
+  - _ALPHATEST_ON
   - _SURFACE_TYPE_TRANSPARENT
   m_InvalidKeywords:
   - _DEBUG_NONE
@@ -122,13 +123,13 @@ Material:
     - _AdditiveBurn_Normal: 1
     - _AdditiveBurn_X: 0
     - _AdditiveBurn_Y: 1
-    - _AlphaClip: 0
+    - _AlphaClip: 1
     - _AlphaHead_Intensity: 1
     - _AlphaHead_Max: 0.3
     - _AlphaHead_Min: 0
     - _AlphaHead_Offset: 0.75
     - _AlphaToMask: 0
-    - _Alpha_Depth: 0.8
+    - _Alpha_Depth: 0.2
     - _Alpha_Shallow: 0
     - _Blend: 0
     - _BlendModePreserveSpecular: 1
@@ -141,12 +142,13 @@ Material:
     - _Bubbles_2_ParallaxTiling: 1024
     - _Bubbles_2_Tiling: 512
     - _Bubbles_VerticalMask_Offset: 3.45
+    - _CastShadowStrength: 1
     - _CastShadows: 1
     - _Cull: 2
     - _DEBUG: 0
     - _Depth: 0
     - _DepthFresnel_Intensity: 1
-    - _Depth_Strength: 4
+    - _Depth_Strength: 1.5
     - _DifScroll_X: 0.02
     - _DifScroll_Y: 0.02
     - _DifScroll_Z: 0.1
@@ -173,6 +175,7 @@ Material:
     - _DstBlendAlpha: 10
     - _Edge_Guard_Threshold: 0.1
     - _FaceColor_Intensity: 5
+    - _Fill_Strength: 1
     - _FireColor1_Intensity: 1.5
     - _Float: 0.25
     - _Float_1: 0.25
@@ -207,7 +210,7 @@ Material:
     - _Refraction_TriplanarBlend: 1
     - _Refraction_TriplanarScale: 0.2
     - _RimColor_InTensity: 1
-    - _RimColor_Normal: 0.3
+    - _RimColor_Normal: 0
     - _RimPower: 1
     - _RimPower_1: 1
     - _Ripple: -0.6
@@ -236,6 +239,8 @@ Material:
     - _Scroll_X: 0.3
     - _Scroll_Y: 0.3
     - _Scroll_Z: 0.3
+    - _SelfShadowStrength: 1
+    - _ShadowWrap: 1
     - _Smoothness: 0.85
     - _Speed: 0
     - _SrcBlend: 1
@@ -266,10 +271,10 @@ Material:
     - _Bubbles_2_Scroll: {r: 0.01, g: -0.02, b: 0, a: 0}
     - _Bubbles_2_Tile: {r: 1, g: 1, b: 0, a: 0}
     - _Bubbles_Color: {r: 0.7329843, g: 2, b: 0, a: 1}
-    - _Bubbles_VerticalMask_MinMax: {r: -1, g: 2, b: 0, a: 0}
-    - _Bubbles_VerticalMask_Offset: {r: 5, g: 4, b: 0, a: 0}
-    - _Color_Depth: {r: 0.035896502, g: 0.09433961, b: 0.044455692, a: 1}
-    - _Color_Shallow: {r: 0.8114024, g: 1.4980391, b: 0, a: 1}
+    - _Bubbles_VerticalMask_MinMax: {r: -1, g: 3, b: 0, a: 0}
+    - _Bubbles_VerticalMask_Offset: {r: 5, g: 3, b: 0, a: 0}
+    - _Color_Depth: {r: 0.03647059, g: 0.12156863, b: 0.043562084, a: 1}
+    - _Color_Shallow: {r: 1.0890051, g: 1.9999999, b: 0, a: 0.6}
     - _Color_TEST: {r: 1.0906298, g: 2.9960783, b: 0, a: 1}
     - _Color_Test1: {r: 1, g: 0, b: 0, a: 1}
     - _Color_Test2: {r: 0, g: 0.087194204, b: 1, a: 1}

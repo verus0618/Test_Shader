@@ -57,8 +57,6 @@ namespace RippleSystem.Editor
             _dummyBuffer.SetData(new float[] { 0f });
             Shader.SetGlobalBuffer("_RippleHBuffer", _dummyBuffer);
             Shader.SetGlobalInt("_RippleHBufferLength", 1);
-
-            Debug.Log("[RippleSystem] Global fallback buffer for \"_RippleHBuffer\" registered.");
         }
 
         private static void Release()
