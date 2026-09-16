@@ -24,39 +24,30 @@ Material:
   m_Shader: {fileID: -6465566751694194690, guid: f4b02707c61b39e4e8a3f9815ec061ae, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
-  m_ValidKeywords:
+  m_ValidKeywords: []
+  m_InvalidKeywords:
   - _SURFACE_TYPE_TRANSPARENT
-  m_InvalidKeywords: []
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
-  stringTagMap:
-    RenderType: Transparent
+  stringTagMap: {}
   disabledShaderPasses:
   - MOTIONVECTORS
   m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
-    - _BubblesTexture:
-        m_Texture: {fileID: 2800000, guid: 49a8519acd39caa4aa5d6b84c11cf5c2, type: 3}
+    - _Bubbles_Texture:
+        m_Texture: {fileID: 2800000, guid: 6211be55efa3b2d429a45345091e8aa5, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - _DiffuseMap:
-        m_Texture: {fileID: 2800000, guid: 6a8ebae8081e8da4f80376419c51e7bc, type: 3}
+    - _Displacement_NoiseTexture:
+        m_Texture: {fileID: 2800000, guid: 357e0b954e9356e47ac41977faab8246, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - _MatCap:
-        m_Texture: {fileID: 2800000, guid: 5d05b363bb18f5744a5a2ecd7774c2ba, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _NoiseTexture:
-        m_Texture: {fileID: 2800000, guid: af8e09d22721a3f4499009999a20b49b, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _NoiseTexture_1:
-        m_Texture: {fileID: 0}
+    - _MatCap_Texture:
+        m_Texture: {fileID: 2800000, guid: 86cf051ff5d814a4e8af386a4cfb14cc, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - unity_Lightmaps:
@@ -73,83 +64,39 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _: 0
-    - _AdditiveBurn_X: 1
-    - _AdditiveBurn_Y: 1
-    - _AlphaClip: 0
-    - _AlphaHead_Intensity: 1
-    - _AlphaHead_Max: 0.3
-    - _AlphaHead_Min: 0
-    - _AlphaHead_Offset: 0.75
-    - _AlphaToMask: 0
-    - _AlphaWater: 0.95
-    - _AlphaWaterFresnel: 0.7
-    - _Blend: 0
-    - _CastShadows: 1
-    - _Cull: 2
-    - _DifScroll_X: 0.02
-    - _DifScroll_Y: 0.02
-    - _DifScroll_Z: 0.1
-    - _DifTIlling_X: 4
-    - _DifTIlling_Y: 4
-    - _DifTIlling_Z: 4
-    - _DifTriplanar_Blend: 12
-    - _Displacement_Normal: 0.05
-    - _Displacement_Up_X: 0
-    - _Displacement_Up_Y: 0
-    - _Displacement_Up_Z: -0.02
-    - _DistortionAmount: 0.05
-    - _DistortionFrequency: 2
-    - _DistortionSpeed: -3
-    - _DstBlend: 10
-    - _DstBlendAlpha: 10
-    - _FaceColor_Intensity: 5
-    - _FireColor1_Intensity: 1.5
-    - _FireColor2_Intensity: 2
-    - _Fresnel: 3
-    - _FresnelCore_Max: 1
-    - _FresnelCore_Min: 0.3
-    - _FresnelEdge_Max: 0.8
-    - _FresnelEdge_Min: 0.5
-    - _Green_Channel: 1
-    - _LightDirrection_Rotate: 180
-    - _MatcapColor1_Intensity: 4
-    - _MatcapColor2_Intensity: 2.96
-    - _NL_Rotate: 45
+    - _Bubbles_ColorIntensity: 5
+    - _Bubbles_Scroll_X: 0.02
+    - _Bubbles_Scroll_Y: 0.02
+    - _Bubbles_Scroll_Z: 0.1
+    - _Bubbles_TIlling_X: 4
+    - _Bubbles_TIlling_Y: 4
+    - _Bubbles_TIlling_Z: 4
+    - _Bubbles_TriplanarBlend: 10
+    - _Displacement_Scroll_X: 0.3
+    - _Displacement_Scroll_Y: 0.3
+    - _Displacement_Scroll_Z: 0.3
+    - _Displacement_TIlling_X: 1
+    - _Displacement_TIlling_Y: 1
+    - _Displacement_TIlling_Z: 1
+    - _Displacement_TriplanarBlend: 2
+    - _Displacement_byNormal: 0.05
+    - _Edge_ColorIntensity: 1.5
+    - _Edge_Max: 0.8
+    - _Edge_Min: 0.5
+    - _LightColor_DirrectionRotate: 180
+    - _LightColor_Intensity: 2.5
+    - _MatCap_AdditiveBurn_Y: 1
+    - _MatCap_DistortionAmount: 0.05
+    - _MatCap_DistortionFrequency: 2
+    - _MatCap_DistortionSpeed: -3
+    - _Matcap_Color_Intensity: 4
     - _PowerGreenVC: 1
-    - _PowerRedVC: 2
     - _QueueControl: 0
     - _QueueOffset: 0
-    - _Scroll_X: 0.3
-    - _Scroll_Y: 0.3
-    - _Scroll_Z: 0.3
-    - _SrcBlend: 5
-    - _SrcBlendAlpha: 1
-    - _Surface: 1
-    - _TIlling_X: 1
-    - _TIlling_Y: 1
-    - _TIlling_Z: 1
-    - _TopProjection_X: 0
-    - _TopProjection_Y: 1
-    - _TopProjection_Z: 0
-    - _Triplanar_Blend: 2
-    - _UseMatcap: 0
-    - _UseTopProjection: 0
-    - _WaterFresnel: 1
-    - _ZTest: 4
-    - _ZWrite: 1
-    - _ZWriteControl: 1
     m_Colors:
-    - _Color_1: {r: 0, g: 0.35337615, b: 2, a: 1}
-    - _Color_2: {r: 0.18553454, g: 0.677408, b: 1, a: 1}
-    - _Displacement_NormalRemap: {r: -1, g: 1, b: 0, a: 0}
-    - _FaceColor: {r: 0.45098042, g: 0.7734282, b: 1, a: 1}
-    - _FireColor1: {r: 0.68867916, g: 0.82244986, b: 1, a: 1}
-    - _FireColor2: {r: 0.3927903, g: 0.27843142, b: 1, a: 1}
-    - _LightDirrection: {r: 1, g: 0, b: 0, a: 0}
-    - _MatcapColor1: {r: 0.36163503, g: 0.62520033, b: 1, a: 1}
-    - _MatcapColor2: {r: 0.3046008, g: 0.28616333, b: 1, a: 1}
-    - _Vector3: {r: 1, g: 0, b: 0, a: 0}
-    - _WaterFresnel_MinMax: {r: 0, g: 0.25, b: 0, a: 0}
+    - _Edge_Color: {r: 0.6901961, g: 0.8235294, b: 1, a: 1}
+    - _LightColor: {r: 0.30588236, g: 0.28627446, b: 1, a: 1}
+    - _LightColorDirrection: {r: 1, g: 0, b: 0, a: 0}
+    - _Matcap_Color: {r: 0.36078426, g: 0.62352943, b: 1, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1

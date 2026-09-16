@@ -2219,8 +2219,8 @@
     "m_ObjectId": "0ad75e7374814355b92fdc8135bee7c9",
     "m_Title": "TopProjection",
     "m_Position": {
-        "x": -475.0003662109375,
-        "y": -2599.999755859375
+        "x": -475.0,
+        "y": -2600.0
     }
 }
 
@@ -2871,7 +2871,7 @@
     "m_Type": "UnityEditor.ShaderGraph.Vector1MaterialSlot",
     "m_ObjectId": "181c3085f44e44ee8eb7c1807688ef87",
     "m_Id": 0,
-    "m_DisplayName": "Displacement_Normal",
+    "m_DisplayName": "Displacement_byNormal",
     "m_SlotType": 1,
     "m_Hidden": false,
     "m_HideConnector": false,
@@ -4395,10 +4395,10 @@
     "promotedFromAssetID": "",
     "promotedFromCategoryName": "",
     "promotedOrdering": -1,
-    "m_Name": "Displacement_Normal",
+    "m_Name": "Displacement_byNormal",
     "m_DefaultRefNameVersion": 1,
-    "m_RefNameGeneratedByDisplayName": "Displacement_Normal",
-    "m_DefaultReferenceName": "_Displacement_Normal",
+    "m_RefNameGeneratedByDisplayName": "Displacement_byNormal",
+    "m_DefaultReferenceName": "_Displacement_byNormal",
     "m_OverrideReferenceName": "",
     "m_GeneratePropertyBlock": true,
     "m_UseCustomSlotLabel": false,
@@ -4411,7 +4411,7 @@
     "m_Hidden": false,
     "m_PerRendererData": false,
     "m_customAttributes": [],
-    "m_Value": 0.20000000298023225,
+    "m_Value": 0.10000000149011612,
     "m_FloatType": 0,
     "m_LiteralFloatMode": false,
     "m_RangeValues": {
@@ -6625,8 +6625,8 @@
     "m_ObjectId": "62728dff9a3543fe9c2f9c5394c4f289",
     "m_Title": "NormalFlameContolls",
     "m_Position": {
-        "x": 1069.999755859375,
-        "y": -1897.999755859375
+        "x": 1070.0001220703125,
+        "y": -1898.0
     }
 }
 
@@ -8262,8 +8262,8 @@
     "m_ObjectId": "8a471c55f519407d94f4be6ff3c57d78",
     "m_Title": "Core - for innrer flames shading",
     "m_Position": {
-        "x": 204.0,
-        "y": 6.000244140625
+        "x": 203.99996948242188,
+        "y": 6.0
     }
 }
 
@@ -8755,7 +8755,7 @@
     "m_Title": "FireColorBlend",
     "m_Position": {
         "x": 99.0,
-        "y": -831.0
+        "y": -831.0001220703125
     }
 }
 
@@ -9301,10 +9301,10 @@
         "m_Expanded": true,
         "m_Position": {
             "serializedVersion": "2",
-            "x": 1306.666748046875,
-            "y": -1509.3336181640625,
-            "width": 190.0,
-            "height": 36.0
+            "x": 1298.0001220703125,
+            "y": -1509.0,
+            "width": 201.0,
+            "height": 34.0
         }
     },
     "m_Slots": [
@@ -9617,7 +9617,7 @@
     "m_ObjectId": "b2b047394051468096302d68e808e45b",
     "m_Title": "Triplanar",
     "m_Position": {
-        "x": -834.0003662109375,
+        "x": -833.9999389648438,
         "y": -1695.9998779296875
     }
 }
@@ -10305,7 +10305,7 @@
     "m_ObjectId": "be13725ea8f64bc0a0c4a8c8dec9e0b3",
     "m_Title": "ResaultColorBlend",
     "m_Position": {
-        "x": 1682.0,
+        "x": 1681.9998779296875,
         "y": -782.0
     }
 }
@@ -10693,7 +10693,7 @@
     "m_ObjectId": "c7a93b47cc434dedb26cd599b7c1329d",
     "m_Title": "Alpha Head",
     "m_Position": {
-        "x": 945.0,
+        "x": 945.0000610351563,
         "y": 836.0
     }
 }
@@ -11994,7 +11994,7 @@
     "m_ObjectId": "dfd3244fe34949f4b687649e8a8d36ce",
     "m_Title": "Triplanar",
     "m_Position": {
-        "x": -1082.0,
+        "x": -1081.9998779296875,
         "y": -556.0
     }
 }
@@ -12457,8 +12457,8 @@
     "m_ObjectId": "edb5b0166dfd4b82a38c9bba31de3545",
     "m_Title": "VerticalFlameControlls",
     "m_Position": {
-        "x": 1061.0,
-        "y": -2732.999755859375
+        "x": 1061.0001220703125,
+        "y": -2733.0
     }
 }
 

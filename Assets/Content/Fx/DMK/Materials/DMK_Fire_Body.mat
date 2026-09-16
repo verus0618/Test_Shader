@@ -25,7 +25,7 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _NoiseTexture:
-        m_Texture: {fileID: 2800000, guid: 07050ee65e42a5f4b8f2754d203f73ba, type: 3}
+        m_Texture: {fileID: 2800000, guid: 41851cb0bbaf74b1a8ad2cc7a0a9a95a, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - unity_Lightmaps:
@@ -46,19 +46,19 @@ Material:
     - _AlphaHead_Max: 0.3
     - _AlphaHead_Min: 0
     - _AlphaHead_Offset: 0.75
-    - _Displacement_Normal: 0.1
     - _Displacement_Up_X: 0
     - _Displacement_Up_Y: 0
     - _Displacement_Up_Z: 0.25
+    - _Displacement_byNormal: 0.1
     - _FaceColor_Intensity: 2
-    - _FireColor1_Intensity: 1
-    - _FireColor2_Intensity: 2
+    - _FireColor_Max_Intensity: 2
+    - _FireColor_Min_Intensity: 1
     - _FresnelCore_Max: 1.2
     - _FresnelCore_Min: 0.5
     - _FresnelEdge_Max: 0.75
     - _FresnelEdge_Min: 0.3
     - _PowerGreenVC: 1
-    - _PowerRedVC: 4
+    - _PowerRedVC: 2
     - _QueueControl: 0
     - _QueueOffset: 0
     - _Scroll_X: 0.1
@@ -73,8 +73,8 @@ Material:
     - _Triplanar_Blend: 2
     m_Colors:
     - _FaceColor: {r: 1, g: 0.8745098, b: 0.40784308, a: 1}
-    - _FireColor1: {r: 1, g: 0.19999996, b: 0, a: 1}
-    - _FireColor2: {r: 1, g: 0.6901961, b: 0, a: 1}
+    - _FireColor_Max: {r: 1, g: 0.6901961, b: 0, a: 1}
+    - _FireColor_Min: {r: 1, g: 0.19999996, b: 0, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
 --- !u!114 &4481213604274679759

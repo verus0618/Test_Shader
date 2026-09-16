@@ -24,13 +24,15 @@ Material:
   m_Shader: {fileID: -6465566751694194690, guid: 2dbb2e64a523ee440801220dba496641, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
-  m_ValidKeywords: []
+  m_ValidKeywords:
+  - _RECEIVE_SHADOWS_OFF
   m_InvalidKeywords: []
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
-  stringTagMap: {}
+  stringTagMap:
+    RenderType: Opaque
   disabledShaderPasses:
   - MOTIONVECTORS
   m_LockedProperties: 
@@ -87,6 +89,7 @@ Material:
     - _AlphaWater: 0.95
     - _AlphaWaterFresnel: 0.7
     - _Blend: 0
+    - _BlendModePreserveSpecular: 1
     - _CastShadows: 1
     - _Cull: 2
     - _DifScroll_X: 0.02
@@ -118,6 +121,7 @@ Material:
     - _PowerRedVC: 2
     - _QueueControl: 0
     - _QueueOffset: 0
+    - _ReceiveShadows: 0
     - _Scroll_X: 0.3
     - _Scroll_Y: 0.3
     - _Scroll_Z: 0.3
@@ -135,6 +139,7 @@ Material:
     - _UseTexture: 1
     - _UseTopProjection: 0
     - _WaterFresnel: 1
+    - _WorkflowMode: 1
     - _ZTest: 4
     - _ZWrite: 1
     - _ZWriteControl: 1
