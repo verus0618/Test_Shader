@@ -139,7 +139,7 @@ Material:
     - _Bubbles_1_ParallaxTiling: 1024
     - _Bubbles_1_Tiling: 1024
     - _Bubbles_2_Distance: 50
-    - _Bubbles_2_Intensity: 1
+    - _Bubbles_2_Intensity: 0.5
     - _Bubbles_2_ParallaxTiling: 1024
     - _Bubbles_2_Tiling: 512
     - _Bubbles_VerticalMask_Offset: 3.45
@@ -235,14 +235,19 @@ Material:
     - _Ripple_inDisplacement: 0.2
     - _Ripple_inNormal: 0.7
     - _Ripple_inRefraction: 0.5
-    - _SSS_AdditionalLights_Intensity: 50
+    - _SSS_AdditionalLights_Intensity: 20
+    - _SSS_Bubbles: 10
+    - _SSS_Bubbles_Intensity: 3
+    - _SSS_Bubbles_Power: 0.5
     - _SSS_Intensity: 3
-    - _SSS_MainLight_Intensity: 3
-    - _SSS_Normal_Influence: 0.1
-    - _SSS_Power: 2
+    - _SSS_MainLight_Intensity: 2
+    - _SSS_Normal_Influence: 1
+    - _SSS_Power: 1
     - _Scroll_X: 0.3
     - _Scroll_Y: 0.3
     - _Scroll_Z: 0.3
+    - _SelfHadow: 0.01
+    - _SelfShadow: 0.75
     - _SelfShadowStrength: 1
     - _ShadowWrap: 1
     - _Smoothness: 0.85
