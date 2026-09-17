@@ -27,10 +27,10 @@ Material:
   m_ValidKeywords:
   - _ALPHAPREMULTIPLY_ON
   - _ALPHATEST_ON
-  - _DISPLACEMENTTYPE_TRIPLANAR
   - _SURFACE_TYPE_TRANSPARENT
   m_InvalidKeywords:
   - _DEBUG_NONE
+  - _DISPLACEMENTTYPE_TRIPLANAR
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -159,12 +159,12 @@ Material:
     - _DifTIlling_Z: 4
     - _DifTriplanar_Blend: 12
     - _Diffuse_TriplanarBlend: 2
-    - _Displacement_Intensity: 1
+    - _Displacement_Intensity: 2
     - _Displacement_NoiseScale: 33.8
     - _Displacement_Normal: 0
-    - _Displacement_TriplanarBlend: 2
-    - _Displacement_TriplanarScale: 0.02
-    - _Displacement_TriplanarScollMultipler: 3
+    - _Displacement_TriplanarBlend: 1
+    - _Displacement_TriplanarScale: 0.05
+    - _Displacement_TriplanarScollMultipler: 2
     - _Displacement_UpMask_Multiply: 0.2
     - _Displacement_UpMask_Offset: 0.5
     - _Displacement_UpMask_Power: 1
@@ -194,7 +194,7 @@ Material:
     - _MatcapColor1_Intensity: 4
     - _MatcapColor2_Intensity: 2.96
     - _Metallic: 0.1
-    - _NormalStrenght: 0
+    - _NormalStrenght: 1
     - _Normal_1_TriplanarScale: 0.2
     - _Normal_2_TriplanarScale: -0.05
     - _Normal_Influence: 0.5
@@ -275,8 +275,8 @@ Material:
     - _Bubbles_2_Scroll: {r: 0.01, g: -0.02, b: 0, a: 0}
     - _Bubbles_2_Tile: {r: 1, g: 1, b: 0, a: 0}
     - _Bubbles_Color: {r: 0.7329843, g: 2, b: 0, a: 1}
-    - _Bubbles_VerticalMask_MinMax: {r: -1, g: 3, b: 0, a: 0}
-    - _Bubbles_VerticalMask_Offset: {r: 5, g: 3, b: 0, a: 0}
+    - _Bubbles_VerticalMask_MinMax: {r: -0.25, g: 1.25, b: 0, a: 0}
+    - _Bubbles_VerticalMask_Offset: {r: 0, g: 3, b: 0, a: 0}
     - _Color_Depth: {r: 0.03647059, g: 0.12156863, b: 0.043562084, a: 1}
     - _Color_Shallow: {r: 1.0890051, g: 1.9999999, b: 0, a: 0.6}
     - _Color_TEST: {r: 1.0906298, g: 2.9960783, b: 0, a: 1}
@@ -289,15 +289,16 @@ Material:
     - _Displacement_NormalRemap: {r: -1, g: 1, b: 0, a: 0}
     - _Displacement_Scoll: {r: 0, g: 0, b: 0, a: 0}
     - _Displacement_Tilling: {r: 1, g: 1, b: 1, a: 0}
-    - _Displacement_TriplanarMinMax: {r: 0, g: 1, b: 0, a: 0}
+    - _Displacement_TriplanarMinMax: {r: -0.25, g: 1, b: 0, a: 0}
     - _Displacement_TriplanarMinMax_1: {r: 0, g: 1, b: 0, a: 0}
     - _Displacement_TriplanarRemap: {r: -1, g: 1, b: 0, a: 0}
-    - _Displacement_TriplanarScoll: {r: 1, g: 1.5, b: -2, a: 0}
+    - _Displacement_TriplanarScoll: {r: 1, g: 1, b: 1, a: 0}
     - _Displacement_TriplanarTilling: {r: 1, g: 1, b: 1, a: 0}
     - _Displacement_UV_Mask_MinMax: {r: 0, g: 1, b: 0, a: 0}
     - _Displacement_UV_Mask_Offset: {r: 0, g: 0, b: 0, a: 0}
     - _Displacement_UV_Scoll: {r: 0, g: 0, b: 0, a: 0}
     - _Displacement_UV_Tilling: {r: 1, g: 1, b: 0, a: 0}
+    - _Displacement_VerticalMask_MinMax: {r: 0, g: 3, b: 0, a: 0}
     - _FaceColor: {r: 0.45098042, g: 0.7734282, b: 1, a: 1}
     - _FireColor1: {r: 0.68867916, g: 0.82244986, b: 1, a: 1}
     - _Fresnel_MinMax: {r: 0.5, g: 1, b: 0, a: 0}
