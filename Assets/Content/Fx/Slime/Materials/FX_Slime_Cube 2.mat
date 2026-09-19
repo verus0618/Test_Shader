@@ -20,16 +20,16 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: FX_Slime_Cube
+  m_Name: FX_Slime_Cube 2
   m_Shader: {fileID: -6465566751694194690, guid: bb85c59d3aa49944b9b982fb6dba7be2, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
   - _ALPHAPREMULTIPLY_ON
   - _ALPHATEST_ON
+  - _DEBUG_MASK
   - _SURFACE_TYPE_TRANSPARENT
   m_InvalidKeywords:
-  - _DEBUG_NONE
   - _DISPLACEMENTTYPE_TRIPLANAR
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -146,7 +146,7 @@ Material:
     - _CastShadowStrength: 1
     - _CastShadows: 1
     - _Cull: 2
-    - _DEBUG: 0
+    - _DEBUG: 2
     - _DISPLACEMENTTYPE: 1
     - _Depth: 0
     - _DepthFresnel_Intensity: 1
@@ -229,12 +229,13 @@ Material:
     - _Ripple_Normal: 0.01
     - _Ripple_Power: 2
     - _Ripple_Refraction: 0.036
+    - _Ripple_Sine: 0.5
     - _Ripple_Smooth: 1
     - _Ripple_Speed: 5
     - _Ripple_TimeFalloff: 0.5
-    - _Ripple_inDisplacement: 0.2
-    - _Ripple_inNormal: 0.7
-    - _Ripple_inRefraction: 0.5
+    - _Ripple_inDisplacement: 1
+    - _Ripple_inNormal: 1
+    - _Ripple_inRefraction: 0
     - _SSS_AdditionalLights_Intensity: 20
     - _SSS_Bubbles: 10
     - _SSS_Bubbles_Intensity: 3
@@ -256,8 +257,12 @@ Material:
     - _SrcBlendAlpha: 1
     - _Surface: 1
     - _TEST: 0
-    - _TEST_1: 0.078
-    - _TEST_2: 0
+    - _TEST_1: 3
+    - _TEST_2: 2
+    - _TEST_Frequency: 3
+    - _TEST_Power: 3
+    - _TEST_Sine: 3
+    - _TEST_Speed: 0.5
     - _TIlling_X: 1
     - _TIlling_Y: 1
     - _TIlling_Z: 1
@@ -323,6 +328,7 @@ Material:
     - _SSS_DL_Color: {r: 0.27265748, g: 0.7490196, b: 0, a: 0.047058824}
     - _Scroll: {r: 0, g: -0.2, b: 0, a: 0}
     - _StickTip: {r: 0, g: 0, b: 0, a: 0}
+    - _TEST_MinMax: {r: 0, g: 1, b: 0, a: 0}
     - _TriplanarScol_1: {r: 0, g: 1, b: 1, a: 0}
     - _TriplanarTilling_1: {r: 1, g: 1, b: 1, a: 0}
     - _Vector2: {r: 0, g: 1, b: 0, a: 0}

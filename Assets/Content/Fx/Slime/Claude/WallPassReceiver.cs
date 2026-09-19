@@ -2,13 +2,17 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// Вешается на Renderer стены — MeshRenderer или SkinnedMeshRenderer.
-/// Делает три вещи:
-/// 1) регистрирует стену, чтобы эмиттеры не писали события вдали от неё;
-/// 2) чинит bounds, чтобы displacement не отсекался frustum culling-ом
-///    (для SkinnedMeshRenderer это отдельная боль — bounds заданы в пространстве rootBone);
-/// 3) в режиме Anchored ведёт СОБСТВЕННЫЙ буфер событий в пространстве якоря,
-///    чтобы отпечаток ехал вместе с движущейся/анимированной стеной, а не висел в мире.
+/// Attach to the wall's Renderer, either a MeshRenderer or a SkinnedMeshRenderer.
+/// Responsibilities:
+///   1. register the wall so emitters can reject events that are nowhere near it;
+///   2. optionally pad bounds so vertex displacement is not clipped by frustum culling;
+///   3. in Anchored mode, keep a private event buffer in anchor space so imprints
+///      travel with a moving or rig-driven wall instead of staying fixed in world space.
+///
+/// Note on bounds: Renderer.localBounds is serialized component data, so writing it in
+/// edit mode dirties the scene or prefab. Padding therefore defaults to play mode only,
+/// the authored value is cached in serialized fields so it survives domain reloads, and
+/// it is always restored on disable.
 /// </summary>
 [ExecuteAlways]
 [RequireComponent(typeof(Renderer))]
@@ -16,10 +20,26 @@ public class WallPassReceiver : MonoBehaviour
 {
     public enum MaskSpace
     {
-        /// Стена стоит на месте. События берутся из глобального буфера. Дёшево, SRP Batcher живой.
+        /// <summary>Static wall. Reads the global event buffer. Cheapest, SRP Batcher stays intact.</summary>
         World = 0,
-        /// Стена едет / анимирована ригом. Свой буфер в пространстве якоря, заливка через MaterialPropertyBlock.
+
+        /// <summary>
+        /// Moving or rig-driven wall. Private buffer in anchor space, uploaded
+        /// through a MaterialPropertyBlock.
+        /// </summary>
         Anchored = 1
+    }
+
+    public enum BoundsHandling
+    {
+        /// <summary>Never touch the renderer. Use when bounds are already authored generously.</summary>
+        None = 0,
+
+        /// <summary>Pad on entering play mode, restore on exit. Leaves authored data untouched.</summary>
+        PlayModeOnly = 1,
+
+        /// <summary>Pad in edit mode too. Writes serialized component data and dirties the scene.</summary>
+        Always = 2
     }
 
     static readonly int ID_A            = Shader.PropertyToID("_WP_A");
@@ -27,20 +47,31 @@ public class WallPassReceiver : MonoBehaviour
     static readonly int ID_Count        = Shader.PropertyToID("_WP_Count");
     static readonly int ID_WorldToSpace = Shader.PropertyToID("_WP_WorldToSpace");
 
-    [Header("Пространство маски")]
+    [Header("Mask Space")]
     [SerializeField] MaskSpace space = MaskSpace.World;
 
-    [Tooltip("Якорь для режима Anchored. Пусто = rootBone у SkinnedMeshRenderer, иначе трансформ рендерера. " +
-             "Масштаб якоря держи равномерным (лучше 1), иначе поплывут метры в falloff и radius.")]
+    [Tooltip("Anchor used in Anchored mode. Empty falls back to the SkinnedMeshRenderer's root bone, " +
+             "otherwise the renderer transform. Keep the anchor's scale uniform, ideally 1: falloff " +
+             "and radii are authored in meters and will scale with it.")]
     [SerializeField] Transform spaceAnchor;
 
     [Header("Bounds")]
-    [Tooltip("Запас к bounds под максимальную величину displacement, м.")]
+    [Tooltip("When to pad renderer bounds. PlayModeOnly is the safe default: local bounds are " +
+             "serialized component data, so editing them outside play mode modifies the scene or prefab.")]
+    [SerializeField] BoundsHandling boundsHandling = BoundsHandling.PlayModeOnly;
+
+    [Tooltip("Padding added to local bounds to cover the maximum displacement, in meters.")]
     [SerializeField, Min(0f)] float boundsPadding = 0.5f;
 
-    [Tooltip("SkinnedMeshRenderer: пересчитывать bounds каждый кадр. " +
-             "Надёжно при сильной анимации, но стоит CPU. Иначе хватает запаса выше.")]
+    [Tooltip("SkinnedMeshRenderer only: recompute bounds every frame. Robust under heavy animation, " +
+             "but costs CPU and makes the padding above redundant.")]
     [SerializeField] bool skinnedUpdateWhenOffscreen = false;
+
+    // Serialized so the authored values survive domain reloads. Without this the cache
+    // would be lost on recompile and padding would accumulate on top of itself.
+    [SerializeField, HideInInspector] Bounds cachedLocalBounds;
+    [SerializeField, HideInInspector] bool   cachedUpdateWhenOffscreen;
+    [SerializeField, HideInInspector] bool   boundsCached;
 
     struct LocalEvent
     {
@@ -51,10 +82,6 @@ public class WallPassReceiver : MonoBehaviour
     Renderer _renderer;
     SkinnedMeshRenderer _skinned;
     MaterialPropertyBlock _mpb;
-
-    Bounds _originalLocalBounds;
-    bool _boundsCached;
-    bool _originalUpdateWhenOffscreen;
 
     readonly List<LocalEvent> _events = new List<LocalEvent>(WallPassRuntime.MaxEvents);
     readonly Vector4[] _bufA = new Vector4[WallPassRuntime.MaxEvents];
@@ -77,10 +104,9 @@ public class WallPassReceiver : MonoBehaviour
 
     void OnEnable()
     {
-        _renderer = GetComponent<Renderer>();
-        _skinned  = _renderer as SkinnedMeshRenderer;
+        Resolve();
         _events.Clear();
-        ApplyBounds();
+        if (ShouldPad()) ApplyBounds();
         WallPassRuntime.Instance.Register(this);
     }
 
@@ -91,69 +117,129 @@ public class WallPassReceiver : MonoBehaviour
         ClearBlock();
     }
 
+    void Resolve()
+    {
+        if (_renderer == null) _renderer = GetComponent<Renderer>();
+        _skinned = _renderer as SkinnedMeshRenderer;
+    }
+
+    bool ShouldPad()
+    {
+        switch (boundsHandling)
+        {
+            case BoundsHandling.None:         return false;
+            case BoundsHandling.PlayModeOnly: return Application.isPlaying;
+            default:                          return true;
+        }
+    }
+
     // ---------------------------------------------------------
     //  Bounds
     // ---------------------------------------------------------
+    void CacheBounds()
+    {
+        if (boundsCached || _renderer == null) return;
+
+        if (_skinned != null)
+        {
+            // SkinnedMeshRenderer local bounds are expressed in root bone space,
+            // not renderer transform space.
+            cachedLocalBounds = _skinned.localBounds;
+            cachedUpdateWhenOffscreen = _skinned.updateWhenOffscreen;
+        }
+        else
+        {
+            cachedLocalBounds = _renderer.localBounds;
+            cachedUpdateWhenOffscreen = false;
+        }
+
+        boundsCached = true;
+    }
+
+    /// <summary>
+    /// Idempotent: padding is always derived from the cached authored bounds,
+    /// never from the current (possibly already padded) value.
+    /// </summary>
     void ApplyBounds()
     {
+        Resolve();
+        if (_renderer == null) return;
+
+        CacheBounds();
+
+        if (_skinned != null)
+        {
+            _skinned.updateWhenOffscreen = skinnedUpdateWhenOffscreen;
+            if (skinnedUpdateWhenOffscreen)
+            {
+                _skinned.localBounds = cachedLocalBounds;
+                return;
+            }
+        }
+
+        var b = cachedLocalBounds;
+        b.Expand(boundsPadding * 2f);
+
+        if (_skinned != null) _skinned.localBounds = b;
+        else                  _renderer.localBounds = b;
+    }
+
+    [ContextMenu("Restore Authored Bounds")]
+    public void RestoreBounds()
+    {
+        Resolve();
+        if (_renderer == null || !boundsCached) return;
+
+        if (_skinned != null)
+        {
+            _skinned.localBounds = cachedLocalBounds;
+            _skinned.updateWhenOffscreen = cachedUpdateWhenOffscreen;
+        }
+        else
+        {
+            _renderer.localBounds = cachedLocalBounds;
+        }
+
+        boundsCached = false;
+        MarkDirty();
+    }
+
+    /// <summary>
+    /// Recovery path when the cached value is already polluted: falls back to the
+    /// source mesh bounds. Close to what the importer produces, but not bit-identical
+    /// for a skinned mesh, whose authored bounds come from the bind pose.
+    /// </summary>
+    [ContextMenu("Reset Bounds To Source Mesh")]
+    public void ResetBoundsToSourceMesh()
+    {
+        Resolve();
         if (_renderer == null) return;
 
         if (_skinned != null)
         {
-            if (!_boundsCached)
-            {
-                // ВАЖНО: у SkinnedMeshRenderer localBounds заданы в пространстве rootBone,
-                // а не трансформа рендерера. Кэшируем авторские bounds и восстанавливаем их потом.
-                _originalLocalBounds = _skinned.localBounds;
-                _originalUpdateWhenOffscreen = _skinned.updateWhenOffscreen;
-                _boundsCached = true;
-            }
-
-            _skinned.updateWhenOffscreen = skinnedUpdateWhenOffscreen;
-
-            if (!skinnedUpdateWhenOffscreen)
-            {
-                var b = _originalLocalBounds;
-                b.Expand(boundsPadding * 2f);
-                _skinned.localBounds = b;
-            }
-            else
-            {
-                _skinned.localBounds = _originalLocalBounds;
-            }
-            return;
-        }
-
-        if (!_boundsCached)
-        {
-            _originalLocalBounds = _renderer.localBounds;
-            _boundsCached = true;
-        }
-
-        var lb = _originalLocalBounds;
-        lb.Expand(boundsPadding * 2f);
-        _renderer.localBounds = lb;
-    }
-
-    void RestoreBounds()
-    {
-        if (_renderer == null || !_boundsCached) return;
-
-        if (_skinned != null)
-        {
-            _skinned.localBounds = _originalLocalBounds;
-            _skinned.updateWhenOffscreen = _originalUpdateWhenOffscreen;
+            if (_skinned.sharedMesh == null) return;
+            _skinned.localBounds = _skinned.sharedMesh.bounds;
         }
         else
         {
-            _renderer.localBounds = _originalLocalBounds;
+            _renderer.ResetLocalBounds();
         }
+
+        boundsCached = false;
+        MarkDirty();
+    }
+
+    void MarkDirty()
+    {
+#if UNITY_EDITOR
+        if (!Application.isPlaying) UnityEditor.EditorUtility.SetDirty(_renderer);
+#endif
     }
 
     // ---------------------------------------------------------
-    //  События в пространстве якоря
+    //  Anchor space events
     // ---------------------------------------------------------
-    /// Вызывается из WallPassRuntime.Emit для стен в режиме Anchored.
+    /// <summary>Called by WallPassRuntime.Emit for receivers running in Anchored mode.</summary>
     public void EmitLocal(Vector3 worldA, Vector3 worldB, float radius, float now, float totalLife)
     {
         if (space != MaskSpace.Anchored) return;
@@ -172,7 +258,11 @@ public class WallPassReceiver : MonoBehaviour
         var s = WallPassRuntime.Instance.Settings;
         if (s != null) cap = Mathf.Clamp(s.maxEvents, 1, WallPassRuntime.MaxEvents);
 
-        if (_events.Count < cap) { _events.Add(e); return; }
+        if (_events.Count < cap)
+        {
+            _events.Add(e);
+            return;
+        }
 
         int oldest = 0;
         for (int i = 1; i < _events.Count; i++)
@@ -184,7 +274,11 @@ public class WallPassReceiver : MonoBehaviour
     {
         if (space != MaskSpace.Anchored)
         {
-            if (_events.Count > 0) { _events.Clear(); ClearBlock(); }
+            if (_events.Count > 0)
+            {
+                _events.Clear();
+                ClearBlock();
+            }
             return;
         }
 
@@ -198,6 +292,7 @@ public class WallPassReceiver : MonoBehaviour
 
     void UploadBlock()
     {
+        Resolve();
         if (_renderer == null) return;
 
         _mpb ??= new MaterialPropertyBlock();
@@ -219,7 +314,7 @@ public class WallPassReceiver : MonoBehaviour
             }
         }
 
-        // MaterialPropertyBlock перекрывает глобальные значения для этого рендерера
+        // A MaterialPropertyBlock overrides global uniforms for this renderer.
         _mpb.SetVectorArray(ID_A, _bufA);
         _mpb.SetVectorArray(ID_B, _bufB);
         _mpb.SetFloat(ID_Count, n);
@@ -237,7 +332,9 @@ public class WallPassReceiver : MonoBehaviour
 #if UNITY_EDITOR
     void OnValidate()
     {
-        if (isActiveAndEnabled) ApplyBounds();
+        if (!isActiveAndEnabled) return;
+        if (ShouldPad()) ApplyBounds();
+        else RestoreBounds();
     }
 #endif
 }

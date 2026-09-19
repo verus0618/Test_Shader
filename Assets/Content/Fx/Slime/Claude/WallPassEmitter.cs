@@ -2,13 +2,17 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// Вешается на персонажа или любой другой объект, проходящий сквозь стену.
-/// Каждый физический шаг записывает ЗАМЕТЁННЫЕ капсулы (прошлая позиция -> текущая),
-/// поэтому маска непрерывна при любой скорости прохода.
+/// Attach to a character or any other object that passes through a wall.
+/// Every physics step it records swept capsules (previous position -> current
+/// position), which keeps the mask continuous regardless of travel speed.
 ///
-/// Зонды можно собрать автоматически из коллайдеров в детях (кнопка в контекстном меню)
-/// или задать руками: для персонажа это кости — голова, торс, предплечья, голени.
-/// Именно набор зондов и даёт силуэт с отдельными руками и ногами.
+/// Probes can be collected automatically from child colliders via the context
+/// menu, or authored by hand. For a rig, place them on bones: head, chest,
+/// pelvis, forearms, shins. The probe set is the silhouette, which is what
+/// gives the mask separate arms and legs.
+///
+/// Probe radii are authored unscaled and multiplied by the transform scale at
+/// emit time, so resizing the object resizes its imprint.
 /// </summary>
 public class WallPassEmitter : MonoBehaviour
 {
@@ -16,9 +20,11 @@ public class WallPassEmitter : MonoBehaviour
     public class Probe
     {
         public Transform target;
-        [Min(0.01f)] public float radius = 0.2f;
 
-        [Tooltip("Необязательно: второй конец кости. Пусто = сферический зонд.")]
+        [Tooltip("Unscaled radius in local units. Transform scale is applied at emit time.")]
+        [Min(0.001f)] public float radius = 0.2f;
+
+        [Tooltip("Optional far end of the bone. Leave empty for a spherical probe.")]
         public Transform tip;
 
         [HideInInspector] public Vector3 prevA, prevB;
@@ -28,10 +34,24 @@ public class WallPassEmitter : MonoBehaviour
 
     [SerializeField] List<Probe> probes = new List<Probe>();
 
-    [Tooltip("Запас к bounds стены при отбраковке, м.")]
+    [Header("Scale")]
+    [Tooltip("Multiply probe radii by the transform scale, so the imprint follows the object as it " +
+             "grows or shrinks. Capsule positions already scale on their own, since they are read " +
+             "in world space.")]
+    [SerializeField] bool scaleRadiusWithTransform = true;
+
+    [Tooltip("Transform whose lossyScale drives every probe radius. Leave empty to use each probe's " +
+             "own transform, which also picks up per-bone scale from the rig. Non-uniform scale is " +
+             "resolved to its largest axis: the capsule SDF has a single radius and cannot be squashed.")]
+    [SerializeField] Transform scaleReference;
+
+    [Header("Emission")]
+    [Tooltip("Padding added to wall bounds during the rejection test, in meters. " +
+             "Keep it comfortably above the falloff set on the settings asset, otherwise the mask " +
+             "pops in on contact instead of fading in ahead of it.")]
     [SerializeField] float boundsPadding = 0.75f;
 
-    [Tooltip("Писать события в FixedUpdate (надёжнее для физики) или в Update.")]
+    [Tooltip("Record events in FixedUpdate (preferred with physics) instead of Update.")]
     [SerializeField] bool useFixedUpdate = true;
 
     void OnEnable()
@@ -50,6 +70,11 @@ public class WallPassEmitter : MonoBehaviour
 
         float now = rt.Clock;
 
+        // Resolved once per step when a shared reference transform is used.
+        float sharedScale = (scaleRadiusWithTransform && scaleReference != null)
+            ? MaxScale(scaleReference)
+            : -1f;
+
         for (int i = 0; i < probes.Count; i++)
         {
             var p = probes[i];
@@ -60,24 +85,26 @@ public class WallPassEmitter : MonoBehaviour
 
             if (!p.initialized)
             {
-                p.prevA = a; p.prevB = b;
+                p.prevA = a;
+                p.prevB = b;
                 p.initialized = true;
                 p.lastEmitTime = now;
                 continue;
             }
 
-            // заметённый объём за кадр: от прошлого положения кости к текущему
+            // Volume swept during this step: from the bone's previous pose to its current one.
             Vector3 segA = p.prevA;
             Vector3 segB = b;
 
             float moved = Mathf.Max((a - p.prevA).magnitude, (b - p.prevB).magnitude);
-            p.prevA = a; p.prevB = b;
+            p.prevA = a;
+            p.prevB = b;
 
             bool moveGate = moved >= s.minStep;
             bool timeGate = (now - p.lastEmitTime) >= s.maxInterval;
             if (!moveGate && !timeGate) continue;
 
-            float r = p.radius * s.radiusScale;
+            float r = WorldRadius(p, sharedScale) * s.radiusScale;
             if (!rt.OverlapsAnyReceiver(segA, segB, r + boundsPadding)) continue;
 
             rt.Emit(segA, segB, r);
@@ -85,10 +112,19 @@ public class WallPassEmitter : MonoBehaviour
         }
     }
 
-    [ContextMenu("Собрать зонды из коллайдеров")]
+    /// <summary>Authored radius converted to world units for the current transform scale.</summary>
+    float WorldRadius(Probe p, float sharedScale)
+    {
+        if (!scaleRadiusWithTransform) return p.radius;
+        if (sharedScale >= 0f) return p.radius * sharedScale;
+        return p.target != null ? p.radius * MaxScale(p.target) : p.radius;
+    }
+
+    [ContextMenu("Collect Probes From Colliders")]
     public void CollectProbesFromColliders()
     {
         probes.Clear();
+
         foreach (var c in GetComponentsInChildren<Collider>(true))
         {
             if (c.isTrigger) continue;
@@ -96,19 +132,11 @@ public class WallPassEmitter : MonoBehaviour
             switch (c)
             {
                 case SphereCollider sc:
-                    probes.Add(new Probe
-                    {
-                        target = sc.transform,
-                        radius = sc.radius * MaxScale(sc.transform)
-                    });
+                    probes.Add(new Probe { target = sc.transform, radius = sc.radius });
                     break;
 
                 case CapsuleCollider cc:
-                    probes.Add(new Probe
-                    {
-                        target = cc.transform,
-                        radius = cc.radius * MaxScale(cc.transform)
-                    });
+                    probes.Add(new Probe { target = cc.transform, radius = cc.radius });
                     break;
 
                 case BoxCollider bc:
@@ -116,21 +144,24 @@ public class WallPassEmitter : MonoBehaviour
                     probes.Add(new Probe
                     {
                         target = bc.transform,
-                        radius = Mathf.Min(e.x, Mathf.Min(e.y, e.z)) * MaxScale(bc.transform)
+                        radius = Mathf.Min(e.x, Mathf.Min(e.y, e.z))
                     });
                     break;
 
                 default:
-                    var bounds = c.bounds;
+                    // Fallback for mesh and other colliders: world extents converted back to local,
+                    // since radii are stored unscaled.
+                    float scale = Mathf.Max(MaxScale(c.transform), 1e-4f);
                     probes.Add(new Probe
                     {
                         target = c.transform,
-                        radius = bounds.extents.magnitude * 0.5f
+                        radius = c.bounds.extents.magnitude * 0.5f / scale
                     });
                     break;
             }
         }
-        Debug.Log($"[WallPassEmitter] Собрано зондов: {probes.Count}", this);
+
+        Debug.Log($"[WallPassEmitter] Collected {probes.Count} probes.", this);
     }
 
     static float MaxScale(Transform t)
@@ -142,14 +173,22 @@ public class WallPassEmitter : MonoBehaviour
     void OnDrawGizmosSelected()
     {
         Gizmos.color = new Color(1f, 0.15f, 0.15f, 0.35f);
+
+        float sharedScale = (scaleRadiusWithTransform && scaleReference != null)
+            ? MaxScale(scaleReference)
+            : -1f;
+
         for (int i = 0; i < probes.Count; i++)
         {
             var p = probes[i];
             if (p.target == null) continue;
-            Gizmos.DrawWireSphere(p.target.position, p.radius);
+
+            float r = WorldRadius(p, sharedScale);
+
+            Gizmos.DrawWireSphere(p.target.position, r);
             if (p.tip != null)
             {
-                Gizmos.DrawWireSphere(p.tip.position, p.radius);
+                Gizmos.DrawWireSphere(p.tip.position, r);
                 Gizmos.DrawLine(p.target.position, p.tip.position);
             }
         }

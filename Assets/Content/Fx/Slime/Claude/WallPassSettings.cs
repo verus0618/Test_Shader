@@ -1,56 +1,53 @@
 using UnityEngine;
 
 /// <summary>
-/// Все настройки эффекта прохода сквозь стену.
-/// Create > VFX > Wall Pass Settings
+/// Authoring data for the wall pass-through mask.
+/// Create via Assets > Create > VFX > Wall Pass Settings.
 /// </summary>
 [CreateAssetMenu(fileName = "SO_WallPassSettings", menuName = "VFX/Wall Pass Settings")]
 public class WallPassSettings : ScriptableObject
 {
-    [Header("Геометрия отпечатка")]
-    [Tooltip("Множитель радиуса капсул силуэта. 1 = как у коллайдеров объекта.")]
+    [Header("Imprint Shape")]
+    [Tooltip("Multiplier applied to probe radii. 1 matches the authored probe sizes.")]
     [Min(0.01f)] public float radiusScale = 1f;
 
-    [Tooltip("ДЛИНА градиента наружу от силуэта, в метрах. Больше = шире мягкий ореол.")]
-    [Min(0.001f)] public float falloff = 0.4f;
+    [Tooltip("Gradient length outward from the silhouette, in meters. Keep it below the gap " +
+             "between limbs and torso, otherwise separate body parts merge into one blob.")]
+    [Min(0.001f)] public float falloff = 0.14f;
 
-    [Header("Время")]
-    [Tooltip("Задержка между событием касания и началом появления маски, сек.")]
+    [Tooltip("How much distance along the surface normal counts. 1 is true 3D distance: only the " +
+             "slice of the body currently at the wall plane shows up. Lower values project the " +
+             "silhouette through the wall; 0.15-0.3 reads as a full body silhouette. " +
+             "Avoid 0, which makes the imprint an infinite tube.")]
+    [Range(0f, 1f)] public float depthWeight = 0.2f;
+
+    [Header("Timing")]
+    [Tooltip("Delay between the contact event and the start of the mask, in seconds.")]
     [Min(0f)] public float delay = 0.05f;
 
-    [Tooltip("Время нарастания маски до полной силы, сек.")]
-    [Min(0.001f)] public float attack = 0.08f;
+    [Tooltip("Time for the mask to reach full strength, in seconds.")]
+    [Min(0.001f)] public float attack = 0.06f;
 
-    [Tooltip("Полное время жизни одного отпечатка, сек.")]
-    [Min(0.01f)] public float lifetime = 1.2f;
+    [Tooltip("Total lifetime of a single imprint, in seconds.")]
+    [Min(0.01f)] public float lifetime = 0.8f;
 
-    [Header("Волна (опционально)")]
-    [Tooltip("0 = чистый градиент по силуэту, 1 = расходящиеся кольца.")]
-    [Range(0f, 1f)] public float waveMix = 0f;
-
-    [Tooltip("Скорость расхождения кольца, м/с.")]
-    public float waveSpeed = 2.5f;
-
-    [Tooltip("Частота колец.")]
-    public float waveFrequency = 10f;
-
-    [Tooltip("Затухание колец по расстоянию.")]
-    public float waveDamping = 2.5f;
-
-    [Header("Выход")]
-    [Tooltip("Общая интенсивность маски. Ею удобно гасить весь эффект в ноль.")]
+    [Header("Output")]
+    [Tooltip("Global multiplier applied before the final clamp. Above 1 the silhouette core widens " +
+             "rather than brightening, since the mask is clamped to 0..1.")]
     public float intensity = 1f;
 
-    [Header("Буфер событий")]
-    [Tooltip("Максимум одновременных отпечатков. Жёсткий потолок 32 (WP_MAX_EVENTS в HLSL).")]
-    [Range(1, 32)] public int maxEvents = 32;
+    [Header("Event Buffer")]
+    [Tooltip("Maximum concurrent imprints. Hard ceiling is 64 (WP_MAX_EVENTS in WallPassMask.hlsl). " +
+             "Each probe emits one event per step, so budget roughly probeCount x poses to retain.")]
+    [Range(1, 64)] public int maxEvents = 48;
 
-    [Tooltip("Минимальный сдвиг зонда, чтобы записать новое событие, м.")]
-    [Min(0f)] public float minStep = 0.03f;
+    [Tooltip("Minimum probe displacement required to record a new event, in meters.")]
+    [Min(0f)] public float minStep = 0.02f;
 
-    [Tooltip("Максимальная пауза между событиями при неподвижном объекте, сек. " +
-             "Гарантирует, что маска не исчезнет, если объект застыл внутри стены.")]
-    [Min(0.01f)] public float maxInterval = 0.06f;
+    [Tooltip("Maximum gap between events while a probe is stationary, in seconds. " +
+             "Keeps the mask alive when an object stops inside the wall.")]
+    [Min(0.01f)] public float maxInterval = 0.05f;
 
+    /// <summary>Delay plus lifetime: how long an event stays in the buffer.</summary>
     public float TotalLife => delay + lifetime;
 }

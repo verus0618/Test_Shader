@@ -3,47 +3,68 @@
 
 // =============================================================
 //  WallPassMask.hlsl
-//  Градиентная маска по силуэту объекта, проходящего сквозь стену.
-//  Мировые координаты: не зависит от UV, швов и формы стены.
-//  Работает и для MeshRenderer, и для SkinnedMeshRenderer:
-//  скиннинг выполняется ДО вершинного шейдера, позиция уже деформирована.
+//
+//  Gradient mask that follows the silhouette of an object passing
+//  through a wall. Evaluated as a capsule SDF in world space, so it
+//  is independent of UVs, seams and wall topology.
+//
+//  Works for MeshRenderer and SkinnedMeshRenderer alike: skinning is
+//  resolved before the vertex shader, so the incoming position is
+//  already deformed.
+//
+//  Single Custom Function node, single output: a 0..1 grayscale mask.
 // =============================================================
 
-#define WP_MAX_EVENTS 32   // должно совпадать с WallPassRuntime.MaxEvents
+#define WP_MAX_EVENTS 64   // must match WallPassRuntime.MaxEvents
 
-// --- буфер событий ---
-// Глобальный (Shader.SetGlobal*) для статичных стен, либо переопределённый
-// через MaterialPropertyBlock для стены в режиме Anchored.
-// A.xyz = начало заметённой капсулы, A.w = время рождения события
-// B.xyz = конец заметённой капсулы,  B.w = радиус капсулы
+// --- Event buffer ---------------------------------------------------
+// Fed globally via Shader.SetGlobal* for static walls, or overridden
+// per renderer through a MaterialPropertyBlock in Anchored mode.
+//   A.xyz = swept capsule start, A.w = event birth time
+//   B.xyz = swept capsule end,   B.w = capsule radius
 float4 _WP_A[WP_MAX_EVENTS];
 float4 _WP_B[WP_MAX_EVENTS];
 float  _WP_Count;
 float  _WP_Clock;
 
-// Перевод world -> пространство, в котором хранятся события.
-// Единичная для статичной стены; worldToLocal якоря для движущейся/скинненой.
+// World -> event storage space. Identity for static walls, the anchor's
+// worldToLocal matrix for walls that move or are driven by a rig.
 float4x4 _WP_WorldToSpace;
 
-// --- параметры из ScriptableObject (WallPassSettings) ---
-float _WP_Delay;          // задержка перед появлением маски, сек
-float _WP_Attack;         // время нарастания, сек
-float _WP_Lifetime;       // общее время жизни отпечатка, сек
-float _WP_Falloff;        // ДЛИНА градиента наружу от силуэта, в метрах
-float _WP_WaveSpeed;      // скорость расхождения кольца, м/с
-float _WP_WaveFrequency;  // частота колец
-float _WP_WaveDamping;    // затухание колец по расстоянию
-float _WP_WaveMix;        // 0 = чистый градиент силуэта, 1 = чистая волна
-float _WP_Intensity;      // общая интенсивность
+// --- Parameters supplied by WallPassSettings (ScriptableObject) ------
+float _WP_Delay;        // seconds between the contact event and mask onset
+float _WP_Attack;       // seconds to reach full strength
+float _WP_Lifetime;     // total imprint lifetime in seconds
+float _WP_Falloff;      // gradient length outward from the silhouette, in meters
+float _WP_DepthWeight;  // 1 = true 3D distance, 0 = full projection along the surface normal
+float _WP_Intensity;    // global multiplier applied before the final clamp
 
-// Незаданная (нулевая) матрица трактуется как единичная — защита для превью графа.
+// An unset (all-zero) matrix is treated as identity so Shader Graph
+// previews keep working without a runtime present.
 float3 WP_ToSpace(float3 p)
 {
     if (abs(_WP_WorldToSpace[3][3]) < 1e-6) return p;
     return mul(_WP_WorldToSpace, float4(p, 1.0)).xyz;
 }
 
-// Расстояние от точки до отрезка (ядро капсулы)
+// Direction variant of the above: rotation only, no translation.
+// Assumes uniform anchor scale.
+float3 WP_DirToSpace(float3 v)
+{
+    if (abs(_WP_WorldToSpace[3][3]) < 1e-6) return v;
+    return mul((float3x3)_WP_WorldToSpace, v);
+}
+
+// Compresses the component along 'axis' by 'weight'. Applied to every point
+// before the distance test, it turns the isotropic SDF into an anisotropic one:
+// at weight 1 distance is physical, at weight 0 the silhouette is projected
+// along the axis with no depth falloff at all.
+float3 WP_Squash(float3 v, float3 axis, float weight)
+{
+    return v - axis * (dot(v, axis) * (1.0 - weight));
+}
+
+// Point-to-segment distance: the core of the capsule SDF.
 float WP_SegDist(float3 p, float3 a, float3 b)
 {
     float3 ab = b - a;
@@ -52,13 +73,20 @@ float WP_SegDist(float3 p, float3 a, float3 b)
     return length(ap - ab * t);
 }
 
-// Возвращает: x = градиент силуэта (0..1), y = волновая компонента (-1..1)
-float2 WP_Evaluate(float3 worldPos)
+// Grayscale mask: 1 on the silhouette, fading to 0 over _WP_Falloff meters.
+float WP_EvaluateMask(float3 worldPos, float3 worldNormal)
 {
     float3 p = WP_ToSpace(worldPos);
 
-    float mask = 0.0;
-    float wave = 0.0;
+    // Surface normal in event space, used as the projection axis.
+    float3 axis = WP_DirToSpace(worldNormal);
+    float  axisLen = length(axis);
+    float  weight = saturate(_WP_DepthWeight);
+    if (axisLen < 1e-5) weight = 1.0; else axis /= axisLen;
+
+    p = WP_Squash(p, axis, weight);
+
+    float acc = 0.0;
 
     int   count   = min((int)_WP_Count, WP_MAX_EVENTS);
     float invLife = 1.0 / max(_WP_Lifetime, 1e-4);
@@ -70,104 +98,47 @@ float2 WP_Evaluate(float3 worldPos)
         float4 A = _WP_A[i];
         float4 B = _WP_B[i];
 
-        // возраст события с учётом delay
+        // Event age, delay already subtracted.
         float age = _WP_Clock - A.w - _WP_Delay;
         if (age < 0.0) continue;
 
         float life = age * invLife;
         if (life >= 1.0) continue;
 
-        // огибающая: плавное рождение + квадратичное затухание
+        // Envelope: smooth onset followed by quadratic decay.
         float attack = saturate(age / max(_WP_Attack, 1e-4));
         float decay  = 1.0 - life;
         float env    = attack * decay * decay;
 
-        // расстояние до капсулы: 0 внутри силуэта, растёт наружу
-        float d = max(WP_SegDist(p, A.xyz, B.xyz) - B.w, 0.0);
+        float3 a = WP_Squash(A.xyz, axis, weight);
+        float3 b = WP_Squash(B.xyz, axis, weight);
 
-        // градиент 1 -> 0 по мере удаления от силуэта
-        float halo = exp(-d * invFall);
+        // Distance to the capsule: 0 inside the silhouette, growing outward.
+        float d = max(WP_SegDist(p, a, b) - B.w, 0.0);
 
-        // расходящееся кольцо от того же силуэта
-        float ring = d - age * _WP_WaveSpeed;
-        float osc  = sin(ring * _WP_WaveFrequency) * exp(-abs(ring) * _WP_WaveDamping);
-
-        mask += halo * env;
-        wave += osc * halo * env;
+        acc += exp(-d * invFall) * env;
     }
 
-    // мягкое насыщение вместо saturate: перекрытия капсул не дают ступенек
-    mask = 1.0 - exp(-mask);
-
-    return float2(mask, wave);
-}
-
-float WP_Height(float3 p)
-{
-    float2 e = WP_Evaluate(p);
-    return lerp(e.x, e.y, saturate(_WP_WaveMix)) * _WP_Intensity;
+    // Soft saturation instead of a hard clamp, so overlapping capsules
+    // blend without visible steps.
+    return 1.0 - exp(-acc);
 }
 
 // -------------------------------------------------------------
-//  Custom Function Node: "WallPassMask"
-//  In : PositionWS (Vector3), IntensityMul (Float)
-//  Out: Mask (Float), Wave (Float), Height (Float)
+//  Custom Function node "WallPassMask"
+//    In : PositionWS (Vector3), NormalWS (Vector3)
+//    Out: Mask (Float), 0..1
 // -------------------------------------------------------------
-void WallPassMask_float(float3 PositionWS, float IntensityMul,
-                        out float Mask, out float Wave, out float Height)
+void WallPassMask_float(float3 PositionWS, float3 NormalWS, out float Mask)
 {
-    float2 e = WP_Evaluate(PositionWS);
-    float  k = _WP_Intensity * IntensityMul;
-
-    Mask   = saturate(e.x) * k;
-    Wave   = e.y * k;
-    Height = lerp(e.x, e.y, saturate(_WP_WaveMix)) * k;
+    Mask = saturate(WP_EvaluateMask(PositionWS, NormalWS) * _WP_Intensity);
 }
 
-void WallPassMask_half(half3 PositionWS, half IntensityMul,
-                       out half Mask, out half Wave, out half Height)
+void WallPassMask_half(half3 PositionWS, half3 NormalWS, out half Mask)
 {
-    float m, w, h;
-    WallPassMask_float((float3)PositionWS, (float)IntensityMul, m, w, h);
-    Mask = (half)m; Wave = (half)w; Height = (half)h;
-}
-
-// -------------------------------------------------------------
-//  Custom Function Node: "WallPassNormal"
-//  Пересчёт нормали по градиенту маски (конечные разности).
-//  In : PositionWS (Vector3), NormalWS (Vector3), TangentWS (Vector3),
-//       Epsilon (Float), Strength (Float)
-//  Out: NormalOut (Vector3), Height (Float)
-// -------------------------------------------------------------
-void WallPassNormal_float(float3 PositionWS, float3 NormalWS, float3 TangentWS,
-                          float Epsilon, float Strength,
-                          out float3 NormalOut, out float Height)
-{
-    float3 n = normalize(NormalWS);
-    float3 t = TangentWS - n * dot(TangentWS, n);
-    t = (dot(t, t) < 1e-8) ? normalize(cross(n, float3(0, 1, 0.001))) : normalize(t);
-    float3 b = cross(n, t);
-
-    float eps = max(Epsilon, 1e-4);
-    float h0  = WP_Height(PositionWS);
-    float ht  = WP_Height(PositionWS + t * eps);
-    float hb  = WP_Height(PositionWS + b * eps);
-
-    float3 dt = t * eps + n * (ht - h0) * Strength;
-    float3 db = b * eps + n * (hb - h0) * Strength;
-
-    NormalOut = normalize(cross(dt, db));
-    Height    = h0;
-}
-
-void WallPassNormal_half(half3 PositionWS, half3 NormalWS, half3 TangentWS,
-                         half Epsilon, half Strength,
-                         out half3 NormalOut, out half Height)
-{
-    float3 nOut; float h;
-    WallPassNormal_float((float3)PositionWS, (float3)NormalWS, (float3)TangentWS,
-                         (float)Epsilon, (float)Strength, nOut, h);
-    NormalOut = (half3)nOut; Height = (half)h;
+    float m;
+    WallPassMask_float((float3)PositionWS, (float3)NormalWS, m);
+    Mask = (half)m;
 }
 
 #endif // WALL_PASS_MASK_INCLUDED

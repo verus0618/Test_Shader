@@ -2,16 +2,17 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// Единый менеджер эффекта: хранит события касания и раз в кадр выгружает их
-/// в глобальные шейдерные массивы вместе с параметрами из ScriptableObject.
-/// Стенам в режиме Anchored события дополнительно раздаются в их локальном пространстве.
+/// Central manager for the effect. Owns the contact event buffer and uploads it,
+/// together with the ScriptableObject parameters, to global shader uniforms once
+/// per frame. Receivers running in Anchored space additionally get every event
+/// handed to them in their own local space.
 /// </summary>
 [ExecuteAlways]
 [DefaultExecutionOrder(1000)]
 public class WallPassRuntime : MonoBehaviour
 {
-    /// Жёсткий потолок. Должен совпадать с WP_MAX_EVENTS в WallPassMask.hlsl
-    public const int MaxEvents = 32;
+    /// <summary>Hard ceiling. Must match WP_MAX_EVENTS in WallPassMask.hlsl.</summary>
+    public const int MaxEvents = 64;
 
     struct PassEvent
     {
@@ -30,10 +31,7 @@ public class WallPassRuntime : MonoBehaviour
     static readonly int ID_Attack        = Shader.PropertyToID("_WP_Attack");
     static readonly int ID_Lifetime      = Shader.PropertyToID("_WP_Lifetime");
     static readonly int ID_Falloff       = Shader.PropertyToID("_WP_Falloff");
-    static readonly int ID_WaveSpeed     = Shader.PropertyToID("_WP_WaveSpeed");
-    static readonly int ID_WaveFrequency = Shader.PropertyToID("_WP_WaveFrequency");
-    static readonly int ID_WaveDamping   = Shader.PropertyToID("_WP_WaveDamping");
-    static readonly int ID_WaveMix       = Shader.PropertyToID("_WP_WaveMix");
+    static readonly int ID_DepthWeight   = Shader.PropertyToID("_WP_DepthWeight");
     static readonly int ID_Intensity     = Shader.PropertyToID("_WP_Intensity");
 
     [SerializeField] WallPassSettings settings;
@@ -66,7 +64,10 @@ public class WallPassRuntime : MonoBehaviour
 
     double _origin;
 
-    /// Собственные часы эффекта. Не используем _Time.y: он теряет точность в долгой сессии.
+    /// <summary>
+    /// Effect-local clock. Kept separate from _Time.y, which loses precision
+    /// over a long session.
+    /// </summary>
     public float Clock => (float)(Time.timeAsDouble - _origin);
 
     void OnEnable()
@@ -92,8 +93,9 @@ public class WallPassRuntime : MonoBehaviour
     public void Unregister(WallPassReceiver r) => _receivers.Remove(r);
 
     /// <summary>
-    /// Записать заметённую капсулу (a -> b) как новое событие касания.
-    /// Отрезок, а не точка: при любой скорости прохода путь за кадр покрыт целиком.
+    /// Records a swept capsule (a -> b) as a new contact event. Storing a segment
+    /// rather than a point means the whole path travelled during the step is
+    /// covered, so the mask stays continuous at any pass-through speed.
     /// </summary>
     public void Emit(Vector3 a, Vector3 b, float radius)
     {
@@ -102,7 +104,8 @@ public class WallPassRuntime : MonoBehaviour
         float now  = Clock;
         float life = settings.TotalLife;
 
-        // стенам с собственным пространством отдаём событие сразу, пересчитанным в их локаль
+        // Walls with their own storage space receive the event immediately,
+        // converted into their local space at the moment of contact.
         for (int i = 0; i < _receivers.Count; i++)
         {
             var r = _receivers[i];
@@ -126,17 +129,20 @@ public class WallPassRuntime : MonoBehaviour
             return;
         }
 
-        // буфер полон — вытесняем событие, которое умрёт раньше всех
+        // Buffer is full: evict the event that expires first.
         int oldest = 0;
         for (int i = 1; i < _events.Count; i++)
             if (_events[i].expire < _events[oldest].expire) oldest = i;
         _events[oldest] = e;
     }
 
-    /// Дешёвая отбраковка: попадает ли заметённая капсула в bounds хоть одной стены.
+    /// <summary>
+    /// Cheap rejection test: does the swept capsule touch the bounds of any
+    /// registered wall?
+    /// </summary>
     public bool OverlapsAnyReceiver(Vector3 a, Vector3 b, float radius)
     {
-        if (_receivers.Count == 0) return true; // стены не зарегистрированы — не фильтруем
+        if (_receivers.Count == 0) return true; // no walls registered, do not filter
 
         for (int i = 0; i < _receivers.Count; i++)
         {
@@ -167,7 +173,7 @@ public class WallPassRuntime : MonoBehaviour
         UploadEvents();
     }
 
-    // Сдвиг часов, чтобы float не терял точность за долгую сессию
+    // Rebases the clock so float precision holds up over a long session.
     void Rebase(float now)
     {
         float shift = now - 1f;
@@ -200,8 +206,8 @@ public class WallPassRuntime : MonoBehaviour
             }
         }
 
-        // ВАЖНО: Unity фиксирует длину массива при первой загрузке,
-        // поэтому всегда шлём полный буфер MaxEvents, а реальную длину — отдельно.
+        // Unity locks a shader array's length on first upload, so always send the
+        // full buffer and pass the live count separately.
         Shader.SetGlobalVectorArray(ID_A, _bufA);
         Shader.SetGlobalVectorArray(ID_B, _bufB);
         Shader.SetGlobalFloat(ID_Count, n);
@@ -217,10 +223,7 @@ public class WallPassRuntime : MonoBehaviour
         Shader.SetGlobalFloat(ID_Attack,        settings.attack);
         Shader.SetGlobalFloat(ID_Lifetime,      settings.lifetime);
         Shader.SetGlobalFloat(ID_Falloff,       settings.falloff);
-        Shader.SetGlobalFloat(ID_WaveSpeed,     settings.waveSpeed);
-        Shader.SetGlobalFloat(ID_WaveFrequency, settings.waveFrequency);
-        Shader.SetGlobalFloat(ID_WaveDamping,   settings.waveDamping);
-        Shader.SetGlobalFloat(ID_WaveMix,       settings.waveMix);
+        Shader.SetGlobalFloat(ID_DepthWeight,   settings.depthWeight);
         Shader.SetGlobalFloat(ID_Intensity,     settings.intensity);
     }
 
