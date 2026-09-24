@@ -20,8 +20,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: FX_Slime_Cube 2
-  m_Shader: {fileID: -6465566751694194690, guid: bb85c59d3aa49944b9b982fb6dba7be2, type: 3}
+  m_Name: FX_Slime_Cube_test
+  m_Shader: {fileID: -6465566751694194690, guid: 7a0d7f59f0f523b40934129cb1ec2889, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
@@ -30,12 +30,11 @@ Material:
   - _DEBUG_MASK
   - _SCROLLTYPE_TRIPLANAR
   - _SURFACE_TYPE_TRANSPARENT
-  m_InvalidKeywords:
-  - _DISPLACEMENTTYPE_TRIPLANAR
+  m_InvalidKeywords: []
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: 3000
+  m_CustomRenderQueue: -1
   stringTagMap:
     RenderType: Transparent
   disabledShaderPasses:
