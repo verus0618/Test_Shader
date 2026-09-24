@@ -14,6 +14,7 @@ Material:
   m_ValidKeywords:
   - _ALPHAPREMULTIPLY_ON
   - _ALPHATEST_ON
+  - _SCROLLTYPE_TRIPLANAR
   - _SURFACE_TYPE_TRANSPARENT
   m_InvalidKeywords:
   - _DEBUG_NONE
@@ -147,7 +148,7 @@ Material:
     - _DifTIlling_Z: 4
     - _DifTriplanar_Blend: 12
     - _Diffuse_TriplanarBlend: 2
-    - _Displacement_Intensity: 0.1
+    - _Displacement_Intensity: 0.05
     - _Displacement_NoiseScale: 33.8
     - _Displacement_Normal: 0
     - _Displacement_TriplanarBlend: 1
@@ -217,12 +218,14 @@ Material:
     - _Ripple_Normal: 0.01
     - _Ripple_Power: 2
     - _Ripple_Refraction: 0.036
+    - _Ripple_Sine: 0.5
     - _Ripple_Smooth: 1
     - _Ripple_Speed: 5
     - _Ripple_TimeFalloff: 0.5
     - _Ripple_inDisplacement: 0.2
     - _Ripple_inNormal: 0.7
     - _Ripple_inRefraction: 0.5
+    - _SCROLLTYPE: 0
     - _SSS_AdditionalLights_Intensity: 20
     - _SSS_Bubbles: 10
     - _SSS_Bubbles_Intensity: 3

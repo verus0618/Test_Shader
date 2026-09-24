@@ -25,21 +25,26 @@ Material:
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
+  - _ALPHAPREMULTIPLY_ON
   - _COLOR_METHOD_VERTEX
   - _DISSOLVE_OFF
   - _HIGHLIGHT_OFF
+  - _LIVITATION_OFF
   - _NORMALLIGHT_OFF
   - _NORMALMAP_OFF
   - _RIMLIGHT_OFF
   - _SME_FLAT
+  - _SURFACE_TYPE_TRANSPARENT
+  - _USE_ALPHASOFNTESS_OFF
+  - _USE_TRIPLANAR_OFF
   m_InvalidKeywords:
   - _DUBUG_NONE
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: 2000
+  m_CustomRenderQueue: 3000
   stringTagMap:
-    RenderType: Opaque
+    RenderType: Transparent
   disabledShaderPasses:
   - MOTIONVECTORS
   - SHADOWCASTER
@@ -126,6 +131,7 @@ Material:
     - _Alpha: 1
     - _AlphaClip: 0
     - _AlphaToMask: 0
+    - _Alpha_Override: 0
     - _BaseColor_Intensity: 1
     - _Blend: 0
     - _BlendModePreserveSpecular: 1
@@ -141,8 +147,8 @@ Material:
     - _DetailAlbedoMapScale: 1
     - _DetailNormalMapScale: 1
     - _Dissolve: 0
-    - _DstBlend: 0
-    - _DstBlendAlpha: 0
+    - _DstBlend: 10
+    - _DstBlendAlpha: 10
     - _EnvironmentReflections: 1
     - _GlossMapScale: 1
     - _Glossiness: 0.5
@@ -150,6 +156,8 @@ Material:
     - _Grayness: 0
     - _HIGHLIGHT: 0
     - _Highlight: 0
+    - _Hight_On_Off: 0
+    - _LIVITATION: 0
     - _MainTex_TriplanarType: 1
     - _Main_Texture_Tile: 1
     - _Metallic: 0
@@ -170,29 +178,34 @@ Material:
     - _RimLight_Stength: 1
     - _SME: 0
     - _SM_UV1_Grid: 8
-    - _Smoothness: 0.5
+    - _Smoothness: 0.7
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
     - _SrcBlendAlpha: 1
-    - _Surface: 0
+    - _Surface: 1
+    - _USE_ALPHASOFNTESS: 0
+    - _USE_TRIPLANAR: 0
     - _UVSec: 0
     - _WorkflowMode: 1
     - _XRMotionVectorsPass: 1
     - _ZTest: 4
     - _ZWrite: 1
-    - _ZWriteControl: 0
+    - _ZWriteControl: 1
     m_Colors:
     - _BaseColor: {r: 0.9063317, g: 0.9063317, b: 0.9063317, a: 1}
     - _Bright_Contr_Satur_Hue: {r: 1, g: 1, b: 1, a: 0}
     - _Camera_Fade: {r: 0, g: 0.001, b: 0, a: 0}
     - _Color: {r: 0.9063317, g: 0.9063317, b: 0.9063317, a: 1}
     - _DissolveColor: {r: 47.93726, g: 4.631493, b: 0, a: 0}
+    - _Dissolve_HightMinMax: {r: 0, g: 1, b: 0, a: 0}
     - _Dissolve_SizeWithMinMax: {r: 1, g: 0.01, b: 0, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 0}
     - _Emissive_olor: {r: 0, g: 0, b: 0, a: 0}
     - _HighlightColor: {r: 0.3192801, g: 1.498039, b: 0, a: 0}
     - _Highlight_MinMax: {r: 0, g: 1, b: 0, a: 0}
+    - _Livitation_XYZ_Add_Scroll: {r: 0, g: 0, b: 0, a: 1}
+    - _Livitation_XYZ_Intensity: {r: 0, g: 0, b: 0, a: 1}
     - _NormalLight_MinMax: {r: 0, g: 1, b: 0, a: 0}
     - _NormallLight: {r: 0.5019608, g: 0.2509804, b: 0.2509804, a: 1}
     - _NormallShadow_Color: {r: 0.2509804, g: 0.4196078, b: 0.5019608, a: 1}
@@ -201,6 +214,7 @@ Material:
     - _RimLight_Color: {r: 0.5019608, g: 0.2509804, b: 0.2509804, a: 1}
     - _RimLight_MinMax: {r: 0, g: 0.3, b: 0, a: 0}
     - _RimShadow_Color: {r: 0.2509804, g: 0.4196078, b: 0.5019608, a: 1}
+    - _Soft: {r: 0, g: 0.001, b: 0, a: 0}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
     - _SpecularColor: {r: 0.5019608, g: 0.5019608, b: 0.5019608, a: 1}
     - _Tint: {r: 1, g: 1, b: 1, a: 1}

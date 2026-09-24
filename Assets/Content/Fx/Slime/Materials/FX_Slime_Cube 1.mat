@@ -27,6 +27,7 @@ Material:
   m_ValidKeywords:
   - _ALPHAPREMULTIPLY_ON
   - _ALPHATEST_ON
+  - _SCROLLTYPE_TRIPLANAR
   - _SURFACE_TYPE_TRANSPARENT
   m_InvalidKeywords:
   - _DEBUG_NONE
@@ -196,7 +197,7 @@ Material:
     - _Metallic: 0.1
     - _NormalStrenght: 0.5
     - _Normal_1_TriplanarScale: 0.2
-    - _Normal_2_TriplanarScale: -0.05
+    - _Normal_2_TriplanarScale: -0.1
     - _Normal_Influence: 0.5
     - _Normal_Tilling: 0.32
     - _Normal_TriplanarBlend: 2
@@ -236,6 +237,7 @@ Material:
     - _Ripple_inDisplacement: 0.174
     - _Ripple_inNormal: 1
     - _Ripple_inRefraction: 0
+    - _SCROLLTYPE: 0
     - _SSS_AdditionalLights_Intensity: 20
     - _SSS_Bubbles: 10
     - _SSS_Bubbles_Intensity: 3

@@ -28,6 +28,7 @@ Material:
   - _ALPHAPREMULTIPLY_ON
   - _ALPHATEST_ON
   - _DEBUG_MASK
+  - _SCROLLTYPE_TRIPLANAR
   - _SURFACE_TYPE_TRANSPARENT
   m_InvalidKeywords:
   - _DISPLACEMENTTYPE_TRIPLANAR
@@ -236,6 +237,7 @@ Material:
     - _Ripple_inDisplacement: 1
     - _Ripple_inNormal: 1
     - _Ripple_inRefraction: 0
+    - _SCROLLTYPE: 0
     - _SSS_AdditionalLights_Intensity: 20
     - _SSS_Bubbles: 10
     - _SSS_Bubbles_Intensity: 3

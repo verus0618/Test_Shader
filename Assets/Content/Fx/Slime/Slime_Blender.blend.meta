@@ -19,6 +19,21 @@ ModelImporter:
       assembly: UnityEngine.CoreModule
       name: Slime_Enemy
     second: {fileID: 2100000, guid: 83dd9e39c2c975f48bb08c490c4b33a5, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Slime_Enemy_Eyes
+    second: {fileID: 2100000, guid: db4810c8bb6bd0e45b2af26042fd7f51, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Slime_Enemy_InSide
+    second: {fileID: 2100000, guid: 1a63c2152d919ea4b8333ca6b86671a4, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Slime_Enemy_OutSide
+    second: {fileID: 2100000, guid: 11f9da13496673646a473d6db1b92f2a, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
