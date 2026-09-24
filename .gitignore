@@ -6,7 +6,7 @@
 ._*
 
 # Custom folder icons
-Icon
+Icon
 
 # Volume root files
 .DocumentRevisions-V100
@@ -67,8 +67,6 @@ x86/
 
 # NuGet
 *.nupkg
-**/[Pp]ackages/*
-!**/[Pp]ackages/build/
 *.nuget.props
 *.nuget.targets
 
@@ -138,8 +136,6 @@ x86/
 
 # NuGet Packages
 *.nupkg
-**/[Pp]ackages/*
-!**/[Pp]ackages/build/
 
 # .NET build artifacts
 artifacts/
