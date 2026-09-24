@@ -143,6 +143,7 @@ Material:
     - _Bubbles_2_Intensity: 1
     - _Bubbles_2_ParallaxTiling: 1024
     - _Bubbles_2_Tiling: 512
+    - _Bubbles_ColorIntensity: 2
     - _Bubbles_VerticalMask_Offset: 3.45
     - _CastShadowStrength: 1
     - _CastShadows: 1
@@ -189,6 +190,7 @@ Material:
     - _FresnelCore_Min: 0.3
     - _FresnelEdge_Max: 0.8
     - _FresnelEdge_Min: 0.5
+    - _Hit_Controller: 0
     - _InDepth: 0.25
     - _InScenColor: 1
     - _LightDirrection_Rotate: 180
@@ -215,7 +217,7 @@ Material:
     - _Refraction_TriplanarBlend: 1
     - _Refraction_TriplanarScale: 0.4
     - _RimColor_InTensity: 1
-    - _RimColor_Normal: 0
+    - _RimColor_Normal: 0.4
     - _RimPower: 1
     - _RimPower_1: 1
     - _Ripple: -0.6
@@ -286,7 +288,7 @@ Material:
     - _Bubbles_1_Tile: {r: 2, g: 2, b: 0, a: 0}
     - _Bubbles_2_Scroll: {r: 0.01, g: -0.02, b: 0, a: 0}
     - _Bubbles_2_Tile: {r: 1, g: 1, b: 0, a: 0}
-    - _Bubbles_Color: {r: 1.8691905, g: 2.9960787, b: 0.6117647, a: 1}
+    - _Bubbles_Color: {r: 1.8691901, g: 2.9960783, b: 0.6117646, a: 1}
     - _Bubbles_VerticalMask_MinMax: {r: -0.25, g: 1.25, b: 0, a: 0}
     - _Bubbles_VerticalMask_Offset: {r: 0, g: 3, b: 0, a: 0}
     - _Color_Depth: {r: 0.18622857, g: 0.7921569, b: 0.15843137, a: 1}
@@ -314,6 +316,8 @@ Material:
     - _FaceColor: {r: 0.45098042, g: 0.7734282, b: 1, a: 1}
     - _FireColor1: {r: 0.68867916, g: 0.82244986, b: 1, a: 1}
     - _Fresnel_MinMax: {r: 0.5, g: 1, b: 0, a: 0}
+    - _HitColor: {r: 0.4245283, g: 0, b: 0, a: 1}
+    - _Hit_ColorMinMax: {r: -1, g: 1, b: 0, a: 0}
     - _LightDirrection: {r: 1, g: 0, b: 0, a: 0}
     - _MatcapColor1: {r: 0.36163503, g: 0.62520033, b: 1, a: 1}
     - _MatcapColor2: {r: 0.3046008, g: 0.28616333, b: 1, a: 1}
@@ -324,7 +328,7 @@ Material:
     - _Refraction_TriplanarScol: {r: 0, g: -0.25, b: 0, a: 0}
     - _Refraction_TriplanarTilling: {r: 1, g: 1, b: 1, a: 0}
     - _RimColor: {r: 0.46729752, g: 0.74901956, b: 0.15294115, a: 1}
-    - _RimColor_MinMax: {r: 0.8, g: 1, b: 0, a: 0}
+    - _RimColor_MinMax: {r: 0.5, g: 1.5, b: 0, a: 0}
     - _Rim_MinMax: {r: 0.44, g: 1, b: 0, a: 0}
     - _SSS_Color: {r: 1, g: 1, b: 1, a: 1}
     - _SSS_DL_Color: {r: 0.27265748, g: 0.7490196, b: 0, a: 0.047058824}
