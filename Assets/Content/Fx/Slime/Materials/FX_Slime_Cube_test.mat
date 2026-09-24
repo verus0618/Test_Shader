@@ -25,18 +25,16 @@ Material:
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
-  - _ALPHAPREMULTIPLY_ON
   - _ALPHATEST_ON
   - _DEBUG_MASK
   - _SCROLLTYPE_TRIPLANAR
-  - _SURFACE_TYPE_TRANSPARENT
   m_InvalidKeywords: []
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
+  m_CustomRenderQueue: 2450
   stringTagMap:
-    RenderType: Transparent
+    RenderType: TransparentCutout
   disabledShaderPasses:
   - MOTIONVECTORS
   m_LockedProperties: 
@@ -129,7 +127,7 @@ Material:
     - _AlphaHead_Max: 0.3
     - _AlphaHead_Min: 0
     - _AlphaHead_Offset: 0.75
-    - _AlphaToMask: 0
+    - _AlphaToMask: 1
     - _Alpha_Depth: 0.2
     - _Alpha_Shallow: 0
     - _Blend: 0
@@ -175,8 +173,8 @@ Material:
     - _DistortionAmount: 0.05
     - _DistortionFrequency: 1
     - _DistortionSpeed: 0
-    - _DstBlend: 10
-    - _DstBlendAlpha: 10
+    - _DstBlend: 0
+    - _DstBlendAlpha: 0
     - _Edge_Guard_Threshold: 0.1
     - _FaceColor_Intensity: 5
     - _Fill_Strength: 1
@@ -257,7 +255,7 @@ Material:
     - _Speed: 0
     - _SrcBlend: 1
     - _SrcBlendAlpha: 1
-    - _Surface: 1
+    - _Surface: 0
     - _TEST: 0
     - _TEST_1: 3
     - _TEST_2: 2

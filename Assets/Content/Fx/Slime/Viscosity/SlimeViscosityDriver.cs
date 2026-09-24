@@ -10,8 +10,10 @@ namespace TestMisha.Slime
     /// Viscous response of a slime volume to objects passing through its surface.
     /// When an intruder touches the surface, that point sticks to it and is carried along the intruder's
     /// actual path: in on entry, out on exit, sideways when sliding. The pull equals the distance travelled,
-    /// so a bullet and a slow push drag the surface equally far. Past the follow distance (Viscosity) the
-    /// surface lets go and flows back to rest (Damping). A stopped intruder adds nothing, so the slime relaxes.
+    /// so a bullet and a slow push drag the surface equally far. The pull continues through and past the
+    /// surface (a funnel on entry, a strand on exit) until it reaches the Viscosity limit; then the surface
+    /// tears and flows back to rest (Damping). Entry and exit behave the same. A stopped intruder adds
+    /// nothing, so the slime relaxes.
     /// There are no springs, so the surface never bounces.
     /// Fast motion is sub-stepped along the travel path so a contact cannot be skipped in one frame.
     /// Results go to SlimeViscosity.hlsl through a per-renderer MaterialPropertyBlock.
@@ -25,27 +27,34 @@ namespace TestMisha.Slime
         public const int MaxSlots = 4;
 
         static readonly int AnchorId = Shader.PropertyToID("_SV_Anchor");
+        static readonly int AxisUId = Shader.PropertyToID("_SV_AxisU");
+        static readonly int AxisVId = Shader.PropertyToID("_SV_AxisV");
+        static readonly int AxisNId = Shader.PropertyToID("_SV_AxisN");
         static readonly int OffsetId = Shader.PropertyToID("_SV_Offset");
         static readonly int ParamsId = Shader.PropertyToID("_SV_Params");
 
         const float MaxSubStep = 1f / 240f;
         const int MaxSubSteps = 64;
-        const float MaxFrameDelta = 0.1f;
+        const float MaxFrameDelta = 0.25f;
         const float SettleDistance = 1e-3f;
 
         // Fixed values, relative to the intruder radius where it matters.
         const float ContactMarginScale = 0.05f; // the surface sticks when the intruder's own surface is this close
-        const float IdleSpeedScale = 0.1f;     // slower than this many radii per second counts as stopped
-        const float DeformationRadiusScale = 1f;
+        const float IdleSpeedScale = 0.1f;     // slower than this many radii per second counts as not moving
+        const float IdleDelay = 0.2f;          // seconds without moving before the intruder counts as stopped
+        const float MinFootprintScale = 0.1f;  // footprint half-axes never go below this share of the radius
         const float StretchThinning = 0.8f;
-        const float MaskFullDisplacementScale = 0.5f;
+        // Mask reaches 1 at a pull of about one full pass through the surface (two radii), so different
+        // Viscosity values stay distinguishable in the debug view instead of all saturating to white.
+        const float MaskFullDisplacementScale = 2f;
+        const float FinishSpeedScale = 0.5f;   // constant part of the flow back, in radii per relax time
 
         [Tooltip("Objects that pass through the slime.")]
         [InspectorName("Intruders | Affects Performance: 2/10")]
         public List<Transform> intruders = new List<Transform>();
 
         [Min(0f)]
-        [Tooltip("How far the surface follows the object after contact, in object radii x2 (1 = two radii). No upper limit.")]
+        [Tooltip("How far the slime is pulled along after the object before it tears, the same for entry and exit: 2 x Viscosity x object radius (1 = two radii, 10 = twenty). Low: short pull, high: long funnels and strands. No upper limit.")]
         [InspectorName("Viscosity | Affects Performance: 1/10")]
         public float viscosity = 0.5f;
 
@@ -61,9 +70,13 @@ namespace TestMisha.Slime
             // Attached but the intruder is not moving: the slime relaxes instead of holding the pull.
             public bool idle;
             public float radius;
-            public float releaseDistance;
             public Vector3 anchor;
             public Vector3 offset;
+            // Contact footprint: the intruder's box projected onto the touched face, as an ellipse
+            // with unit axes U, V in the face plane, their half-lengths, and the face's outward normal.
+            public Vector3 normal;
+            public Vector3 axisU, axisV;
+            public float radiusU, radiusV;
         }
 
         struct IntruderState
@@ -75,6 +88,9 @@ namespace TestMisha.Slime
             // Half-extent vectors of the intruder's oriented mesh bounds in world space.
             public Vector3 axisX, axisY, axisZ;
             public float radius;
+            // Seconds the intruder has not moved. Input in the editor arrives in jumps, not every frame,
+            // so "stopped" needs a short delay or the slime would relax between mouse moves.
+            public float stillTime;
             public int slot;
             // Set after a release; cleared once the intruder leaves the contact band, so it cannot re-stick in place.
             public bool locked;
@@ -82,6 +98,9 @@ namespace TestMisha.Slime
 
         readonly Slot[] _slots = new Slot[MaxSlots];
         readonly Vector4[] _anchors = new Vector4[MaxSlots];
+        readonly Vector4[] _axesU = new Vector4[MaxSlots];
+        readonly Vector4[] _axesV = new Vector4[MaxSlots];
+        readonly Vector4[] _axesN = new Vector4[MaxSlots];
         readonly Vector4[] _offsets = new Vector4[MaxSlots];
         readonly List<IntruderState> _states = new List<IntruderState>();
 
@@ -91,7 +110,7 @@ namespace TestMisha.Slime
         bool _boundsCached;
         double _lastTime;
 
-        // How far past the contact the surface follows, in intruder radii.
+        // Longest pull before the surface tears, in intruder radii.
         float FollowScale => 2f * viscosity;
 
         // Time constant of the flow back to rest, also while attached to an intruder that has stopped.
@@ -185,8 +204,9 @@ namespace TestMisha.Slime
 
                     Vector3 position = Vector3.Lerp(state.previousPosition, state.center, t);
                     Vector3 delta = (state.center - state.previousPosition) / steps;
-                    bool idle = delta.magnitude < state.radius * IdleSpeedScale * h;
-                    UpdateContact(ref state, position, delta, idle);
+                    bool moving = delta.magnitude >= state.radius * IdleSpeedScale * h;
+                    state.stillTime = moving ? 0f : state.stillTime + h;
+                    UpdateContact(ref state, position, delta, state.stillTime > IdleDelay);
                     _states[i] = state;
                 }
 
@@ -244,34 +264,41 @@ namespace TestMisha.Slime
         {
             float radius = state.radius;
 
-            // Attached: the stuck surface point is carried along the intruder's path until it is too far away.
+            SurfaceQuery(position, out Vector3 surfacePoint, out Vector3 normal, out float gap);
+
+            // How far the intruder's own oriented box reaches towards the surface, so the contact follows
+            // its real shape and orientation instead of a sphere around its centre.
+            float support = Support(state, normal);
+            float reach = support + radius * ContactMarginScale;
+            bool touching = Mathf.Abs(gap) < reach;
+
+            // Attached: the stuck surface point is carried along the intruder's path, through the surface and
+            // beyond it (a funnel on entry, a strand on exit), until the pull reaches the Viscosity limit and
+            // the surface tears. Entry and exit behave the same.
             if (state.slot >= 0 && _slots[state.slot].attached)
             {
                 ref Slot slot = ref _slots[state.slot];
                 slot.idle = idle;
-                if (Vector3.Distance(position, slot.anchor) > slot.releaseDistance)
+                // Follow the intruder's rotation while stuck to it.
+                ComputeFootprint(state, slot.normal, out slot.axisU, out slot.axisV, out slot.radiusU, out slot.radiusV);
+
+                // Measured on the pull itself, not on the distance to the contact point, which starts near
+                // the intruder's half-size and would make small Viscosity values do nothing.
+                // Read live, so changing Viscosity in the inspector affects a contact that is already stuck.
+                float maxPull = radius * FollowScale;
+                slot.offset += delta;
+                if (slot.offset.magnitude > maxPull)
                 {
+                    slot.offset = Vector3.ClampMagnitude(slot.offset, maxPull);
                     Detach(state.slot);
                     state.slot = -1;
-                    state.locked = true;
-                }
-                else
-                {
-                    slot.offset = Vector3.ClampMagnitude(slot.offset + delta, slot.releaseDistance);
+                    // Stays locked while still touching the surface, so a torn surface does not re-stick at once.
+                    state.locked = touching;
                 }
                 return;
             }
 
             state.slot = -1;
-            SurfaceQuery(position, out Vector3 surfacePoint, out Vector3 normal, out float gap);
-
-            // How far the intruder's own oriented box reaches towards the surface, so the contact follows
-            // its real shape and orientation instead of a sphere around its centre.
-            float support = Mathf.Abs(Vector3.Dot(state.axisX, normal))
-                          + Mathf.Abs(Vector3.Dot(state.axisY, normal))
-                          + Mathf.Abs(Vector3.Dot(state.axisZ, normal));
-            float reach = support + radius * ContactMarginScale;
-            bool touching = Mathf.Abs(gap) < reach;
 
             if (state.locked)
             {
@@ -288,8 +315,54 @@ namespace TestMisha.Slime
             s.attached = true;
             s.anchor = surfacePoint;
             s.offset = Vector3.zero;
-            s.radius = radius * DeformationRadiusScale;
-            s.releaseDistance = reach + radius * FollowScale;
+            s.radius = radius;
+            s.normal = normal;
+            ComputeFootprint(state, normal, out s.axisU, out s.axisV, out s.radiusU, out s.radiusV);
+        }
+
+        /// <summary>How far the intruder's oriented box reaches from its centre along a direction.</summary>
+        static float Support(in IntruderState state, Vector3 direction)
+        {
+            return Mathf.Abs(Vector3.Dot(state.axisX, direction))
+                 + Mathf.Abs(Vector3.Dot(state.axisY, direction))
+                 + Mathf.Abs(Vector3.Dot(state.axisZ, direction));
+        }
+
+        /// <summary>
+        /// Projects the intruder's oriented box onto the face plane and fits an ellipse to it: the
+        /// principal axes of the projected half-extents. A box lying flat on the face gets its exact
+        /// half-width and half-length; a rotated one gets the matching tilted ellipse.
+        /// </summary>
+        static void ComputeFootprint(in IntruderState state, Vector3 normal,
+            out Vector3 axisU, out Vector3 axisV, out float radiusU, out float radiusV)
+        {
+            Vector3 t1 = Vector3.Cross(normal, Mathf.Abs(normal.y) < 0.99f ? Vector3.up : Vector3.right).normalized;
+            Vector3 t2 = Vector3.Cross(normal, t1);
+
+            // 2x2 second-moment matrix of the three half-extent vectors in the (t1, t2) plane.
+            float a = 0f, b = 0f, c = 0f;
+            Accumulate(state.axisX);
+            Accumulate(state.axisY);
+            Accumulate(state.axisZ);
+
+            float halfTrace = 0.5f * (a + c);
+            float disc = Mathf.Sqrt(Mathf.Max(0f, halfTrace * halfTrace - (a * c - b * b)));
+            float angle = 0.5f * Mathf.Atan2(2f * b, a - c);
+
+            axisU = Mathf.Cos(angle) * t1 + Mathf.Sin(angle) * t2;
+            axisV = Vector3.Cross(normal, axisU);
+            float minRadius = state.radius * MinFootprintScale;
+            radiusU = Mathf.Max(Mathf.Sqrt(Mathf.Max(0f, halfTrace + disc)), minRadius);
+            radiusV = Mathf.Max(Mathf.Sqrt(Mathf.Max(0f, halfTrace - disc)), minRadius);
+
+            void Accumulate(Vector3 axis)
+            {
+                float x = Vector3.Dot(axis, t1);
+                float y = Vector3.Dot(axis, t2);
+                a += x * x;
+                b += x * y;
+                c += y * y;
+            }
         }
 
         void Detach(int slot)
@@ -340,9 +413,12 @@ namespace TestMisha.Slime
 
         void IntegrateSlots(float h)
         {
-            // Viscous flow back to rest, first order so it never overshoots. While attached it only runs
-            // when the intruder stops, so a slow push follows as far as a fast one.
-            float relax = 1f - Mathf.Exp(-h / RelaxTime);
+            // Viscous flow back to rest, never overshooting. While attached it only runs when the intruder
+            // stops, so a slow push follows as far as a fast one. A pure exponential never reaches zero and
+            // leaves a long creeping tail after the intruder is gone, so a small constant speed is added:
+            // the start stays soft and the surface settles completely in finite time.
+            float relaxTime = RelaxTime;
+            float decay = Mathf.Exp(-h / relaxTime);
 
             for (int i = 0; i < MaxSlots; i++)
             {
@@ -351,7 +427,12 @@ namespace TestMisha.Slime
                     continue;
 
                 if (!s.attached || s.idle)
-                    s.offset -= s.offset * relax;
+                {
+                    float length = s.offset.magnitude;
+                    float finishSpeed = s.radius * FinishSpeedScale / relaxTime;
+                    float settled = Mathf.Max(0f, length * decay - finishSpeed * h);
+                    s.offset = length > 0f ? s.offset * (settled / length) : Vector3.zero;
+                }
 
                 if (!s.attached && s.offset.magnitude < SettleDistance)
                     s = default;
@@ -370,21 +451,36 @@ namespace TestMisha.Slime
                 if (!enabled || !s.active)
                 {
                     _anchors[i] = Vector4.zero;
+                    _axesU[i] = Vector4.zero;
+                    _axesV[i] = Vector4.zero;
+                    _axesN[i] = Vector4.zero;
                     _offsets[i] = Vector4.zero;
                     continue;
                 }
 
+                // The footprint narrows as it stretches, turning a long pull into a strand.
                 float length = s.offset.magnitude;
-                float radius = s.radius / Mathf.Sqrt(1f + StretchThinning * length / Mathf.Max(s.radius, 1e-4f));
-                _anchors[i] = new Vector4(s.anchor.x, s.anchor.y, s.anchor.z, radius);
+                float thin = 1f / Mathf.Sqrt(1f + StretchThinning * length / Mathf.Max(s.radius, 1e-4f));
+                float radiusU = s.radiusU * thin;
+                float radiusV = s.radiusV * thin;
+                float radiusN = Mathf.Min(radiusU, radiusV);
+
+                // Axes are pre-divided by their half-lengths, so the shader gets footprint coordinates with one dot each.
+                _anchors[i] = new Vector4(s.anchor.x, s.anchor.y, s.anchor.z, 1f);
+                _axesU[i] = s.axisU / radiusU;
+                _axesV[i] = s.axisV / radiusV;
+                _axesN[i] = s.normal / radiusN;
                 _offsets[i] = s.offset;
-                maskFull = s.radius / DeformationRadiusScale * MaskFullDisplacementScale;
+                maskFull = s.radius * MaskFullDisplacementScale;
             }
 
             _block ??= new MaterialPropertyBlock();
             _renderer.GetPropertyBlock(_block);
             // Always the full fixed-length arrays: Unity locks a shader array's size on first upload.
             _block.SetVectorArray(AnchorId, _anchors);
+            _block.SetVectorArray(AxisUId, _axesU);
+            _block.SetVectorArray(AxisVId, _axesV);
+            _block.SetVectorArray(AxisNId, _axesN);
             _block.SetVectorArray(OffsetId, _offsets);
             _block.SetVector(ParamsId, new Vector4(maskFull, enabled ? 1f : 0f, 0f, 0f));
             _renderer.SetPropertyBlock(_block);
@@ -493,6 +589,19 @@ namespace TestMisha.Slime
             return _renderer.localBounds;
         }
 
+        static void DrawFootprint(Vector3 center, Vector3 halfU, Vector3 halfV)
+        {
+            const int segments = 32;
+            Vector3 previous = center + halfU;
+            for (int k = 1; k <= segments; k++)
+            {
+                float angle = k * (2f * Mathf.PI / segments);
+                Vector3 point = center + Mathf.Cos(angle) * halfU + Mathf.Sin(angle) * halfV;
+                Gizmos.DrawLine(previous, point);
+                previous = point;
+            }
+        }
+
         void OnDrawGizmosSelected()
         {
             if (_renderer == null)
@@ -524,7 +633,7 @@ namespace TestMisha.Slime
                 if (!s.active)
                     continue;
                 Gizmos.color = s.attached ? Color.yellow : Color.cyan;
-                Gizmos.DrawWireSphere(s.anchor, s.radius * 0.25f);
+                DrawFootprint(s.anchor, s.axisU * s.radiusU, s.axisV * s.radiusV);
                 Gizmos.DrawLine(s.anchor, s.anchor + s.offset);
             }
         }

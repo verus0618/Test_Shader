@@ -4,16 +4,24 @@
 // Must match SlimeViscosityDriver.MaxSlots.
 #define SV_MAX_SLOTS 4
 
+// Footprint profile in footprint units (1 = the intruder's edge): fully dragged inside the core,
+// easing to exactly zero a little past the intruder's edge so the surface bends around it.
+#define SV_CORE 0.35
+#define SV_EDGE 1.35
+
 // Set per renderer by SlimeViscosityDriver through a MaterialPropertyBlock.
 // With no driver these stay zero and the function returns no offset.
-float4 _SV_Anchor[SV_MAX_SLOTS]; // xyz: contact point on the slime surface (WS), w: deformation radius (0 = slot off)
+float4 _SV_Anchor[SV_MAX_SLOTS]; // xyz: contact point on the slime surface (WS), w: 1 = slot on, 0 = off
+float4 _SV_AxisU[SV_MAX_SLOTS];  // xyz: footprint axis U in the face plane / its half-length
+float4 _SV_AxisV[SV_MAX_SLOTS];  // xyz: footprint axis V in the face plane / its half-length
+float4 _SV_AxisN[SV_MAX_SLOTS];  // xyz: face normal / depth half-length
 float4 _SV_Offset[SV_MAX_SLOTS]; // xyz: viscous drag vector (WS)
 float4 _SV_Params;               // x: drag length at which Mask = 1, y: enabled (0/1)
 
 // Shader Graph Custom Function (File mode), name "SlimeViscosity". Use Float precision on the node.
 // Inputs:  PositionWS - Position node, World space; NormalWS - Normal Vector node, World space.
 // Outputs: OffsetOS   - add to the object-space vertex position before Vertex Position.
-//          Mask       - 0..1 debug: how strongly this vertex is influenced (smooth spot, no rings).
+//          Mask       - 0..1 debug: how strongly this vertex is influenced, following the contact footprint.
 void SlimeViscosity_float(float3 PositionWS, float3 NormalWS, out float3 OffsetOS, out float Mask)
 {
     float3 offsetWS = 0;
@@ -23,16 +31,14 @@ void SlimeViscosity_float(float3 PositionWS, float3 NormalWS, out float3 OffsetO
     [unroll]
     for (int i = 0; i < SV_MAX_SLOTS; i++)
     {
-        float4 anchor = _SV_Anchor[i];
         float3 drag = _SV_Offset[i].xyz;
 
-        // Gaussian falloff around the contact point, cut to exactly zero beyond two radii
-        // so nothing far away is touched. Zero for inactive slots.
-        float radius = max(anchor.w, 1e-4);
-        float3 toVertex = PositionWS - anchor.xyz;
-        float d2 = dot(toVertex, toVertex) / (radius * radius);
-        float window = saturate(1.0 - d2 * 0.25);
-        float falloff = anchor.w > 0 ? exp(-2.0 * d2) * window * window : 0;
+        // Position in footprint units: an ellipse matching the intruder's shape on the face.
+        float3 toVertex = PositionWS - _SV_Anchor[i].xyz;
+        float3 local = float3(dot(toVertex, _SV_AxisU[i].xyz),
+                              dot(toVertex, _SV_AxisV[i].xyz),
+                              dot(toVertex, _SV_AxisN[i].xyz));
+        float falloff = (1.0 - smoothstep(SV_CORE, SV_EDGE, length(local))) * _SV_Anchor[i].w;
 
         offsetWS += drag * falloff;
         mask = max(mask, falloff * saturate(length(drag) / fullDrag));

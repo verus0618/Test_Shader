@@ -911,8 +911,8 @@ Transform:
   m_GameObject: {fileID: 919132147896449972}
   serializedVersion: 2
   m_LocalRotation: {x: -0.5, y: 0.50000006, z: 0.49999994, w: 0.5}
-  m_LocalPosition: {x: 14.59, y: 1.98, z: 18.947}
-  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
+  m_LocalPosition: {x: 15.001, y: 1.89, z: 18.79}
+  m_LocalScale: {x: 0.911, y: 0.911, z: 0.911}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 0}
@@ -1151,7 +1151,7 @@ MonoBehaviour:
   intruders:
   - {fileID: 543450651635622158}
   viscosity: 1
-  damping: 0
+  damping: 1
 --- !u!4 &5101210761999031017
 Transform:
   m_ObjectHideFlags: 0
