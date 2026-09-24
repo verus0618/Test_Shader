@@ -74,12 +74,22 @@ namespace TestMisha.Slime
         [Min(0f)]
         [Tooltip("How far the slime is pulled along after the object before it tears, the same for entry and exit: 2 x Viscosity x object radius (1 = two radii, 10 = twenty). Low: short pull, high: long funnels and strands. No upper limit.")]
         [InspectorName("Viscosity | Affects Performance: 1/10")]
-        public float viscosity = 0.5f;
+        public float viscosity = 1.5f;
 
         [Min(0f)]
         [Tooltip("How fast the slime flows back to rest when the object stops or leaves. 0: about 2 s, 1: about 0.15 s, higher is faster. No upper limit.")]
         [InspectorName("Damping | Affects Performance: 1/10")]
-        public float damping = 0.5f;
+        public float damping = 0.25f;
+
+        [Min(0.1f)]
+        [Tooltip("Width of the dragged patch relative to the object's footprint on the surface: 1 = the object's own size, 2 = twice as wide.")]
+        [InspectorName("Contact Size | Affects Performance: 1/10")]
+        public float contactSize = 4f;
+
+        [Range(0f, 1f)]
+        [Tooltip("Share of the patch radius spent fading out. 0: the whole patch moves as one with a crisp edge. 1: the fade starts right at the centre, a soft mound.")]
+        [InspectorName("Softness | Affects Performance: 1/10")]
+        public float softness = 1f;
 
         struct Slot
         {
@@ -598,6 +608,9 @@ namespace TestMisha.Slime
 
             // Active slots are packed to the front, so the shader loops over only as many as are in use.
             float maskFull = 0.5f;
+            float size = Mathf.Max(contactSize, 0.1f);
+            // The fade must keep some width, or the shader's smoothstep would divide by zero.
+            float fadeStart = 1f - Mathf.Clamp(softness, 0.02f, 1f);
             int count = 0;
             for (int i = 0; i < MaxSlots; i++)
             {
@@ -607,7 +620,7 @@ namespace TestMisha.Slime
 
                 // The footprint narrows as it stretches, turning a long pull into a strand.
                 float length = s.offset.magnitude;
-                float thin = 1f / Mathf.Sqrt(1f + StretchThinning * length / Mathf.Max(s.radius, 1e-4f));
+                float thin = size / Mathf.Sqrt(1f + StretchThinning * length / Mathf.Max(s.radius, 1e-4f));
                 float radiusU = s.radiusU * thin;
                 float radiusV = s.radiusV * thin;
                 float radiusN = Mathf.Min(radiusU, radiusV);
@@ -638,7 +651,7 @@ namespace TestMisha.Slime
             _block.SetVectorArray(AxisVId, _axesV);
             _block.SetVectorArray(AxisNId, _axesN);
             _block.SetVectorArray(OffsetId, _offsets);
-            _block.SetVector(ParamsId, new Vector4(maskFull, enabled ? 1f : 0f, count, 0f));
+            _block.SetVector(ParamsId, new Vector4(maskFull, enabled ? 1f : 0f, count, fadeStart));
             _renderer.SetPropertyBlock(_block);
         }
 
@@ -937,7 +950,7 @@ namespace TestMisha.Slime
                 if (!s.active)
                     continue;
                 Gizmos.color = s.attached ? Color.yellow : Color.cyan;
-                DrawFootprint(s.anchor, s.axisU * s.radiusU, s.axisV * s.radiusV);
+                DrawFootprint(s.anchor, s.axisU * (s.radiusU * contactSize), s.axisV * (s.radiusV * contactSize));
                 Gizmos.DrawLine(s.anchor, s.anchor + s.offset);
             }
         }
