@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Unity.Profiling;
 using UnityEngine;
 #if UNITY_EDITOR
 using UnityEditor;
@@ -17,8 +18,10 @@ namespace TestMisha.Slime
     /// tears and flows back to rest (Damping). Entry and exit behave the same. A stopped intruder adds
     /// nothing, so the slime relaxes; an object that never moves (a bench standing in the slime) never sticks.
     /// There are no springs, so the surface never bounces.
-    /// Fast motion is sub-stepped along the travel path so a contact cannot be skipped in one frame.
+    /// Fast motion is sub-stepped along the travel path so a contact cannot be skipped in one frame; only moving
+    /// objects pay for sub-steps, and the flow back to rest is solved exactly once per frame.
     /// Results go to SlimeViscosity.hlsl through a per-renderer MaterialPropertyBlock.
+    /// Profiler markers: SlimeViscosity.Simulate (with .Detect and .SyncTransforms inside) and SlimeViscosity.Upload.
     /// Put this on the slime renderer's GameObject.
     /// </summary>
     [ExecuteAlways]
@@ -36,6 +39,14 @@ namespace TestMisha.Slime
         static readonly int AxisNId = Shader.PropertyToID("_SV_AxisN16");
         static readonly int OffsetId = Shader.PropertyToID("_SV_Offset16");
         static readonly int ParamsId = Shader.PropertyToID("_SV_Params");
+
+        static readonly ProfilerMarker SimulateMarker = new ProfilerMarker("SlimeViscosity.Simulate");
+        static readonly ProfilerMarker DetectMarker = new ProfilerMarker("SlimeViscosity.Detect");
+        static readonly ProfilerMarker SyncMarker = new ProfilerMarker("SlimeViscosity.SyncTransforms");
+        static readonly ProfilerMarker UploadMarker = new ProfilerMarker("SlimeViscosity.Upload");
+
+        // Physics.SyncTransforms covers the whole physics scene, so in Play Mode all slimes share one call per frame.
+        static int s_lastSyncFrame = -1;
 
         const float MaxSubStep = 1f / 240f;
         const int MaxSubSteps = 64;
@@ -62,7 +73,7 @@ namespace TestMisha.Slime
         const float MaskFullDisplacementScale = 2f;
         const float FinishSpeedScale = 0.5f;   // constant part of the flow back, in radii per relax time
 
-        [Tooltip("Layers whose colliders push into the slime. Any collider on these layers counts; objects without a collider are ignored.")]
+        [Tooltip("Layers whose colliders push into the slime. Any collider on these layers counts; objects without a collider are ignored. Everything also tracks the floor, walls and props around the slime; a dedicated layer keeps the search cheap.")]
         [InspectorName("Layers | Affects Performance: 3/10")]
         public LayerMask layers = ~0;
 
@@ -148,6 +159,15 @@ namespace TestMisha.Slime
         Bounds _slimeBox;
         bool _boundsCached;
         double _lastTime;
+        // Active slots in the last upload; -1 forces the next one. An idle slime skips uploading.
+        int _uploadedCount = -1;
+
+        // The slime's transform, read once per frame: the contact queries run for every sub-step, and each
+        // Transform call there would cross into native code.
+        Matrix4x4 _slimeToWorld;
+        Matrix4x4 _worldToSlime;
+        Quaternion _slimeRotation;
+        Vector3 _slimeScale;
 
         // Longest pull before the surface tears, in intruder radii.
         float FollowScale => 2f * viscosity;
@@ -192,6 +212,7 @@ namespace TestMisha.Slime
         {
             _renderer = GetComponent<Renderer>();
             _lastTime = CurrentTime();
+            _uploadedCount = -1;
             _states.Clear();
             for (int i = 0; i < MaxSlots; i++)
                 _slots[i] = default;
@@ -212,6 +233,7 @@ namespace TestMisha.Slime
                 return;
 
             CacheBounds();
+            CacheSlimeTransform();
 
             double now = CurrentTime();
             float dt = Application.isPlaying ? Time.deltaTime : Mathf.Min((float)(now - _lastTime), MaxFrameDelta);
@@ -219,9 +241,13 @@ namespace TestMisha.Slime
 
             bool moving = false;
             if (dt > 0f)
-                moving = Simulate(dt);
+            {
+                using (SimulateMarker.Auto())
+                    moving = Simulate(dt);
+            }
 
-            Upload(true);
+            using (UploadMarker.Auto())
+                Upload(true);
 
 #if UNITY_EDITOR
             if (!Application.isPlaying && moving)
@@ -240,47 +266,57 @@ namespace TestMisha.Slime
 
         bool Simulate(float dt)
         {
-            DetectIntruders(dt);
+            using (DetectMarker.Auto())
+                DetectIntruders(dt);
 
-            // Sub-step count follows both time and the fastest intruder's travel, so a fast pass
-            // cannot skip the contact band in a single frame.
-            int steps = Mathf.CeilToInt(dt / MaxSubStep);
             bool intruderMoved = false;
             for (int i = 0; i < _states.Count; i++)
             {
                 var state = _states[i];
-                float travel = Vector3.Distance(state.previousPosition, state.center);
-                if (travel > 1e-6f)
+                Vector3 travel = state.center - state.previousPosition;
+                float distance = travel.magnitude;
+                if (distance > 1e-6f)
                     intruderMoved = true;
-                steps = Mathf.Max(steps, Mathf.CeilToInt(travel / Mathf.Max(state.radius * 0.25f, 1e-3f)));
-            }
-            steps = Mathf.Clamp(steps, 1, MaxSubSteps);
-            float h = dt / steps;
 
-            for (int step = 1; step <= steps; step++)
-            {
-                float t = (float)step / steps;
+                bool moved = distance >= state.radius * IdleSpeedScale * dt;
+                state.stillTime = moved ? 0f : state.stillTime + dt;
+                bool attached = state.slot >= 0 && _slots[state.slot].attached;
 
-                for (int i = 0; i < _states.Count; i++)
+                // An object that is not moving, not stuck and not held off a torn surface cannot start a contact,
+                // so the floor under the slime and props standing around it skip the contact work entirely.
+                if (moved || attached || state.locked)
                 {
-                    var state = _states[i];
-                    Vector3 position = Vector3.Lerp(state.previousPosition, state.center, t);
-                    Vector3 delta = (state.center - state.previousPosition) / steps;
-                    bool moved = delta.magnitude >= state.radius * IdleSpeedScale * h;
-                    state.stillTime = moved ? 0f : state.stillTime + h;
-                    UpdateContact(ref state, position, delta, moved, state.stillTime > IdleDelay);
-                    _states[i] = state;
+                    // Sub-steps follow this intruder's own travel and time, so a fast pass cannot skip the contact
+                    // band in a single frame. Only moving intruders pay for them.
+                    int steps = 1;
+                    if (moved)
+                    {
+                        steps = Mathf.Max(Mathf.CeilToInt(dt / MaxSubStep),
+                            Mathf.CeilToInt(distance / Mathf.Max(state.radius * 0.25f, 1e-3f)));
+                        steps = Mathf.Clamp(steps, 1, MaxSubSteps);
+                    }
+
+                    // Follow the intruder's rotation while stuck to it. Its box is measured once per frame.
+                    if (attached)
+                    {
+                        ref Slot slot = ref _slots[state.slot];
+                        ComputeFootprint(state, slot.normal, out slot.axisU, out slot.axisV, out slot.radiusU, out slot.radiusV);
+                    }
+
+                    Vector3 delta = travel / steps;
+                    bool idle = state.stillTime > IdleDelay;
+                    for (int step = 1; step <= steps; step++)
+                    {
+                        Vector3 position = Vector3.Lerp(state.previousPosition, state.center, (float)step / steps);
+                        UpdateContact(ref state, position, delta, moved, idle);
+                    }
                 }
 
-                IntegrateSlots(h);
-            }
-
-            for (int i = 0; i < _states.Count; i++)
-            {
-                var state = _states[i];
                 state.previousPosition = state.center;
                 _states[i] = state;
             }
+
+            RelaxSlots(dt);
 
             // Keep the editor ticking only while something is still visibly moving.
             bool deforming = false;
@@ -297,7 +333,13 @@ namespace TestMisha.Slime
         {
             // Collider positions only follow transforms on the next physics step (and never in Edit Mode),
             // so objects moved sharply this frame would be searched at stale positions without this.
-            Physics.SyncTransforms();
+            // Edit Mode syncs every time: the frame count is no reliable per-frame key there, and the cost does not matter.
+            if (!Application.isPlaying || s_lastSyncFrame != Time.frameCount)
+            {
+                s_lastSyncFrame = Time.frameCount;
+                using (SyncMarker.Auto())
+                    Physics.SyncTransforms();
+            }
 
             for (int i = 0; i < _states.Count; i++)
             {
@@ -316,9 +358,10 @@ namespace TestMisha.Slime
             {
                 Collider hit = _hits[h];
                 _hits[h] = null;
-                if (!IsIntruderCollider(hit))
+                if (hit == null)
                     continue;
 
+                // Known objects first: the hierarchy check below only matters for new ones.
                 Rigidbody body = hit.attachedRigidbody;
                 Transform space = body != null ? body.transform : hit.transform;
                 int index = FindState(space);
@@ -329,6 +372,8 @@ namespace TestMisha.Slime
                     _states[index] = existing;
                     continue;
                 }
+                if (!IsIntruderCollider(hit))
+                    continue;
 
                 var state = new IntruderState
                 {
@@ -429,13 +474,12 @@ namespace TestMisha.Slime
 
             // Attached: the stuck surface point is carried along the intruder's path, through the surface and
             // beyond it (a funnel on entry, a strand on exit), until the pull reaches the Viscosity limit and
-            // the surface tears. Entry and exit behave the same.
+            // the surface tears. Entry and exit behave the same. The footprint follows the intruder's rotation
+            // once per frame, in Simulate.
             if (state.slot >= 0 && _slots[state.slot].attached)
             {
                 ref Slot slot = ref _slots[state.slot];
                 slot.idle = idle;
-                // Follow the intruder's rotation while stuck to it.
-                ComputeFootprint(state, slot.normal, out slot.axisU, out slot.axisV, out slot.radiusU, out slot.radiusV);
 
                 // Measured on the pull itself, not on the distance to the contact point, which starts near
                 // the intruder's half-size and would make small Viscosity values do nothing.
@@ -573,14 +617,15 @@ namespace TestMisha.Slime
             }
         }
 
-        void IntegrateSlots(float h)
+        void RelaxSlots(float dt)
         {
             // Viscous flow back to rest, never overshooting. While attached it only runs when the intruder
             // stops, so a slow push follows as far as a fast one. A pure exponential never reaches zero and
             // leaves a long creeping tail after the intruder is gone, so a small constant speed is added:
             // the start stays soft and the surface settles completely in finite time.
-            float relaxTime = RelaxTime;
-            float decay = Mathf.Exp(-h / relaxTime);
+            // Solved exactly over the frame (dL/dt = -L / relaxTime - finishSpeed), so it needs no sub-steps
+            // and does not depend on the frame rate.
+            float decay = Mathf.Exp(-dt / RelaxTime);
 
             for (int i = 0; i < MaxSlots; i++)
             {
@@ -591,8 +636,9 @@ namespace TestMisha.Slime
                 if (!s.attached || s.idle)
                 {
                     float length = s.offset.magnitude;
-                    float finishSpeed = s.radius * FinishSpeedScale / relaxTime;
-                    float settled = Mathf.Max(0f, length * decay - finishSpeed * h);
+                    // finishSpeed x relaxTime: the length the constant part alone would cover in one relax time.
+                    float finish = s.radius * FinishSpeedScale;
+                    float settled = Mathf.Max(0f, (length + finish) * decay - finish);
                     s.offset = length > 0f ? s.offset * (settled / length) : Vector3.zero;
                 }
 
@@ -607,7 +653,6 @@ namespace TestMisha.Slime
                 return;
 
             // Active slots are packed to the front, so the shader loops over only as many as are in use.
-            float maskFull = 0.5f;
             float size = Mathf.Max(contactSize, 0.1f);
             // The fade must keep some width, or the shader's smoothstep would divide by zero.
             float fadeStart = 1f - Mathf.Clamp(softness, 0.02f, 1f);
@@ -630,10 +675,17 @@ namespace TestMisha.Slime
                 _axesU[count] = s.axisU / radiusU;
                 _axesV[count] = s.axisV / radiusV;
                 _axesN[count] = s.normal / radiusN;
-                _offsets[count] = s.offset;
-                maskFull = s.radius * MaskFullDisplacementScale;
+                // w: mask strength, computed here once instead of per vertex or pixel in the shader.
+                float maskFull = Mathf.Max(s.radius * MaskFullDisplacementScale, 1e-4f);
+                _offsets[count] = new Vector4(s.offset.x, s.offset.y, s.offset.z, Mathf.Clamp01(length / maskFull));
                 count++;
             }
+
+            // Nothing to show now and nothing shown last time: the renderer's block already says so.
+            if (enabled && count == 0 && _uploadedCount == 0)
+                return;
+            _uploadedCount = enabled ? count : -1;
+
             for (int i = count; i < MaxSlots; i++)
             {
                 _anchors[i] = Vector4.zero;
@@ -651,7 +703,7 @@ namespace TestMisha.Slime
             _block.SetVectorArray(AxisVId, _axesV);
             _block.SetVectorArray(AxisNId, _axesN);
             _block.SetVectorArray(OffsetId, _offsets);
-            _block.SetVector(ParamsId, new Vector4(maskFull, enabled ? 1f : 0f, count, fadeStart));
+            _block.SetVector(ParamsId, new Vector4(0f, enabled ? 1f : 0f, count, fadeStart));
             _renderer.SetPropertyBlock(_block);
         }
 
@@ -665,6 +717,10 @@ namespace TestMisha.Slime
             if (state.space == null || state.colliders == null)
                 return;
 
+            // One matrix per collider instead of Transform calls per box corner: a box brought into another
+            // space has its centre moved and its extents spread through the absolute matrix, which bounds
+            // exactly the same 8 corners.
+            Matrix4x4 toSpace = state.space.worldToLocalMatrix;
             Vector3 min = Vector3.positiveInfinity;
             Vector3 max = Vector3.negativeInfinity;
             foreach (Collider collider in state.colliders)
@@ -674,28 +730,31 @@ namespace TestMisha.Slime
                 if (!LocalColliderBox(collider, out Vector3 center, out Vector3 extents))
                     continue;
 
+                extents = new Vector3(Mathf.Abs(extents.x), Mathf.Abs(extents.y), Mathf.Abs(extents.z));
                 Transform ct = collider.transform;
-                for (int k = 0; k < 8; k++)
+                if (ct != state.space)
                 {
-                    Vector3 corner = center + new Vector3(
-                        (k & 1) != 0 ? extents.x : -extents.x,
-                        (k & 2) != 0 ? extents.y : -extents.y,
-                        (k & 4) != 0 ? extents.z : -extents.z);
-                    Vector3 local = ct == state.space ? corner : state.space.InverseTransformPoint(ct.TransformPoint(corner));
-                    min = Vector3.Min(min, local);
-                    max = Vector3.Max(max, local);
+                    Matrix4x4 m = toSpace * ct.localToWorldMatrix;
+                    center = m.MultiplyPoint3x4(center);
+                    extents = new Vector3(
+                        Mathf.Abs(m.m00) * extents.x + Mathf.Abs(m.m01) * extents.y + Mathf.Abs(m.m02) * extents.z,
+                        Mathf.Abs(m.m10) * extents.x + Mathf.Abs(m.m11) * extents.y + Mathf.Abs(m.m12) * extents.z,
+                        Mathf.Abs(m.m20) * extents.x + Mathf.Abs(m.m21) * extents.y + Mathf.Abs(m.m22) * extents.z);
                 }
+                min = Vector3.Min(min, center - extents);
+                max = Vector3.Max(max, center + extents);
                 state.valid = true;
             }
             if (!state.valid)
                 return;
 
+            Matrix4x4 toWorld = state.space.localToWorldMatrix;
             Vector3 boxCenter = (min + max) * 0.5f;
             Vector3 half = (max - min) * 0.5f;
-            state.center = state.space.TransformPoint(boxCenter);
-            state.axisX = state.space.TransformVector(new Vector3(half.x, 0f, 0f));
-            state.axisY = state.space.TransformVector(new Vector3(0f, half.y, 0f));
-            state.axisZ = state.space.TransformVector(new Vector3(0f, 0f, half.z));
+            state.center = toWorld.MultiplyPoint3x4(boxCenter);
+            state.axisX = toWorld.MultiplyVector(new Vector3(half.x, 0f, 0f));
+            state.axisY = toWorld.MultiplyVector(new Vector3(0f, half.y, 0f));
+            state.axisZ = toWorld.MultiplyVector(new Vector3(0f, 0f, half.z));
             state.radius = Mathf.Max((state.axisX.magnitude + state.axisY.magnitude + state.axisZ.magnitude) / 3f, 1e-3f);
         }
 
@@ -745,10 +804,9 @@ namespace TestMisha.Slime
         void ContactQuery(in IntruderState state, Vector3 worldPoint, Vector3 motion, float margin,
             out Vector3 surfacePoint, out Vector3 normal, out float gap, out float support, out bool headingIntoFace)
         {
-            Transform space = _renderer.transform;
             Vector3 center = _slimeBox.center;
             Vector3 extents = _slimeBox.extents;
-            Vector3 p = space.InverseTransformPoint(worldPoint) - center;
+            Vector3 p = _worldToSlime.MultiplyPoint3x4(worldPoint) - center;
             bool inside = Mathf.Abs(p.x) <= extents.x && Mathf.Abs(p.y) <= extents.y && Mathf.Abs(p.z) <= extents.z;
 
             if (!inside)
@@ -759,7 +817,7 @@ namespace TestMisha.Slime
                 return;
             }
 
-            Vector3 scale = space.lossyScale;
+            Vector3 scale = _slimeScale;
             int nearAxis = 1, bestAxis = -1;
             float nearSign = 1f, bestSign = 1f;
             float nearDistance = float.MaxValue, bestScore = 0f;
@@ -770,7 +828,7 @@ namespace TestMisha.Slime
                     float sign = k == 0 ? -1f : 1f;
                     Vector3 faceNormalLocal = Vector3.zero;
                     faceNormalLocal[axis] = sign;
-                    Vector3 faceNormal = space.TransformDirection(faceNormalLocal);
+                    Vector3 faceNormal = _slimeRotation * faceNormalLocal;
                     float distance = (extents[axis] - sign * p[axis]) * Mathf.Abs(scale[axis]);
 
                     if (distance < nearDistance)
@@ -800,8 +858,8 @@ namespace TestMisha.Slime
             Vector3 normalLocal = Vector3.zero;
             normalLocal[chosenAxis] = chosenSign;
 
-            surfacePoint = space.TransformPoint(local + center);
-            normal = space.TransformDirection(normalLocal);
+            surfacePoint = _slimeToWorld.MultiplyPoint3x4(local + center);
+            normal = _slimeRotation * normalLocal;
             gap = -(extents[chosenAxis] - chosenSign * p[chosenAxis]) * Mathf.Abs(scale[chosenAxis]);
             support = Support(state, normal);
         }
@@ -809,11 +867,10 @@ namespace TestMisha.Slime
         /// <summary>Closest point on the slime box surface, its outward normal, and the signed gap (negative inside).</summary>
         void SurfaceQuery(Vector3 worldPoint, out Vector3 surfacePoint, out Vector3 normal, out float gap)
         {
-            Transform space = _renderer.transform;
             Vector3 center = _slimeBox.center;
             Vector3 extents = _slimeBox.extents;
 
-            Vector3 p = space.InverseTransformPoint(worldPoint) - center;
+            Vector3 p = _worldToSlime.MultiplyPoint3x4(worldPoint) - center;
             Vector3 q = new Vector3(Mathf.Abs(p.x) - extents.x, Mathf.Abs(p.y) - extents.y, Mathf.Abs(p.z) - extents.z);
             bool inside = q.x <= 0f && q.y <= 0f && q.z <= 0f;
 
@@ -834,16 +891,25 @@ namespace TestMisha.Slime
                 normalLocal = p - local;
             }
 
-            surfacePoint = space.TransformPoint(local + center);
+            surfacePoint = _slimeToWorld.MultiplyPoint3x4(local + center);
             float distance = Vector3.Distance(worldPoint, surfacePoint);
             gap = inside ? -distance : distance;
 
             // Outside: direction from the surface to the point. Inside: normal of the nearest face.
             normal = !inside && distance > 1e-5f
                 ? (worldPoint - surfacePoint) / distance
-                : space.TransformDirection(normalLocal).normalized;
+                : (_slimeRotation * normalLocal).normalized;
             if (normal.sqrMagnitude < 0.5f)
-                normal = space.up;
+                normal = _slimeRotation * Vector3.up;
+        }
+
+        void CacheSlimeTransform()
+        {
+            Transform space = _renderer.transform;
+            _slimeToWorld = space.localToWorldMatrix;
+            _worldToSlime = space.worldToLocalMatrix;
+            _slimeRotation = space.rotation;
+            _slimeScale = space.lossyScale;
         }
 
         /// <summary>The slime box in world space, for the collider search.</summary>
