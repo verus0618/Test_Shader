@@ -7,12 +7,15 @@ using UnityEditor;
 namespace TestMisha.Slime
 {
     /// <summary>
-    /// Viscous "sticky surface" response of a slime volume to objects passing through it.
-    /// When an intruder touches the surface, the nearby surface patch grabs it and follows with a lag;
-    /// once stretched past the break distance it snaps and wobbles back on a damped spring.
-    /// The response is position based, so slow motion still dents or pulls the surface and
-    /// fast motion leaves the slime lagging behind. Fast motion is sub-stepped along the travel path.
+    /// Viscous response of a slime volume to objects passing through its surface.
+    /// When an intruder touches the surface, that point sticks to it and is carried along the intruder's
+    /// actual path: in on entry, out on exit, sideways when sliding. The pull equals the distance travelled,
+    /// so a bullet and a slow push drag the surface equally far. Past the follow distance (Viscosity) the
+    /// surface lets go and flows back to rest (Damping). A stopped intruder adds nothing, so the slime relaxes.
+    /// There are no springs, so the surface never bounces.
+    /// Fast motion is sub-stepped along the travel path so a contact cannot be skipped in one frame.
     /// Results go to SlimeViscosity.hlsl through a per-renderer MaterialPropertyBlock.
+    /// Put this on the slime renderer's GameObject.
     /// </summary>
     [ExecuteAlways]
     [DisallowMultipleComponent]
@@ -23,200 +26,82 @@ namespace TestMisha.Slime
 
         static readonly int AnchorId = Shader.PropertyToID("_SV_Anchor");
         static readonly int OffsetId = Shader.PropertyToID("_SV_Offset");
-        static readonly int RippleId = Shader.PropertyToID("_SV_Ripple");
         static readonly int ParamsId = Shader.PropertyToID("_SV_Params");
-        static readonly int RippleShapeId = Shader.PropertyToID("_SV_RippleShape");
 
         const float MaxSubStep = 1f / 240f;
         const int MaxSubSteps = 64;
         const float MaxFrameDelta = 0.1f;
-        const float SettleEpsilon = 1e-6f;
+        const float SettleDistance = 1e-3f;
 
-        [Header("References")]
-        [Tooltip("Slime renderer using a material with the SlimeViscosity custom function. Defaults to the renderer on this GameObject.")]
-        [InspectorName("Slime Renderer | Affects Performance: 1/10")]
-        public Renderer slimeRenderer;
+        // Fixed values, relative to the intruder radius where it matters.
+        const float ContactMarginScale = 0.05f; // the surface sticks when the intruder's own surface is this close
+        const float IdleSpeedScale = 0.1f;     // slower than this many radii per second counts as stopped
+        const float DeformationRadiusScale = 1f;
+        const float StretchThinning = 0.8f;
+        const float MaskFullDisplacementScale = 0.5f;
 
-        [Tooltip("Optional box describing the slime volume. Can be disabled or a trigger. Without it the renderer's local bounds are used.")]
-        [InspectorName("Volume Override | Affects Performance: 1/10")]
-        public BoxCollider volume;
-
-        [Tooltip("Objects that push through the slime.")]
+        [Tooltip("Objects that pass through the slime.")]
         [InspectorName("Intruders | Affects Performance: 2/10")]
         public List<Transform> intruders = new List<Transform>();
 
         [Min(0f)]
-        [Tooltip("Intruder radius in world units. Zero derives it from each intruder's renderer bounds.")]
-        [InspectorName("Intruder Radius (0 = auto) | Affects Performance: 1/10")]
-        public float intruderRadius;
-
-        [Header("Contact")]
-        [Min(0f)]
-        [Tooltip("Extra distance beyond the intruder radius at which the surface grabs it.")]
-        [InspectorName("Grab Distance | Affects Performance: 1/10")]
-        public float grabDistance = 0.05f;
-
-        [Min(0.01f)]
-        [Tooltip("How far the surface stretches inward on entry before it snaps and lets the object in.")]
-        [InspectorName("Entry Break Distance | Affects Performance: 1/10")]
-        public float entryBreakDistance = 0.8f;
-
-        [Min(0.01f)]
-        [Tooltip("How far the surface stretches outward on exit before the strand snaps back.")]
-        [InspectorName("Exit Break Distance | Affects Performance: 1/10")]
-        public float exitBreakDistance = 1.5f;
+        [Tooltip("How far the surface follows the object after contact, in object radii x2 (1 = two radii). No upper limit.")]
+        [InspectorName("Viscosity | Affects Performance: 1/10")]
+        public float viscosity = 0.5f;
 
         [Min(0f)]
-        [Tooltip("Seconds after a snap before the same intruder can grab the surface again.")]
-        [InspectorName("Regrab Delay | Affects Performance: 1/10")]
-        public float regrabDelay = 0.2f;
-
-        [Header("Shape")]
-        [Min(0.1f)]
-        [Tooltip("Deformation radius as a multiple of the intruder radius.")]
-        [InspectorName("Deformation Radius Scale | Affects Performance: 1/10")]
-        public float deformationRadiusScale = 1.6f;
-
-        [Min(0f)]
-        [Tooltip("Narrows the deformation as it stretches, turning a long pull into a strand.")]
-        [InspectorName("Stretch Thinning | Affects Performance: 1/10")]
-        public float stretchThinning = 0.8f;
-
-        [Range(0f, 2f)]
-        [Tooltip("Ring that rises around a dent and pinches into a neck around a pull.")]
-        [InspectorName("Rim Bulge | Affects Performance: 1/10")]
-        public float rimBulge = 0.3f;
-
-        [Min(0.01f)]
-        [Tooltip("Hard limit on the drag vector length in world units.")]
-        [InspectorName("Max Stretch | Affects Performance: 1/10")]
-        public float maxStretch = 2f;
-
-        [Header("Viscosity")]
-        [Min(0f)]
-        [Tooltip("How tightly a grabbed surface follows the intruder. Lower is thicker and laggier.")]
-        [InspectorName("Follow Stiffness | Affects Performance: 1/10")]
-        public float followStiffness = 120f;
-
-        [Min(0f)]
-        [Tooltip("Damping while grabbed. Around 2*sqrt(Follow Stiffness) removes overshoot.")]
-        [InspectorName("Follow Damping | Affects Performance: 1/10")]
-        public float followDamping = 14f;
-
-        [Min(0f)]
-        [Tooltip("Spring pulling a released surface back to rest.")]
-        [InspectorName("Release Stiffness | Affects Performance: 1/10")]
-        public float releaseStiffness = 90f;
-
-        [Min(0f)]
-        [Tooltip("Damping after release. Lower wobbles longer.")]
-        [InspectorName("Release Damping | Affects Performance: 1/10")]
-        public float releaseDamping = 3f;
-
-        [Range(0f, 1f)]
-        [Tooltip("Share of the intruder velocity kicked into the surface on first contact. Adds a splash on fast hits.")]
-        [InspectorName("Impact Transfer | Affects Performance: 1/10")]
-        public float impactTransfer = 0.1f;
-
-        [Min(0f)]
-        [Tooltip("Speed limit of the surface motion, keeps very fast hits from exploding.")]
-        [InspectorName("Max Surface Speed | Affects Performance: 1/10")]
-        public float maxSurfaceSpeed = 15f;
-
-        [Header("Mask And Ripples")]
-        [Min(0.001f)]
-        [Tooltip("Seconds for the mask to fade in after the surface grabs an intruder.")]
-        [InspectorName("Mask Attack | Affects Performance: 1/10")]
-        public float maskAttack = 0.15f;
-
-        [Min(0.001f)]
-        [Tooltip("Seconds for the mask to fade out after the surface is released.")]
-        [InspectorName("Mask Release | Affects Performance: 1/10")]
-        public float maskRelease = 1.2f;
-
-        [Range(0f, 1f)]
-        [Tooltip("How strongly the ripple rings show in the mask. Zero leaves a smooth spot.")]
-        [InspectorName("Ripple Mask Strength | Affects Performance: 1/10")]
-        public float rippleMaskStrength = 0.7f;
-
-        [Min(0f)]
-        [Tooltip("Ripple height along the surface normal in world units. Zero keeps ripples in the mask only.")]
-        [InspectorName("Ripple Displacement | Affects Performance: 1/10")]
-        public float rippleDisplacement;
-
-        [Min(0.01f)]
-        [Tooltip("Distance between ripple crests in world units.")]
-        [InspectorName("Ripple Wavelength | Affects Performance: 1/10")]
-        public float rippleWavelength = 0.35f;
-
-        [Min(0f)]
-        [Tooltip("How fast ripples travel away from the contact, world units per second.")]
-        [InspectorName("Ripple Speed | Affects Performance: 1/10")]
-        public float rippleSpeed = 0.8f;
-
-        [Min(0.01f)]
-        [Tooltip("Distance over which ripples die out, world units.")]
-        [InspectorName("Ripple Reach | Affects Performance: 1/10")]
-        public float rippleReach = 1.2f;
-
-        [Header("Culling")]
-        [Min(0f)]
-        [Tooltip("Pads the renderer bounds so stretched parts are not culled at screen edges.")]
-        [InspectorName("Bounds Padding | Affects Performance: 1/10")]
-        public float boundsPadding = 1.5f;
-
-        [Tooltip("Pads bounds in Edit Mode too. Off by default because renderer bounds are serialized data.")]
-        [InspectorName("Pad Bounds In Edit Mode | Affects Performance: 1/10")]
-        public bool padBoundsInEditMode;
+        [Tooltip("How fast the slime flows back to rest when the object stops or leaves. 0: about 2 s, 1: about 0.15 s, higher is faster. No upper limit.")]
+        [InspectorName("Damping | Affects Performance: 1/10")]
+        public float damping = 0.5f;
 
         struct Slot
         {
             public bool active;
-            public bool grabbed;
-            public float breakDistance;
+            public bool attached;
+            // Attached but the intruder is not moving: the slime relaxes instead of holding the pull.
+            public bool idle;
             public float radius;
+            public float releaseDistance;
             public Vector3 anchor;
-            public Vector3 grabPoint;
-            public Vector3 target;
             public Vector3 offset;
-            public Vector3 velocity;
-            public float envelope;
-            public float age;
         }
 
         struct IntruderState
         {
             public Transform transform;
+            // Centre of the intruder's mesh bounds (not its pivot), this frame and last frame.
+            public Vector3 center;
             public Vector3 previousPosition;
+            // Half-extent vectors of the intruder's oriented mesh bounds in world space.
+            public Vector3 axisX, axisY, axisZ;
+            public float radius;
             public int slot;
-            public float regrabTime;
+            // Set after a release; cleared once the intruder leaves the contact band, so it cannot re-stick in place.
+            public bool locked;
         }
 
         readonly Slot[] _slots = new Slot[MaxSlots];
         readonly Vector4[] _anchors = new Vector4[MaxSlots];
         readonly Vector4[] _offsets = new Vector4[MaxSlots];
-        readonly Vector4[] _ripples = new Vector4[MaxSlots];
         readonly List<IntruderState> _states = new List<IntruderState>();
 
+        Renderer _renderer;
         MaterialPropertyBlock _block;
-        Bounds _baseLocalBounds;
+        Bounds _slimeBox;
         bool _boundsCached;
-        bool _boundsPadded;
         double _lastTime;
-        float _clock;
 
-        void Reset()
-        {
-            slimeRenderer = GetComponent<Renderer>();
-        }
+        // How far past the contact the surface follows, in intruder radii.
+        float FollowScale => 2f * viscosity;
+
+        // Time constant of the flow back to rest, also while attached to an intruder that has stopped.
+        // 2 s at 0, 0.15 s at 1, and keeps getting faster above 1.
+        float RelaxTime => 2f / (1f + 12.3f * Mathf.Max(damping, 0f));
 
         void OnEnable()
         {
-            if (slimeRenderer == null)
-                slimeRenderer = GetComponent<Renderer>();
-
+            _renderer = GetComponent<Renderer>();
             _lastTime = CurrentTime();
-            _clock = 0f;
             _states.Clear();
             for (int i = 0; i < MaxSlots; i++)
                 _slots[i] = default;
@@ -226,7 +111,6 @@ namespace TestMisha.Slime
 
         void OnDisable()
         {
-            RestoreBounds();
             for (int i = 0; i < MaxSlots; i++)
                 _slots[i] = default;
             Upload(false);
@@ -234,11 +118,10 @@ namespace TestMisha.Slime
 
         void LateUpdate()
         {
-            if (slimeRenderer == null)
+            if (_renderer == null)
                 return;
 
             CacheBounds();
-            ApplyBoundsPadding();
 
             double now = CurrentTime();
             float dt = Application.isPlaying ? Time.deltaTime : Mathf.Min((float)(now - _lastTime), MaxFrameDelta);
@@ -279,19 +162,19 @@ namespace TestMisha.Slime
                 if (state.transform == null)
                     continue;
 
-                float travel = Vector3.Distance(state.previousPosition, state.transform.position);
+                MeasureIntruder(ref state);
+                _states[i] = state;
+
+                float travel = Vector3.Distance(state.previousPosition, state.center);
                 if (travel > 1e-6f)
                     intruderMoved = true;
-
-                float radius = IntruderRadius(state.transform);
-                steps = Mathf.Max(steps, Mathf.CeilToInt(travel / Mathf.Max(radius * 0.25f, 1e-3f)));
+                steps = Mathf.Max(steps, Mathf.CeilToInt(travel / Mathf.Max(state.radius * 0.25f, 1e-3f)));
             }
             steps = Mathf.Clamp(steps, 1, MaxSubSteps);
             float h = dt / steps;
 
             for (int step = 1; step <= steps; step++)
             {
-                _clock += h;
                 float t = (float)step / steps;
 
                 for (int i = 0; i < _states.Count; i++)
@@ -300,9 +183,10 @@ namespace TestMisha.Slime
                     if (state.transform == null)
                         continue;
 
-                    Vector3 position = Vector3.Lerp(state.previousPosition, state.transform.position, t);
-                    Vector3 velocity = (state.transform.position - state.previousPosition) / dt;
-                    UpdateContact(ref state, position, velocity, IntruderRadius(state.transform));
+                    Vector3 position = Vector3.Lerp(state.previousPosition, state.center, t);
+                    Vector3 delta = (state.center - state.previousPosition) / steps;
+                    bool idle = delta.magnitude < state.radius * IdleSpeedScale * h;
+                    UpdateContact(ref state, position, delta, idle);
                     _states[i] = state;
                 }
 
@@ -313,25 +197,25 @@ namespace TestMisha.Slime
             {
                 var state = _states[i];
                 if (state.transform != null)
-                    state.previousPosition = state.transform.position;
+                    state.previousPosition = state.center;
                 _states[i] = state;
             }
 
-            bool slotsActive = false;
+            // Keep the editor ticking only while something is still visibly moving.
+            bool deforming = false;
             for (int i = 0; i < MaxSlots; i++)
-                slotsActive |= _slots[i].active;
-            return slotsActive || intruderMoved;
+                deforming |= _slots[i].active && _slots[i].offset.magnitude >= SettleDistance;
+            return deforming || intruderMoved;
         }
 
         void SyncIntruderStates()
         {
-            // Drop states for removed intruders, releasing their grabs.
+            // Drop states for removed intruders; their deformation flows back on its own.
             for (int i = _states.Count - 1; i >= 0; i--)
             {
                 if (_states[i].transform != null && intruders.Contains(_states[i].transform))
                     continue;
-                if (_states[i].slot >= 0)
-                    _slots[_states[i].slot].grabbed = false;
+                Detach(_states[i].slot);
                 _states.RemoveAt(i);
             }
 
@@ -339,13 +223,10 @@ namespace TestMisha.Slime
             {
                 if (intruder == null || HasState(intruder))
                     continue;
-                _states.Add(new IntruderState
-                {
-                    transform = intruder,
-                    previousPosition = intruder.position,
-                    slot = -1,
-                    regrabTime = 0f,
-                });
+                var state = new IntruderState { transform = intruder, slot = -1 };
+                MeasureIntruder(ref state);
+                state.previousPosition = state.center;
+                _states.Add(state);
             }
         }
 
@@ -359,70 +240,85 @@ namespace TestMisha.Slime
             return false;
         }
 
-        void UpdateContact(ref IntruderState state, Vector3 position, Vector3 velocity, float radius)
+        void UpdateContact(ref IntruderState state, Vector3 position, Vector3 delta, bool idle)
         {
-            if (state.slot >= 0)
+            float radius = state.radius;
+
+            // Attached: the stuck surface point is carried along the intruder's path until it is too far away.
+            if (state.slot >= 0 && _slots[state.slot].attached)
             {
                 ref Slot slot = ref _slots[state.slot];
-                Vector3 stretch = position - slot.grabPoint;
-                if (!slot.grabbed || stretch.magnitude > slot.breakDistance)
+                slot.idle = idle;
+                if (Vector3.Distance(position, slot.anchor) > slot.releaseDistance)
                 {
-                    slot.grabbed = false;
+                    Detach(state.slot);
                     state.slot = -1;
-                    state.regrabTime = _clock + regrabDelay;
+                    state.locked = true;
                 }
                 else
                 {
-                    slot.target = stretch;
+                    slot.offset = Vector3.ClampMagnitude(slot.offset + delta, slot.releaseDistance);
                 }
                 return;
             }
 
-            if (_clock < state.regrabTime)
+            state.slot = -1;
+            SurfaceQuery(position, out Vector3 surfacePoint, out Vector3 normal, out float gap);
+
+            // How far the intruder's own oriented box reaches towards the surface, so the contact follows
+            // its real shape and orientation instead of a sphere around its centre.
+            float support = Mathf.Abs(Vector3.Dot(state.axisX, normal))
+                          + Mathf.Abs(Vector3.Dot(state.axisY, normal))
+                          + Mathf.Abs(Vector3.Dot(state.axisZ, normal));
+            float reach = support + radius * ContactMarginScale;
+            bool touching = Mathf.Abs(gap) < reach;
+
+            if (state.locked)
+            {
+                state.locked = touching;
+                return;
+            }
+
+            if (!touching || FollowScale <= 0f)
                 return;
 
-            SurfaceQuery(position, out Vector3 surfacePoint, out Vector3 outward, out float gap);
-            float reach = radius + grabDistance;
-            if (Mathf.Abs(gap) > reach)
-                return;
-
-            int index = AcquireSlot();
-            ref Slot s = ref _slots[index];
-            bool entering = gap >= 0f;
-
-            // The grab point is where the intruder would just touch the surface from its side,
-            // so an intruder that appears already pressed in (start, teleport) gets the right dent.
+            state.slot = AcquireSlot();
+            ref Slot s = ref _slots[state.slot];
             s.active = true;
-            s.grabbed = true;
+            s.attached = true;
             s.anchor = surfacePoint;
-            s.grabPoint = surfacePoint + outward * (entering ? reach : -reach);
-            s.target = position - s.grabPoint;
-            s.breakDistance = Mathf.Max(entering ? entryBreakDistance : exitBreakDistance, reach * 1.05f);
-            s.radius = radius * deformationRadiusScale;
-            s.velocity = Vector3.ClampMagnitude(s.velocity + velocity * impactTransfer, maxSurfaceSpeed);
-            state.slot = index;
+            s.offset = Vector3.zero;
+            s.radius = radius * DeformationRadiusScale;
+            s.releaseDistance = reach + radius * FollowScale;
+        }
+
+        void Detach(int slot)
+        {
+            if (slot < 0)
+                return;
+            _slots[slot].attached = false;
         }
 
         int AcquireSlot()
         {
             int best = -1;
-            float bestEnergy = float.MaxValue;
+            float bestSize = float.MaxValue;
             for (int i = 0; i < MaxSlots; i++)
             {
                 if (!_slots[i].active)
                     return Claim(i);
-                if (_slots[i].grabbed)
+                if (_slots[i].attached)
                     continue;
 
-                float energy = _slots[i].offset.sqrMagnitude + _slots[i].velocity.sqrMagnitude * 0.01f;
-                if (energy < bestEnergy)
+                float size = _slots[i].offset.sqrMagnitude;
+                if (size < bestSize)
                 {
-                    bestEnergy = energy;
+                    bestSize = size;
                     best = i;
                 }
             }
 
-            // Every slot is held: steal the first one and release its owner.
+            // Every slot is attached: take the first one from its owner.
             if (best < 0)
                 best = 0;
             for (int i = 0; i < _states.Count; i++)
@@ -444,37 +340,30 @@ namespace TestMisha.Slime
 
         void IntegrateSlots(float h)
         {
+            // Viscous flow back to rest, first order so it never overshoots. While attached it only runs
+            // when the intruder stops, so a slow push follows as far as a fast one.
+            float relax = 1f - Mathf.Exp(-h / RelaxTime);
+
             for (int i = 0; i < MaxSlots; i++)
             {
                 ref Slot s = ref _slots[i];
                 if (!s.active)
                     continue;
 
-                Vector3 accel = s.grabbed
-                    ? followStiffness * (s.target - s.offset) - followDamping * s.velocity
-                    : -releaseStiffness * s.offset - releaseDamping * s.velocity;
+                if (!s.attached || s.idle)
+                    s.offset -= s.offset * relax;
 
-                // Semi-implicit Euler, stable at these sub-step sizes.
-                s.velocity = Vector3.ClampMagnitude(s.velocity + accel * h, maxSurfaceSpeed);
-                s.offset = Vector3.ClampMagnitude(s.offset + s.velocity * h, maxStretch);
-
-                // Mask envelope: eases in while grabbed, eases out after release.
-                float envelopeTarget = s.grabbed ? 1f : 0f;
-                float envelopeTime = s.grabbed ? maskAttack : maskRelease;
-                s.envelope += (envelopeTarget - s.envelope) * (1f - Mathf.Exp(-h / envelopeTime));
-                s.age += h;
-
-                if (!s.grabbed && s.envelope < 1e-3f
-                    && s.offset.sqrMagnitude < SettleEpsilon && s.velocity.sqrMagnitude < SettleEpsilon)
+                if (!s.attached && s.offset.magnitude < SettleDistance)
                     s = default;
             }
         }
 
         void Upload(bool enabled)
         {
-            if (slimeRenderer == null)
+            if (_renderer == null)
                 return;
 
+            float maskFull = 0.5f;
             for (int i = 0; i < MaxSlots; i++)
             {
                 Slot s = _slots[i];
@@ -482,45 +371,53 @@ namespace TestMisha.Slime
                 {
                     _anchors[i] = Vector4.zero;
                     _offsets[i] = Vector4.zero;
-                    _ripples[i] = Vector4.zero;
                     continue;
                 }
 
                 float length = s.offset.magnitude;
-                float radius = s.radius / Mathf.Sqrt(1f + stretchThinning * length / Mathf.Max(s.radius, 1e-4f));
+                float radius = s.radius / Mathf.Sqrt(1f + StretchThinning * length / Mathf.Max(s.radius, 1e-4f));
                 _anchors[i] = new Vector4(s.anchor.x, s.anchor.y, s.anchor.z, radius);
                 _offsets[i] = s.offset;
-                _ripples[i] = new Vector4(s.age, s.envelope, 0f, 0f);
+                maskFull = s.radius / DeformationRadiusScale * MaskFullDisplacementScale;
             }
 
             _block ??= new MaterialPropertyBlock();
-            slimeRenderer.GetPropertyBlock(_block);
+            _renderer.GetPropertyBlock(_block);
             // Always the full fixed-length arrays: Unity locks a shader array's size on first upload.
             _block.SetVectorArray(AnchorId, _anchors);
             _block.SetVectorArray(OffsetId, _offsets);
-            _block.SetVectorArray(RippleId, _ripples);
-            _block.SetVector(ParamsId, new Vector4(rimBulge, enabled ? 1f : 0f, rippleDisplacement, rippleMaskStrength));
-            _block.SetVector(RippleShapeId, new Vector4(rippleWavelength, rippleSpeed, rippleReach, 0f));
-            slimeRenderer.SetPropertyBlock(_block);
+            _block.SetVector(ParamsId, new Vector4(maskFull, enabled ? 1f : 0f, 0f, 0f));
+            _renderer.SetPropertyBlock(_block);
         }
 
-        float IntruderRadius(Transform intruder)
+        /// <summary>
+        /// Oriented box of the intruder's mesh in world space: centre, half-extent axes and mean radius.
+        /// Uses local mesh bounds, so rotation does not inflate the size the way a world AABB does.
+        /// </summary>
+        static void MeasureIntruder(ref IntruderState state)
         {
-            if (intruderRadius > 0f)
-                return intruderRadius;
+            var renderer = state.transform.GetComponentInChildren<Renderer>();
+            Transform space = state.transform;
+            Bounds local = new Bounds(Vector3.zero, Vector3.one);
+            if (renderer != null)
+            {
+                space = renderer is SkinnedMeshRenderer skinned && skinned.rootBone != null ? skinned.rootBone : renderer.transform;
+                local = renderer is SkinnedMeshRenderer smr ? smr.localBounds : renderer.localBounds;
+            }
 
-            var renderer = intruder.GetComponentInChildren<Renderer>();
-            if (renderer == null)
-                return 0.5f;
-
-            Vector3 e = renderer.bounds.extents;
-            return (e.x + e.y + e.z) / 3f;
+            state.center = space.TransformPoint(local.center);
+            state.axisX = space.TransformVector(new Vector3(local.extents.x, 0f, 0f));
+            state.axisY = space.TransformVector(new Vector3(0f, local.extents.y, 0f));
+            state.axisZ = space.TransformVector(new Vector3(0f, 0f, local.extents.z));
+            state.radius = Mathf.Max((state.axisX.magnitude + state.axisY.magnitude + state.axisZ.magnitude) / 3f, 1e-3f);
         }
 
         /// <summary>Closest point on the slime box surface, its outward normal, and the signed gap (negative inside).</summary>
-        void SurfaceQuery(Vector3 worldPoint, out Vector3 surfacePoint, out Vector3 outward, out float gap)
+        void SurfaceQuery(Vector3 worldPoint, out Vector3 surfacePoint, out Vector3 normal, out float gap)
         {
-            GetBox(out Transform space, out Vector3 center, out Vector3 extents);
+            Transform space = _renderer.transform;
+            Vector3 center = _slimeBox.center;
+            Vector3 extents = _slimeBox.extents;
 
             Vector3 p = space.InverseTransformPoint(worldPoint) - center;
             Vector3 q = new Vector3(Mathf.Abs(p.x) - extents.x, Mathf.Abs(p.y) - extents.y, Mathf.Abs(p.z) - extents.z);
@@ -547,93 +444,78 @@ namespace TestMisha.Slime
             float distance = Vector3.Distance(worldPoint, surfacePoint);
             gap = inside ? -distance : distance;
 
-            outward = inside || distance < 1e-5f
-                ? space.TransformDirection(normalLocal).normalized
-                : (worldPoint - surfacePoint) / distance;
-            if (outward.sqrMagnitude < 0.5f)
-                outward = space.up;
+            // Outside: direction from the surface to the point. Inside: normal of the nearest face.
+            normal = !inside && distance > 1e-5f
+                ? (worldPoint - surfacePoint) / distance
+                : space.TransformDirection(normalLocal).normalized;
+            if (normal.sqrMagnitude < 0.5f)
+                normal = space.up;
         }
 
-        void GetBox(out Transform space, out Vector3 center, out Vector3 extents)
-        {
-            if (volume != null)
-            {
-                space = volume.transform;
-                center = volume.center;
-                extents = volume.size * 0.5f;
-                return;
-            }
-
-            space = BoundsSpace();
-            center = _baseLocalBounds.center;
-            extents = _baseLocalBounds.extents;
-        }
-
-        Transform BoundsSpace()
-        {
-            // Skinned renderers keep local bounds in root bone space.
-            if (slimeRenderer is SkinnedMeshRenderer skinned && skinned.rootBone != null)
-                return skinned.rootBone;
-            return slimeRenderer.transform;
-        }
-
+        // Measures the slime box once. The renderer's own bounds are never modified.
         void CacheBounds()
         {
-            if (_boundsCached || slimeRenderer == null)
+            if (_boundsCached || _renderer == null)
                 return;
-            _baseLocalBounds = GetLocalBounds();
+            _slimeBox = MeasureSlimeBox();
             _boundsCached = true;
         }
 
-        void ApplyBoundsPadding()
+        /// <summary>
+        /// Box of the slime's actual rest geometry in the renderer's own transform space.
+        /// Skinned meshes are baked once, because their serialized bounds can differ from what is drawn.
+        /// </summary>
+        Bounds MeasureSlimeBox()
         {
-            bool wantPadding = boundsPadding > 0f && (Application.isPlaying || padBoundsInEditMode);
-            if (!wantPadding)
+            if (_renderer is SkinnedMeshRenderer skinned)
             {
-                RestoreBounds();
-                return;
+                var baked = new Mesh();
+                try
+                {
+                    skinned.BakeMesh(baked, true);
+                    baked.RecalculateBounds();
+                    if (baked.vertexCount > 0)
+                        return baked.bounds;
+                }
+                finally
+                {
+                    if (Application.isPlaying)
+                        Destroy(baked);
+                    else
+                        DestroyImmediate(baked);
+                }
+            }
+            else if (_renderer.TryGetComponent(out MeshFilter filter) && filter.sharedMesh != null)
+            {
+                return filter.sharedMesh.bounds;
             }
 
-            Vector3 scale = BoundsSpace().lossyScale;
-            float maxScale = Mathf.Max(Mathf.Abs(scale.x), Mathf.Abs(scale.y), Mathf.Abs(scale.z), 1e-4f);
-            var padded = _baseLocalBounds;
-            padded.Expand(2f * boundsPadding / maxScale);
-            SetLocalBounds(padded);
-            _boundsPadded = true;
-        }
-
-        void RestoreBounds()
-        {
-            if (!_boundsPadded || slimeRenderer == null)
-                return;
-            SetLocalBounds(_baseLocalBounds);
-            _boundsPadded = false;
-        }
-
-        // SkinnedMeshRenderer hides Renderer.localBounds with its own root-bone-space bounds.
-        Bounds GetLocalBounds()
-        {
-            return slimeRenderer is SkinnedMeshRenderer skinned ? skinned.localBounds : slimeRenderer.localBounds;
-        }
-
-        void SetLocalBounds(Bounds bounds)
-        {
-            if (slimeRenderer is SkinnedMeshRenderer skinned)
-                skinned.localBounds = bounds;
-            else
-                slimeRenderer.localBounds = bounds;
+            return _renderer.localBounds;
         }
 
         void OnDrawGizmosSelected()
         {
-            if (slimeRenderer == null)
+            if (_renderer == null)
                 return;
 
             CacheBounds();
-            GetBox(out Transform space, out Vector3 center, out Vector3 extents);
             Gizmos.color = new Color(0.4f, 1f, 0.4f, 0.5f);
-            Gizmos.matrix = space.localToWorldMatrix;
-            Gizmos.DrawWireCube(center, extents * 2f);
+            // Slime box used for contact: should hug the visible cube.
+            Gizmos.matrix = _renderer.transform.localToWorldMatrix;
+            Gizmos.DrawWireCube(_slimeBox.center, _slimeBox.size);
+
+            // Intruder boxes used for contact.
+            Gizmos.color = new Color(1f, 0.5f, 0.1f, 0.8f);
+            foreach (var intruder in intruders)
+            {
+                if (intruder == null)
+                    continue;
+                var state = new IntruderState { transform = intruder };
+                MeasureIntruder(ref state);
+                Gizmos.matrix = new Matrix4x4(state.axisX, state.axisY, state.axisZ,
+                    new Vector4(state.center.x, state.center.y, state.center.z, 1f));
+                Gizmos.DrawWireCube(Vector3.zero, Vector3.one * 2f);
+            }
             Gizmos.matrix = Matrix4x4.identity;
 
             for (int i = 0; i < MaxSlots; i++)
@@ -641,7 +523,7 @@ namespace TestMisha.Slime
                 Slot s = _slots[i];
                 if (!s.active)
                     continue;
-                Gizmos.color = s.grabbed ? Color.yellow : Color.cyan;
+                Gizmos.color = s.attached ? Color.yellow : Color.cyan;
                 Gizmos.DrawWireSphere(s.anchor, s.radius * 0.25f);
                 Gizmos.DrawLine(s.anchor, s.anchor + s.offset);
             }

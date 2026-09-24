@@ -911,7 +911,7 @@ Transform:
   m_GameObject: {fileID: 919132147896449972}
   serializedVersion: 2
   m_LocalRotation: {x: -0.5, y: 0.50000006, z: 0.49999994, w: 0.5}
-  m_LocalPosition: {x: 18.675, y: 1.98, z: 23.65}
+  m_LocalPosition: {x: 14.59, y: 1.98, z: 18.947}
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -1148,27 +1148,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3018117ccfef9a42b815525c74121cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TestMisha.Slime.SlimeViscosityDriver
-  slimeRenderer: {fileID: 3140416975834503520}
-  volume: {fileID: 0}
   intruders:
   - {fileID: 543450651635622158}
-  intruderRadius: 0
-  grabDistance: 0.05
-  entryBreakDistance: 0.8
-  exitBreakDistance: 1.5
-  regrabDelay: 0.2
-  deformationRadiusScale: 1.6
-  stretchThinning: 0.8
-  rimBulge: 0.3
-  maxStretch: 2
-  followStiffness: 120
-  followDamping: 14
-  releaseStiffness: 90
-  releaseDamping: 3
-  impactTransfer: 0.1
-  maxSurfaceSpeed: 15
-  boundsPadding: 1.5
-  padBoundsInEditMode: 0
+  viscosity: 1
+  damping: 0
 --- !u!4 &5101210761999031017
 Transform:
   m_ObjectHideFlags: 0
