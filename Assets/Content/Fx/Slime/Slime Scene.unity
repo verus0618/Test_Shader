@@ -196,6 +196,7 @@ GameObject:
   - component: {fileID: 265242622}
   - component: {fileID: 265242621}
   - component: {fileID: 265242620}
+  - component: {fileID: 265242624}
   m_Layer: 0
   m_Name: FX_SlimeRefractionTest_1
   m_TagString: Untagged
@@ -296,6 +297,20 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
+--- !u!114 &265242624
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 265242619}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bd554897be13e224a96123838819849e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TestMisha.Slime.SlimeRefractionObject
+  role: 0
+  grabResolution: 0
 --- !u!1 &330585543
 GameObject:
   m_ObjectHideFlags: 0
@@ -382,8 +397,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 330585543}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.060441248, y: 0.9330779, z: -0.18719125, w: 0.30111814}
-  m_LocalPosition: {x: -7.6961746, y: 5.513798, z: 32.42626}
+  m_LocalRotation: {x: 0.042896584, y: -0.86186963, z: 0.07383981, w: 0.49988842}
+  m_LocalPosition: {x: 16.175705, y: 5.108693, z: 20.732086}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -738,6 +753,7 @@ GameObject:
   - component: {fileID: 880099209}
   - component: {fileID: 880099208}
   - component: {fileID: 880099207}
+  - component: {fileID: 880099211}
   m_Layer: 0
   m_Name: FX_SlimeRefractionTest_2
   m_TagString: Untagged
@@ -838,6 +854,20 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
+--- !u!114 &880099211
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 880099206}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bd554897be13e224a96123838819849e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TestMisha.Slime.SlimeRefractionObject
+  role: 0
+  grabResolution: 0
 --- !u!1 &1465479329
 GameObject:
   m_ObjectHideFlags: 0
@@ -857,7 +887,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1465479330
 Transform:
   m_ObjectHideFlags: 0
@@ -978,6 +1008,75 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!1001 &1633831638
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 5337668334015013720, guid: 45752a4f593919b4d80cc8d72c3b7371, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5337668334015013720, guid: 45752a4f593919b4d80cc8d72c3b7371, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5337668334015013720, guid: 45752a4f593919b4d80cc8d72c3b7371, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5337668334015013720, guid: 45752a4f593919b4d80cc8d72c3b7371, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 15.14
+      objectReference: {fileID: 0}
+    - target: {fileID: 5337668334015013720, guid: 45752a4f593919b4d80cc8d72c3b7371, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.0000011078013
+      objectReference: {fileID: 0}
+    - target: {fileID: 5337668334015013720, guid: 45752a4f593919b4d80cc8d72c3b7371, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 11.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5337668334015013720, guid: 45752a4f593919b4d80cc8d72c3b7371, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5337668334015013720, guid: 45752a4f593919b4d80cc8d72c3b7371, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5337668334015013720, guid: 45752a4f593919b4d80cc8d72c3b7371, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5337668334015013720, guid: 45752a4f593919b4d80cc8d72c3b7371, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5337668334015013720, guid: 45752a4f593919b4d80cc8d72c3b7371, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5337668334015013720, guid: 45752a4f593919b4d80cc8d72c3b7371, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5337668334015013720, guid: 45752a4f593919b4d80cc8d72c3b7371, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6701853162588831052, guid: 45752a4f593919b4d80cc8d72c3b7371, type: 3}
+      propertyPath: m_Name
+      value: Flames
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 45752a4f593919b4d80cc8d72c3b7371, type: 3}
 --- !u!1 &2069850080
 GameObject:
   m_ObjectHideFlags: 0
@@ -1101,3 +1200,4 @@ SceneRoots:
   - {fileID: 495526675}
   - {fileID: 265242623}
   - {fileID: 880099210}
+  - {fileID: 1633831638}

@@ -34,11 +34,13 @@ Material:
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
+  m_CustomRenderQueue: 3000
   stringTagMap:
     RenderType: Transparent
   disabledShaderPasses:
   - MOTIONVECTORS
+  - DepthOnly
+  - SHADOWCASTER
   m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
@@ -145,7 +147,7 @@ Material:
     - _Bubbles_ColorIntensity: 2
     - _Bubbles_VerticalMask_Offset: 3.45
     - _CastShadowStrength: 1
-    - _CastShadows: 1
+    - _CastShadows: 0
     - _Cull: 2
     - _DEBUG: 0
     - _DISPLACEMENTTYPE: 1
@@ -280,8 +282,8 @@ Material:
     - _UseTopProjection: 0
     - _WorkflowMode: 1
     - _ZTest: 4
-    - _ZWrite: 1
-    - _ZWriteControl: 1
+    - _ZWrite: 0
+    - _ZWriteControl: 0
     m_Colors:
     - _Bubbles_1_Scroll: {r: 0, g: -0.08, b: 0, a: 0}
     - _Bubbles_1_Tile: {r: 2, g: 2, b: 0, a: 0}
