@@ -311,6 +311,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::TestMisha.Slime.SlimeRefractionObject
   role: 0
   grabResolution: 0
+  excludeTag: NoRefraction
+  searchInterval: 8
+  minScreenSize: 0.2
 --- !u!1 &330585543
 GameObject:
   m_ObjectHideFlags: 0
@@ -868,6 +871,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::TestMisha.Slime.SlimeRefractionObject
   role: 0
   grabResolution: 0
+  excludeTag: Untagged
+  searchInterval: 1
+  minScreenSize: 0
 --- !u!1 &1465479329
 GameObject:
   m_ObjectHideFlags: 0
@@ -1071,6 +1077,10 @@ PrefabInstance:
     - target: {fileID: 6701853162588831052, guid: 45752a4f593919b4d80cc8d72c3b7371, type: 3}
       propertyPath: m_Name
       value: Flames
+      objectReference: {fileID: 0}
+    - target: {fileID: 9101151565988695860, guid: 45752a4f593919b4d80cc8d72c3b7371, type: 3}
+      propertyPath: m_TagString
+      value: NoRefraction
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

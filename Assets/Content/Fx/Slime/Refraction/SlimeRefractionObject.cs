@@ -55,6 +55,22 @@ namespace TestMisha.Slime
         [InspectorName("Grab Resolution | Affects Performance: 3/10")]
         public GrabResolution grabResolution = GrabResolution.MatchPipeline;
 
+        [Header("Auto-Search (Refractive only)")]
+        [Tooltip("GameObjects with this tag are skipped by the automatic search, whatever their material. Leave as Untagged (default) to search everywhere. When several Refractive objects share a camera, every one of their exclude tags applies.")]
+        [InspectorName("Exclude Tag | Affects Performance: 2/10")]
+        [TagSelector]
+        public string excludeTag = "Untagged";
+
+        [Range(1, 8)]
+        [Tooltip("Frames between rescans for transparent objects without this component. 1 searches every frame (default, always current). Higher is cheaper; a spawned or moved object can lag entering the refraction by up to this many frames. When several Refractive objects share a camera, the smallest value wins.")]
+        [InspectorName("Search Interval | Affects Performance: 7/10")]
+        public int searchInterval = 1;
+
+        [Range(0f, 0.2f)]
+        [Tooltip("Auto-found objects smaller than this fraction of the screen are skipped. 0 disables the culling (default). When several Refractive objects share a camera, the smallest value wins.")]
+        [InspectorName("Min Screen Size | Affects Performance: 4/10")]
+        public float minScreenSize;
+
         internal Renderer TargetRenderer { get; private set; }
         internal SlimeRefractionSystem.ChainRenderer Chain { get; private set; }
 

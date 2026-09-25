@@ -53,6 +53,9 @@ namespace TestMisha.Slime
             /// <summary>Lowest render queue among the materials that are drawn.</summary>
             public int Queue { get; private set; }
 
+            /// <summary>True if any drawn material uses a Lit forward pass, so the draw needs lighting globals.</summary>
+            public bool HasLitPass { get; private set; }
+
             /// <summary>
             /// Refreshes the materials and their forward passes. transparentOnly skips materials in the opaque
             /// queues, which the opaque copy already holds. drawMesh draws a MeshRenderer's mesh with its matrix
@@ -84,18 +87,24 @@ namespace TestMisha.Slime
                 _subMeshCount = SubMeshCount();
 
                 int queue = int.MaxValue;
+                bool hasLit = false;
                 for (int i = 0; i < _materials.Count; i++)
                 {
                     Material material = _materials[i];
                     int pass = -1;
-                    if (material != null && (!transparentOnly || material.renderQueue > (int)RenderQueue.GeometryLast))
-                        pass = FindForwardPass(material);
+                    bool isLit = false;
+                    if (material != null && material.shader != null && (!transparentOnly || material.renderQueue > (int)RenderQueue.GeometryLast))
+                        GetPassInfo(material, out pass, out isLit);
                     _passes.Add(pass);
                     if (pass >= 0)
+                    {
                         queue = Mathf.Min(queue, material.renderQueue);
+                        hasLit |= isLit;
+                    }
                 }
 
                 Queue = queue;
+                HasLitPass = hasLit;
                 return queue != int.MaxValue;
             }
 
@@ -183,12 +192,19 @@ namespace TestMisha.Slime
         // Draw data of the renderers found automatically, kept between frames.
         static readonly Dictionary<Renderer, ChainRenderer> s_foundRenderers = new Dictionary<Renderer, ChainRenderer>();
         static readonly List<Renderer> s_lostRenderers = new List<Renderer>();
+        // Renderers the last full scan found (before the per-frame frustum/size check); refreshed every
+        // Search Interval frames instead of every frame, see RescanCandidates.
+        static readonly List<Renderer> s_scanCandidates = new List<Renderer>();
+        static readonly List<string> s_excludeTags = new List<string>();
+        static int s_lastScanFrame = -1;
         static readonly Dictionary<Camera, CameraState> s_cameras = new Dictionary<Camera, CameraState>();
         static readonly List<Camera> s_deadCameras = new List<Camera>();
         static readonly Plane[] s_frustumPlanes = new Plane[6];
         static MaterialPropertyBlock s_block;
         static CopyDepthPass s_copyDepthPass;
         static bool s_subscribed;
+        // Which pass a material draws with, keyed by the material itself; see GetPassInfo.
+        static readonly Dictionary<Material, MaterialPassInfo> s_passCache = new Dictionary<Material, MaterialPassInfo>();
 
         // The camera being prepared.
         static Vector3 s_cameraPosition;
@@ -256,6 +272,9 @@ namespace TestMisha.Slime
             s_foundRenderers.Clear();
             s_componentRenderers.Clear();
 
+            s_scanCandidates.Clear();
+            s_lastScanFrame = -1;
+
             s_copyDepthPass?.Dispose();
             s_copyDepthPass = null;
         }
@@ -306,7 +325,11 @@ namespace TestMisha.Slime
                 return;
             }
 
-            CollectFoundRenderers(camera, items);
+            int searchInterval = ReconcileSearchInterval(items);
+            float minScreenSize = ReconcileMinScreenSize(items);
+            CollectExcludeTags(items);
+
+            CollectFoundRenderers(camera, items, searchInterval, minScreenSize);
             PlaceInsideRefractive(items);
             SortBackToFront(items);
 
@@ -339,6 +362,44 @@ namespace TestMisha.Slime
             renderer.EnqueuePass(state.pass);
         }
 
+        /// <summary>Smallest Search Interval among the visible Refractive objects; the most demanding wins.</summary>
+        static int ReconcileSearchInterval(List<ChainItem> items)
+        {
+            int interval = int.MaxValue;
+            foreach (ChainItem item in items)
+            {
+                if (item.refractive != null)
+                    interval = Mathf.Min(interval, Mathf.Max(1, item.refractive.searchInterval));
+            }
+            return interval == int.MaxValue ? 1 : interval;
+        }
+
+        /// <summary>Smallest Min Screen Size among the visible Refractive objects; the most demanding wins.</summary>
+        static float ReconcileMinScreenSize(List<ChainItem> items)
+        {
+            float minSize = float.MaxValue;
+            foreach (ChainItem item in items)
+            {
+                if (item.refractive != null)
+                    minSize = Mathf.Min(minSize, Mathf.Max(0f, item.refractive.minScreenSize));
+            }
+            return minSize == float.MaxValue ? 0f : minSize;
+        }
+
+        /// <summary>Union of every visible Refractive object's Exclude Tag, applied to the whole shared chain.</summary>
+        static void CollectExcludeTags(List<ChainItem> items)
+        {
+            s_excludeTags.Clear();
+            foreach (ChainItem item in items)
+            {
+                if (item.refractive == null)
+                    continue;
+                string tag = item.refractive.excludeTag;
+                if (!string.IsNullOrEmpty(tag) && tag != "Untagged" && !s_excludeTags.Contains(tag))
+                    s_excludeTags.Add(tag);
+            }
+        }
+
         /// <summary>Adds the visible objects with a component. Returns true when one of them is Refractive.</summary>
         static bool CollectComponents(Camera camera, List<ChainItem> items)
         {
@@ -368,15 +429,27 @@ namespace TestMisha.Slime
             return anyRefractive;
         }
 
-        /// <summary>Adds every other visible transparent renderer in the loaded scenes.</summary>
-        static void CollectFoundRenderers(Camera camera, List<ChainItem> items)
+        /// <summary>
+        /// Adds every other visible transparent renderer in the loaded scenes. The expensive part, finding which
+        /// renderers even qualify, only reruns every searchInterval frames (RescanCandidates); the frustum, size
+        /// and material checks that depend on this camera and this frame still run every time.
+        /// </summary>
+        static void CollectFoundRenderers(Camera camera, List<ChainItem> items, int searchInterval, float minScreenSize)
         {
-            Renderer[] renderers = Object.FindObjectsByType<Renderer>(FindObjectsInactive.Exclude);
-            foreach (Renderer renderer in renderers)
+            if (s_lastScanFrame < 0 || Time.frameCount - s_lastScanFrame >= searchInterval)
             {
-                if (s_componentRenderers.Contains(renderer) || !IsSupported(renderer))
+                RescanCandidates();
+                s_lastScanFrame = Time.frameCount;
+            }
+
+            foreach (Renderer renderer in s_scanCandidates)
+            {
+                // A component can be added or removed between scans; re-check rather than wait for the next one.
+                if (renderer == null || s_componentRenderers.Contains(renderer))
                     continue;
                 if (!IsDrawable(camera, renderer, out Bounds bounds))
+                    continue;
+                if (minScreenSize > 0f && ScreenSizeFraction(camera, bounds) < minScreenSize)
                     continue;
 
                 if (!s_foundRenderers.TryGetValue(renderer, out ChainRenderer chain))
@@ -388,8 +461,21 @@ namespace TestMisha.Slime
                 if (chain.Prepare(true, true))
                     items.Add(CreateItem(chain, null, bounds));
             }
+        }
 
-            // Forget destroyed renderers.
+        /// <summary>The expensive full-scene scan behind CollectFoundRenderers, throttled by Search Interval.</summary>
+        static void RescanCandidates()
+        {
+            s_scanCandidates.Clear();
+            Renderer[] renderers = Object.FindObjectsByType<Renderer>(FindObjectsInactive.Exclude);
+            foreach (Renderer renderer in renderers)
+            {
+                if (s_componentRenderers.Contains(renderer) || !IsSupported(renderer) || IsExcludedByTag(renderer))
+                    continue;
+                s_scanCandidates.Add(renderer);
+            }
+
+            // Forget destroyed renderers; safe to do only here since a stale entry just fails IsDrawable meanwhile.
             foreach (Renderer renderer in s_foundRenderers.Keys)
             {
                 if (renderer == null)
@@ -398,6 +484,38 @@ namespace TestMisha.Slime
             foreach (Renderer renderer in s_lostRenderers)
                 s_foundRenderers.Remove(renderer);
             s_lostRenderers.Clear();
+        }
+
+        static bool IsExcludedByTag(Renderer renderer)
+        {
+            for (int i = 0; i < s_excludeTags.Count; i++)
+            {
+                try
+                {
+                    if (renderer.CompareTag(s_excludeTags[i]))
+                        return true;
+                }
+                catch (UnityException)
+                {
+                    // The tag was removed from Tag Manager after being set on a Refractive object; stop trying it.
+                    s_excludeTags.RemoveAt(i);
+                    i--;
+                }
+            }
+            return false;
+        }
+
+        // Roughly the fraction of the screen's half-height the renderer's bounding sphere occupies: cheap, and
+        // only meant as a coarse threshold, not an exact on-screen measurement.
+        static float ScreenSizeFraction(Camera camera, Bounds bounds)
+        {
+            float radius = bounds.extents.magnitude;
+            if (camera.orthographic)
+                return radius / Mathf.Max(camera.orthographicSize, 0.0001f);
+
+            float distance = Vector3.Distance(bounds.center, camera.transform.position);
+            float tanHalfFov = Mathf.Tan(camera.fieldOfView * 0.5f * Mathf.Deg2Rad);
+            return radius / Mathf.Max(distance * tanHalfFov, 0.0001f);
         }
 
         // Renderers the chain can draw: mesh renderers as meshes, the rest through CommandBuffer.DrawRenderer.
@@ -562,25 +680,59 @@ namespace TestMisha.Slime
             public static readonly ShaderTagId SrpDefaultUnlit = new ShaderTagId("SRPDefaultUnlit");
         }
 
-        /// <summary>Index of the pass the transparent pass would draw for this material, or -1.</summary>
-        static int FindForwardPass(Material material)
+        /// <summary>Which pass index a material draws with, and whether that pass is Lit. Immutable per shader,
+        /// so the pass-tag scan (native FindPassTagValue calls) is cached; only the cheap enabled-check reruns.</summary>
+        struct MaterialPassInfo
         {
-            if (material.shader == null)
-                return -1;
+            public Shader shader;
+            // Index of the pass tagged UniversalForward/UniversalForwardOnly, or -1 if there is none.
+            public int litPass;
+            public string litPassName;
+            // Index of the first SRPDefaultUnlit or untagged pass, used only when litPass is -1.
+            public int unlitPass;
+        }
 
+        /// <summary>Index of the pass the transparent pass would draw for this material, or -1, and whether it is Lit.</summary>
+        static void GetPassInfo(Material material, out int pass, out bool isLit)
+        {
+            if (!s_passCache.TryGetValue(material, out MaterialPassInfo info) || info.shader != material.shader)
+            {
+                info = ScanPasses(material);
+                s_passCache[material] = info;
+            }
+
+            if (info.litPass >= 0)
+            {
+                // A Lit pass that is disabled (e.g. by a material's disabledShaderPasses) draws nothing at all,
+                // it never falls back to an Unlit pass; that matches how the transparent pass treats it.
+                pass = material.GetShaderPassEnabled(info.litPassName) ? info.litPass : -1;
+                isLit = pass >= 0;
+                return;
+            }
+
+            pass = info.unlitPass;
+            isLit = false;
+        }
+
+        static MaterialPassInfo ScanPasses(Material material)
+        {
+            var info = new MaterialPassInfo { shader = material.shader, litPass = -1, unlitPass = -1 };
             Shader shader = material.shader;
-            int unlitPass = -1;
             for (int pass = 0; pass < material.passCount; pass++)
             {
                 ShaderTagId lightMode = shader.FindPassTagValue(pass, PassTags.LightMode);
-                if (lightMode == PassTags.UniversalForward || lightMode == PassTags.UniversalForwardOnly)
-                    return material.GetShaderPassEnabled(lightMode.name) ? pass : -1;
-
+                if (info.litPass < 0 && (lightMode == PassTags.UniversalForward || lightMode == PassTags.UniversalForwardOnly))
+                {
+                    info.litPass = pass;
+                    info.litPassName = lightMode.name;
+                }
                 // A pass without a LightMode tag counts as SRPDefaultUnlit.
-                if (unlitPass < 0 && (lightMode == PassTags.SrpDefaultUnlit || lightMode == ShaderTagId.none))
-                    unlitPass = pass;
+                else if (info.unlitPass < 0 && (lightMode == PassTags.SrpDefaultUnlit || lightMode == ShaderTagId.none))
+                {
+                    info.unlitPass = pass;
+                }
             }
-            return unlitPass;
+            return info;
         }
 
         static CopyDepthPass CreateCopyDepthPass()
@@ -664,13 +816,19 @@ namespace TestMisha.Slime
                 }
             }
 
-            static TextureDesc ScratchDesc(RenderGraph renderGraph, TextureHandle source, string name)
+            static TextureDesc ScratchDesc(RenderGraph renderGraph, TextureHandle source, string name, int divisor = 1)
             {
                 TextureDesc desc = renderGraph.GetTextureDesc(source);
                 desc.name = name;
                 desc.msaaSamples = MSAASamples.None;
                 desc.bindTextureMS = false;
                 desc.clearBuffer = false;
+                if (divisor > 1)
+                {
+                    desc.sizeMode = TextureSizeMode.Explicit;
+                    desc.width = Mathf.Max(1, desc.width / divisor);
+                    desc.height = Mathf.Max(1, desc.height / divisor);
+                }
                 return desc;
             }
 
@@ -679,11 +837,7 @@ namespace TestMisha.Slime
                 // Two bilinear halvings average 4x4 texels like URP's 4x box downsampling; one blit would skip most of them.
                 if (divisor >= 4)
                 {
-                    TextureDesc desc = ScratchDesc(renderGraph, source, "_SlimeRefractionHalf");
-                    desc.sizeMode = TextureSizeMode.Explicit;
-                    desc.width = Mathf.Max(1, desc.width / 2);
-                    desc.height = Mathf.Max(1, desc.height / 2);
-                    TextureHandle half = renderGraph.CreateTexture(desc);
+                    TextureHandle half = renderGraph.CreateTexture(ScratchDesc(renderGraph, source, "_SlimeRefractionHalf", 2));
                     renderGraph.AddBlitPass(source, half, Vector2.one, Vector2.zero, passName: HalveName);
                     source = half;
                 }
@@ -703,8 +857,10 @@ namespace TestMisha.Slime
                     builder.SetRenderAttachmentDepth(depth, AccessFlags.ReadWrite);
                     if (sceneColor.IsValid())
                         builder.UseTexture(sceneColor, AccessFlags.Read);
-                    // Shadow maps, the depth texture and the rest of the lighting inputs.
-                    builder.UseAllGlobalTextures(true);
+                    // Shadow maps and the rest of the lighting inputs, only when a Lit material actually reads
+                    // them; an Unlit-only draw (most VFX) skips this and stays easier for the graph to schedule.
+                    if (chain.HasLitPass)
+                        builder.UseAllGlobalTextures(true);
                     builder.AllowGlobalStateModification(true);
                     // After the last draw, Scene Color of everything else reads URP's opaque copy again.
                     if (restoreOpaque.IsValid())
