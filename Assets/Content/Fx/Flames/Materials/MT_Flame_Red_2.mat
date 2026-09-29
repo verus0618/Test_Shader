@@ -26,6 +26,7 @@ Material:
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
   - _SURFACE_TYPE_TRANSPARENT
+  - _USEPARTICLE_OFF
   m_InvalidKeywords:
   - _DEBUG_NONE
   m_LightmapFlags: 4
@@ -159,12 +160,15 @@ Material:
     - _SrcBlend: 5
     - _SrcBlendAlpha: 1
     - _Surface: 1
+    - _USEPARTICLE: 0
+    - _UpperMask: 1
     - _WindCurve: 10
     - _WindCurveStrength: 0.25
     - _ZTest: 4
     - _ZWrite: 0
     - _ZWriteControl: 0
     m_Colors:
+    - _Camera_Fade: {r: 0, g: 0.001, b: 0, a: 0}
     - _Color: {r: 2.9960785, g: 0.4085614, b: 0.07843135, a: 1}
     - _ColorMask_MinMax: {r: 0, g: 1, b: 0, a: 0}
     - _Color_1: {r: 1.498039, g: 0.064526506, b: 0, a: 1}
@@ -205,5 +209,6 @@ Material:
     - _Shape_Br_Con_Int: {r: 3, g: 1, b: 1, a: 0}
     - _Shape_BrightnessConrastDisolve: {r: 3, g: 1, b: 0, a: 0}
     - _Shape_MinMax: {r: 0, g: 1, b: 0, a: 0}
+    - _Soft: {r: 0, g: 0, b: 0, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
