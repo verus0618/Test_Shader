@@ -15,10 +15,13 @@ Material:
   - _ALPHATEST_ON
   - _DISSOLVE_OFF
   - _HIGHLIGHT_OFF
+  - _LIVITATION_OFF
   - _NORMALLIGHT_OFF
   - _NORMALMAP_OFF
   - _RIMLIGHT_OFF
   - _SME_TEXTURE
+  - _USE_ALPHASOFNTESS_OFF
+  - _USE_TRIPLANAR_OFF
   m_InvalidKeywords:
   - _COLOR_METHOD_NONE
   - _DUBUG_NONE
@@ -114,6 +117,7 @@ Material:
     - _Alpha: 1
     - _AlphaClip: 1
     - _AlphaToMask: 1
+    - _Alpha_Override: 0
     - _BaseColor_Intensity: 1
     - _Blend: 0
     - _BlendModePreserveSpecular: 1
@@ -139,6 +143,8 @@ Material:
     - _Grayness: 0
     - _HIGHLIGHT: 0
     - _Highlight: 0
+    - _Hight_On_Off: 0
+    - _LIVITATION: 0
     - _MainTex_TriplanarType: 1
     - _Main_Texture_Tile: 1
     - _Metallic: 0
@@ -166,6 +172,8 @@ Material:
     - _SrcBlend: 1
     - _SrcBlendAlpha: 1
     - _Surface: 0
+    - _USE_ALPHASOFNTESS: 0
+    - _USE_TRIPLANAR: 0
     - _UVSec: 0
     - _WorkflowMode: 1
     - _XRMotionVectorsPass: 1
@@ -178,11 +186,15 @@ Material:
     - _Camera_Fade: {r: 0, g: 0.001, b: 0, a: 0}
     - _Color: {r: 0.9063317, g: 0.9063317, b: 0.9063317, a: 1}
     - _DissolveColor: {r: 47.93726, g: 4.631493, b: 0, a: 0}
+    - _Dissolve_HightMinMax: {r: 0, g: 1, b: 0, a: 0}
     - _Dissolve_SizeWithMinMax: {r: 1, g: 0.01, b: 0, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _Emissive_olor: {r: 1.3666321, g: 5.992157, b: 0, a: 1}
+    - _HSV_A: {r: 0, g: 1, b: 1, a: 1}
     - _HighlightColor: {r: 0.3192801, g: 1.498039, b: 0, a: 0}
     - _Highlight_MinMax: {r: 0, g: 1, b: 0, a: 0}
+    - _Livitation_XYZ_Add_Scroll: {r: 0, g: 0, b: 0, a: 1}
+    - _Livitation_XYZ_Intensity: {r: 0, g: 0, b: 0, a: 1}
     - _NormalLight_MinMax: {r: 0, g: 1, b: 0, a: 0}
     - _NormallLight: {r: 0.5019608, g: 0.2509804, b: 0.2509804, a: 1}
     - _NormallShadow_Color: {r: 0.2509804, g: 0.4196078, b: 0.5019608, a: 1}
@@ -191,6 +203,7 @@ Material:
     - _RimLight_Color: {r: 1.4980392, g: 1.4980392, b: 1.4980392, a: 0}
     - _RimLight_MinMax: {r: 0, g: 0.77, b: 0, a: 0}
     - _RimShadow_Color: {r: 0.31159747, g: 0.8616352, b: 0.41118744, a: 1}
+    - _Soft: {r: 0, g: 0.001, b: 0, a: 0}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
     - _SpecularColor: {r: 0.5019608, g: 0.5019608, b: 0.5019608, a: 1}
     - _Tint: {r: 0.37278974, g: 0.45804828, b: 0.64779866, a: 1}

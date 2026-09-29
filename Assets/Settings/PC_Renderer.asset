@@ -1,5 +1,25 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-5832570056645265584
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b00045f12942b46c698459096c89274e, type: 3}
+  m_Name: FullScreenPortal
+  m_EditorClassIdentifier: Unity.RenderPipelines.Universal.Runtime::UnityEngine.Rendering.Universal.FullScreenPassRendererFeature
+  m_Active: 0
+  injectionPoint: 600
+  fetchColorBuffer: 1
+  requirements: 0
+  passMaterial: {fileID: 2100000, guid: c84f6bcc6adbbcb4e96f8ef0852c741b, type: 2}
+  passIndex: 0
+  bindDepthStencilAttachment: 0
+  m_Version: 1
 --- !u!114 &-333514656464722430
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -49,7 +69,8 @@ MonoBehaviour:
   - {fileID: 7833122117494664109}
   - {fileID: 6091356281555717250}
   - {fileID: -333514656464722430}
-  m_RendererFeatureMap: ad6b866f10d7b46c820c79c243d8885402a608de2f1e5ffb
+  - {fileID: -5832570056645265584}
+  m_RendererFeatureMap: ad6b866f10d7b46c820c79c243d8885402a608de2f1e5ffb5037148e6f8c0eaf
   xrSystemData: {fileID: 0}
   postProcessData: {fileID: 11400000, guid: 41439944d30ece34e96484bdb6645b55, type: 2}
   m_AssetVersion: 3

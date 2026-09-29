@@ -33,6 +33,9 @@ This is a world-space capsule-SDF mask for objects passing through walls. `FX_Sl
 - `WallPassMask.hlsl` provides `WallPassMask_float/_half(PositionWS, NormalWS, out Mask)`.
 - **Invariant:** `WallPassRuntime.MaxEvents` must equal `WP_MAX_EVENTS` in the HLSL (currently 64). Always upload the full fixed-length arrays, because Unity locks a shader array's length on first upload. Pass the live count separately in `_WP_Count`.
 
+### Play Mode fly camera (`Assets/Tools/FlyCamera`, namespace `TestMisha.Tools`, own asmdef)
+`FlyCamera` gives Scene View controls in Play Mode: RMB look with WASD/QE and Shift, RMB + wheel for speed, wheel dolly, MMB pan, Alt+LMB orbit and Alt+RMB zoom. In the Editor, `FlyCameraAutoAttach` adds it to `Camera.main` when Play Mode starts, so scenes don't need editing. A `FlyCamera` placed by hand takes priority. **Tools > TestMisha > Fly Camera** toggles auto-attach and "Start From Scene View Camera" (both stored in EditorPrefs). Active Input Handling is set to the new Input System only, so `com.unity.inputsystem` must stay installed, because the legacy `UnityEngine.Input` throws in that mode. The asmdef detects the package through `versionDefines` (`TESTMISHA_INPUT_SYSTEM`) and falls back to legacy input when it's missing.
+
 ### Shader Graph helpers
 - `Assets/Editor/MaterialDrawers.cs` defines `ShowIf`, `HideIf`, `ShowIfEnum` and `HideIfEnum` material property drawers. You apply them through Shader Graph **Custom Attributes**. The value is a property reference without its leading `_`. For enums the syntax is `ENUM__VALUE`, which resolves to the keyword `_ENUM_VALUE`, and conditions can be combined with ` AND ` or ` OR `.
 - Shared graph logic lives in subgraphs under `Assets/Content/Fx/Shaders/ShaderSubGraphs`. They follow the pattern `SHD_SG_<Feature>_<Part>`, for example the Main shader's dissolve/NL/RL/SMEO pieces and the Flame and Scroll adjustments. Top-level graphs are named `SHD_*` and materials `MT_*`.

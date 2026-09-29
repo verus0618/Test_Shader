@@ -695,7 +695,8 @@ Transform:
   m_LocalPosition: {x: -12.970827, y: 9.01657, z: 14.188883}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 449522388}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: -180, z: 0}
 --- !u!114 &330585547
@@ -869,6 +870,56 @@ MonoBehaviour:
   m_ShadowLayerMask: 1
   m_RenderingLayers: 1
   m_ShadowRenderingLayers: 1
+--- !u!1001 &449522387
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 330585546}
+    m_Modifications:
+    - target: {fileID: 5349575913898728057, guid: efdc490252d376d43b97209ec627ed24, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5349575913898728057, guid: efdc490252d376d43b97209ec627ed24, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5349575913898728057, guid: efdc490252d376d43b97209ec627ed24, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5349575913898728057, guid: efdc490252d376d43b97209ec627ed24, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5349575913898728057, guid: efdc490252d376d43b97209ec627ed24, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5349575913898728057, guid: efdc490252d376d43b97209ec627ed24, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5349575913898728057, guid: efdc490252d376d43b97209ec627ed24, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5407910406438425951, guid: efdc490252d376d43b97209ec627ed24, type: 3}
+      propertyPath: m_Name
+      value: FullScreen_Portal_Camera
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: efdc490252d376d43b97209ec627ed24, type: 3}
+--- !u!4 &449522388 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5349575913898728057, guid: efdc490252d376d43b97209ec627ed24, type: 3}
+  m_PrefabInstance: {fileID: 449522387}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &495526671
 GameObject:
   m_ObjectHideFlags: 0

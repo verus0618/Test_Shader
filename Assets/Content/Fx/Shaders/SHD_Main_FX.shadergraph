@@ -1260,7 +1260,7 @@
                 "m_Node": {
                     "m_Id": "36cad7a14eb64ebe84d86f5c0a56df3b"
                 },
-                "m_SlotId": -220014919
+                "m_SlotId": -219635982
             }
         },
         {
@@ -1289,6 +1289,20 @@
                     "m_Id": "ead1671a2ae1461296f3c8a41bba82cd"
                 },
                 "m_SlotId": 2094232138
+            }
+        },
+        {
+            "m_OutputSlot": {
+                "m_Node": {
+                    "m_Id": "29ece20875404738a5f06bc7a214a215"
+                },
+                "m_SlotId": 4
+            },
+            "m_InputSlot": {
+                "m_Node": {
+                    "m_Id": "390bd40d15734e5794454b6bf7e8b55e"
+                },
+                "m_SlotId": 0
             }
         },
         {
@@ -1415,20 +1429,6 @@
                     "m_Id": "d14ecfaf045b446a9c720e4c0c5e7a21"
                 },
                 "m_SlotId": 1
-            }
-        },
-        {
-            "m_OutputSlot": {
-                "m_Node": {
-                    "m_Id": "36cad7a14eb64ebe84d86f5c0a56df3b"
-                },
-                "m_SlotId": 3
-            },
-            "m_InputSlot": {
-                "m_Node": {
-                    "m_Id": "390bd40d15734e5794454b6bf7e8b55e"
-                },
-                "m_SlotId": 0
             }
         },
         {
@@ -6919,6 +6919,31 @@
 }
 
 {
+    "m_SGVersion": 0,
+    "m_Type": "UnityEditor.ShaderGraph.Vector3MaterialSlot",
+    "m_ObjectId": "20aadfafb0b04b609f820c9127ebc4b2",
+    "m_Id": -219635982,
+    "m_DisplayName": "Color",
+    "m_SlotType": 0,
+    "m_Hidden": false,
+    "m_HideConnector": false,
+    "m_ShaderOutputName": "_Color",
+    "m_StageCapability": 3,
+    "m_CustomBinding": "",
+    "m_Value": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+    },
+    "m_DefaultValue": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+    },
+    "m_Labels": []
+}
+
+{
     "m_SGVersion": 1,
     "m_Type": "UnityEditor.ShaderGraph.Internal.Vector1ShaderProperty",
     "m_ObjectId": "20aed40a58e640768e9ec68d8ac49685",
@@ -7745,33 +7770,6 @@
     "m_CustomColors": {
         "m_SerializableColors": []
     }
-}
-
-{
-    "m_SGVersion": 0,
-    "m_Type": "UnityEditor.ShaderGraph.Vector4MaterialSlot",
-    "m_ObjectId": "29adc75abe5741a6b492ea4175cf6579",
-    "m_Id": -220014919,
-    "m_DisplayName": "Color",
-    "m_SlotType": 0,
-    "m_Hidden": false,
-    "m_HideConnector": false,
-    "m_ShaderOutputName": "_Color",
-    "m_StageCapability": 3,
-    "m_CustomBinding": "",
-    "m_Value": {
-        "x": 0.0,
-        "y": 0.0,
-        "z": 0.0,
-        "w": 0.0
-    },
-    "m_DefaultValue": {
-        "x": 0.0,
-        "y": 0.0,
-        "z": 0.0,
-        "w": 0.0
-    },
-    "m_Labels": []
 }
 
 {
@@ -9103,29 +9101,26 @@
     "m_Group": {
         "m_Id": "da7c9a6505c64f3f8bd89afca22cdc0c"
     },
-    "m_Name": "SHD_SG_Main_Bright Contr Satur Hue",
+    "m_Name": "SHD_SG_Main_HSV",
     "m_DrawState": {
         "m_Expanded": true,
         "m_Position": {
             "serializedVersion": "2",
-            "x": -1945.000244140625,
-            "y": -457.0001220703125,
-            "width": 247.9998779296875,
-            "height": 128.00003051757813
+            "x": -1909.0,
+            "y": -459.0,
+            "width": 165.0,
+            "height": 128.0
         }
     },
     "m_Slots": [
         {
-            "m_Id": "29adc75abe5741a6b492ea4175cf6579"
+            "m_Id": "20aadfafb0b04b609f820c9127ebc4b2"
         },
         {
             "m_Id": "68e174cfa7d948329b1b3170c56fc14b"
         },
         {
             "m_Id": "0aa5e267472b4317a9509729463f66af"
-        },
-        {
-            "m_Id": "e33ccfc751674e69b88bce9afb3ce14a"
         }
     ],
     "synonyms": [],
@@ -9139,11 +9134,13 @@
     "m_SerializedSubGraph": "{\n    \"subGraph\": {\n        \"fileID\": -5475051401550479605,\n        \"guid\": \"65163abeb07527e45a545ba428135d1c\",\n        \"type\": 3\n    }\n}",
     "m_PropertyGuids": [
         "999f6f2f-d222-4d27-a751-7586133a2fa0",
-        "ffed7484-5b5d-4938-8306-bc0491e9c4c0"
+        "ffed7484-5b5d-4938-8306-bc0491e9c4c0",
+        "7166cc03-010b-492c-ac49-34af561a9665"
     ],
     "m_PropertyIds": [
         -220014919,
-        1923989707
+        1923989707,
+        -219635982
     ],
     "m_Dropdowns": [],
     "m_DropdownSelectedEntries": []
@@ -9455,10 +9452,10 @@
         "m_Expanded": true,
         "m_Position": {
             "serializedVersion": "2",
-            "x": -1898.000244140625,
-            "y": -325.0000305175781,
-            "width": 200.9998779296875,
-            "height": 34.000030517578128
+            "x": -1909.0,
+            "y": -333.0,
+            "width": 112.0,
+            "height": 34.0
         }
     },
     "m_Slots": [
@@ -18556,10 +18553,10 @@
     "promotedFromAssetID": "",
     "promotedFromCategoryName": "",
     "promotedOrdering": -1,
-    "m_Name": "Bright_Contr_Satur_Hue",
+    "m_Name": "HSV_A",
     "m_DefaultRefNameVersion": 1,
-    "m_RefNameGeneratedByDisplayName": "Bright_Contr_Satur_Hue",
-    "m_DefaultReferenceName": "_Bright_Contr_Satur_Hue",
+    "m_RefNameGeneratedByDisplayName": "HSV_A",
+    "m_DefaultReferenceName": "_HSV_A",
     "m_OverrideReferenceName": "",
     "m_GeneratePropertyBlock": true,
     "m_UseCustomSlotLabel": false,
@@ -18573,10 +18570,10 @@
     "m_PerRendererData": false,
     "m_customAttributes": [],
     "m_Value": {
-        "x": 1.0,
+        "x": 0.0,
         "y": 1.0,
         "z": 1.0,
-        "w": 0.0
+        "w": 1.0
     }
 }
 
@@ -24927,24 +24924,6 @@
 
 {
     "m_SGVersion": 0,
-    "m_Type": "UnityEditor.ShaderGraph.Vector1MaterialSlot",
-    "m_ObjectId": "e33ccfc751674e69b88bce9afb3ce14a",
-    "m_Id": 3,
-    "m_DisplayName": "Alpha",
-    "m_SlotType": 1,
-    "m_Hidden": false,
-    "m_HideConnector": false,
-    "m_ShaderOutputName": "Alpha",
-    "m_StageCapability": 3,
-    "m_CustomBinding": "",
-    "m_Value": 0.0,
-    "m_DefaultValue": 0.0,
-    "m_Labels": [],
-    "m_LiteralMode": false
-}
-
-{
-    "m_SGVersion": 0,
     "m_Type": "UnityEditor.ShaderGraph.DynamicVectorMaterialSlot",
     "m_ObjectId": "e347c629d3624db29934b691bae92511",
     "m_Id": 5,
@@ -25492,7 +25471,7 @@
     "m_Type": "UnityEditor.ShaderGraph.Vector4MaterialSlot",
     "m_ObjectId": "e9dc25d65f9d41c988e32918a8042915",
     "m_Id": 0,
-    "m_DisplayName": "Bright_Contr_Satur_Hue",
+    "m_DisplayName": "HSV_A",
     "m_SlotType": 1,
     "m_Hidden": false,
     "m_HideConnector": false,
