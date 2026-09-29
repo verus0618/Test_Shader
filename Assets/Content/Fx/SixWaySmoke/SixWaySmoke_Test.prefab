@@ -3078,7 +3078,7 @@ Transform:
   m_GameObject: {fileID: 4115995281229031415}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.73, y: 0, z: 0}
+  m_LocalPosition: {x: 2.73, y: 0.336, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3561,7 +3561,7 @@ ParticleSystem:
     rateOverTime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 4
+      scalar: 6
       minScalar: 10
       maxCurve:
         serializedVersion: 2
@@ -3928,15 +3928,15 @@ ParticleSystem:
       maxGradient:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 0}
-        key1: {r: 1, g: 1, b: 1, a: 1}
+        key1: {r: 0.33962262, g: 0.33962262, b: 0.33962262, a: 1}
         key2: {r: 0, g: 0, b: 0, a: 0}
         key3: {r: 0, g: 0, b: 0, a: 0.3254902}
         key4: {r: 0, g: 0, b: 0, a: 0.22352941}
         key5: {r: 0, g: 0, b: 0, a: 0}
         key6: {r: 0, g: 0, b: 0, a: 0}
         key7: {r: 0, g: 0, b: 0, a: 0}
-        ctime0: 0
-        ctime1: 65535
+        ctime0: 9756
+        ctime1: 34087
         ctime2: 0
         ctime3: 0
         ctime4: 0
@@ -4077,8 +4077,8 @@ ParticleSystem:
     y:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 0.5
-      minScalar: 0.3
+      scalar: 1
+      minScalar: 0.8
       maxCurve:
         serializedVersion: 2
         m_Curve: []
@@ -5678,7 +5678,7 @@ ParticleSystem:
         m_PostInfinity: 2
         m_RotationOrder: 4
     vectorLabel0_3: Diisolve
-    mode1: 2
+    mode1: 0
     vectorComponentCount1: 4
     color1:
       serializedVersion: 2
@@ -6013,7 +6013,7 @@ ParticleSystemRenderer:
   m_MaskInteraction: 0
   m_RenderMode: 0
   m_MeshDistribution: 0
-  m_SortMode: 4
+  m_SortMode: 2
   m_MinParticleSize: 0
   m_MaxParticleSize: 9
   m_CameraVelocityScale: 0
@@ -6069,7 +6069,7 @@ Transform:
   m_GameObject: {fileID: 5420373950679252335}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 12.61, y: 0, z: -8.83}
+  m_LocalPosition: {x: 4.28, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
