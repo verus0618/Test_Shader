@@ -27,6 +27,25 @@ namespace TestMisha.Slime
     {
         static readonly int CameraOpaqueTextureId = Shader.PropertyToID("_CameraOpaqueTexture");
 
+        // A GameObject tagged this way is never drawn into another object's copy: it keeps its own Role and,
+        // if Refractive, keeps refracting whatever is behind it, it just doesn't show up inside anyone else's.
+        const string NoRefractionTagName = "NoRefraction";
+
+        static bool HasNoRefractionTag(SlimeRefractionObject obj)
+        {
+            if (obj.TargetRenderer == null)
+                return false;
+            try
+            {
+                return obj.TargetRenderer.CompareTag(NoRefractionTagName);
+            }
+            catch (UnityException)
+            {
+                // The tag isn't defined in this project's Tag Manager; treat it as never matching.
+                return false;
+            }
+        }
+
         /// <summary>What the chain needs to draw one renderer the way the transparent pass does.</summary>
         internal sealed class ChainRenderer
         {
@@ -146,6 +165,8 @@ namespace TestMisha.Slime
             public Bounds bounds;
             public float distance;
             public int queue;
+            // Tagged NoRefraction: still processed normally, just never drawn into a farther item's copy.
+            public bool hiddenFromChain;
         }
 
         sealed class CameraState
@@ -423,7 +444,9 @@ namespace TestMisha.Slime
                     obj.WarnedAboutQueue = true;
                 }
 
-                items.Add(CreateItem(obj.Chain, refractive ? obj : null, bounds));
+                ChainItem item = CreateItem(obj.Chain, refractive ? obj : null, bounds);
+                item.hiddenFromChain = HasNoRefractionTag(obj);
+                items.Add(item);
                 anyRefractive |= refractive;
             }
             return anyRefractive;
@@ -800,7 +823,20 @@ namespace TestMisha.Slime
                     copyDepthPass.Render(renderGraph, frameData, depth, cameraDepth, false, CopyDepthName);
                 }
 
+                // The nearest Refractive object is never drawn: no copy looks at it. A NoRefraction item still
+                // gets its own grab below, it just never draws into a farther item's copy, so it doesn't count
+                // here; whichever draw actually ends up last is the one that must restore the opaque texture.
                 int lastDrawn = items.Count - 2;
+                int lastActualDraw = -1;
+                if (drawChain)
+                {
+                    for (int i = 0; i <= lastDrawn; i++)
+                    {
+                        if (!items[i].hiddenFromChain)
+                            lastActualDraw = i;
+                    }
+                }
+
                 for (int i = 0; i < items.Count; i++)
                 {
                     ChainItem item = items[i];
@@ -811,8 +847,8 @@ namespace TestMisha.Slime
                         AddGrab(renderGraph, scene, sceneColor, item.divisor, item.refractive.GrabPassName);
                     }
 
-                    if (drawChain && i <= lastDrawn)
-                        AddDraw(renderGraph, scene, depth, sceneColor, item.chain, i == lastDrawn ? opaque : TextureHandle.nullHandle);
+                    if (drawChain && i <= lastDrawn && !item.hiddenFromChain)
+                        AddDraw(renderGraph, scene, depth, sceneColor, item.chain, i == lastActualDraw ? opaque : TextureHandle.nullHandle);
                 }
             }
 

@@ -310,10 +310,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TestMisha.Slime.SlimeRefractionObject
   role: 0
-  grabResolution: 0
+  grabResolution: 3
   excludeTag: NoRefraction
   searchInterval: 8
-  minScreenSize: 0.2
+  minScreenSize: 0
 --- !u!1 &330585543
 GameObject:
   m_ObjectHideFlags: 0
@@ -759,7 +759,7 @@ GameObject:
   - component: {fileID: 880099211}
   m_Layer: 0
   m_Name: FX_SlimeRefractionTest_2
-  m_TagString: Untagged
+  m_TagString: NoRefraction
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -870,9 +870,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TestMisha.Slime.SlimeRefractionObject
   role: 0
-  grabResolution: 0
-  excludeTag: Untagged
-  searchInterval: 1
+  grabResolution: 3
+  excludeTag: NoRefraction
+  searchInterval: 8
   minScreenSize: 0
 --- !u!1 &1465479329
 GameObject:

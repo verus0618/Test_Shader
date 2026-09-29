@@ -16,6 +16,10 @@ namespace TestMisha.Slime
     /// is not supported. The other roles override the automatic choice:
     /// - Visible In Refraction: always drawn into the copies, whatever the renderer type or render queue.
     /// - Hidden From Refraction: never drawn into the copies.
+    /// A GameObject tagged NoRefraction never gets drawn into a farther object's copy, whatever its Role, but is
+    /// otherwise unaffected: a Refractive object tagged this way keeps refracting whatever is behind it, it just
+    /// never appears inside anyone else's refraction. A quick way to hide one object from the others without
+    /// losing its own Role setting.
     /// Objects are placed by distance to their bounds centre, like URP sorts transparents. An object whose centre
     /// lies inside a Refractive object (a flame inside the slime) counts as behind it.
     /// The URP transparent pass still draws every object as before; the chain only fills the copies (Frame
