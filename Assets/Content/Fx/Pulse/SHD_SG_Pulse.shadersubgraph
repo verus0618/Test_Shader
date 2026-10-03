@@ -137,6 +137,9 @@
         },
         {
             "m_Id": "02d404419188497e9e5e2c788ee996a7"
+        },
+        {
+            "m_Id": "9c27c9ad3ee74ddfb90bd33fac845f4a"
         }
     ],
     "m_GroupDatas": [
@@ -315,9 +318,9 @@
             },
             "m_InputSlot": {
                 "m_Node": {
-                    "m_Id": "76cb0f3338bf47008c23e45852028699"
+                    "m_Id": "9c27c9ad3ee74ddfb90bd33fac845f4a"
                 },
-                "m_SlotId": 3
+                "m_SlotId": 0
             }
         },
         {
@@ -528,6 +531,20 @@
                     "m_Id": "bd6bfdfe1ed549df8b4bf0fe41979773"
                 },
                 "m_SlotId": 0
+            }
+        },
+        {
+            "m_OutputSlot": {
+                "m_Node": {
+                    "m_Id": "9c27c9ad3ee74ddfb90bd33fac845f4a"
+                },
+                "m_SlotId": 1
+            },
+            "m_InputSlot": {
+                "m_Node": {
+                    "m_Id": "76cb0f3338bf47008c23e45852028699"
+                },
+                "m_SlotId": 3
             }
         },
         {
@@ -993,8 +1010,8 @@
         "m_Expanded": true,
         "m_Position": {
             "serializedVersion": "2",
-            "x": -843.999755859375,
-            "y": -683.7499389648438,
+            "x": -855.0,
+            "y": -838.0,
             "width": 206.0,
             "height": 130.0
         }
@@ -1100,8 +1117,8 @@
     "m_ObjectId": "136a416f28ad457fa32a3b8bfb99b4f4",
     "m_Title": "Wave",
     "m_Position": {
-        "x": -1521.0,
-        "y": -471.9999694824219
+        "x": -1521.0001220703125,
+        "y": -472.00006103515627
     }
 }
 
@@ -1220,6 +1237,33 @@
     "m_Value": 0.0,
     "m_DefaultValue": 0.0,
     "m_Labels": [],
+    "m_LiteralMode": false
+}
+
+{
+    "m_SGVersion": 0,
+    "m_Type": "UnityEditor.ShaderGraph.DynamicVectorMaterialSlot",
+    "m_ObjectId": "201fca8e8c78447699b1f404ff00aa8c",
+    "m_Id": 0,
+    "m_DisplayName": "In",
+    "m_SlotType": 0,
+    "m_Hidden": false,
+    "m_HideConnector": false,
+    "m_ShaderOutputName": "In",
+    "m_StageCapability": 3,
+    "m_CustomBinding": "",
+    "m_Value": {
+        "x": 1.0,
+        "y": 1.0,
+        "z": 1.0,
+        "w": 1.0
+    },
+    "m_DefaultValue": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0,
+        "w": 0.0
+    },
     "m_LiteralMode": false
 }
 
@@ -1897,8 +1941,8 @@
         "m_Expanded": true,
         "m_Position": {
             "serializedVersion": "2",
-            "x": -540.0,
-            "y": -561.0,
+            "x": -710.9999389648438,
+            "y": -628.9999389648438,
             "width": 124.99993896484375,
             "height": 34.0
         }
@@ -2369,10 +2413,10 @@
         "m_Expanded": true,
         "m_Position": {
             "serializedVersion": "2",
-            "x": -365.999755859375,
-            "y": -683.7499389648438,
+            "x": -377.0,
+            "y": -838.0,
             "width": 168.0,
-            "height": 166.00006103515626
+            "height": 166.0
         }
     },
     "m_Slots": [
@@ -2408,8 +2452,8 @@
     "m_ObjectId": "775b9ece9b3642ebbb69c2ec84094a37",
     "m_Title": "Dirrection",
     "m_Position": {
-        "x": -778.0,
-        "y": 167.99996948242188
+        "x": -778.0000610351563,
+        "y": 165.0
     }
 }
 
@@ -2860,10 +2904,10 @@
         "m_Expanded": true,
         "m_Position": {
             "serializedVersion": "2",
-            "x": -540.0,
-            "y": -591.0,
-            "width": 109.99993896484375,
-            "height": 33.99993896484375
+            "x": -551.0,
+            "y": -745.0,
+            "width": 110.0,
+            "height": 34.0
         }
     },
     "m_Slots": [
@@ -2951,9 +2995,9 @@
         "m_Expanded": true,
         "m_Position": {
             "serializedVersion": "2",
-            "x": -540.0,
-            "y": -621.0,
-            "width": 143.99993896484376,
+            "x": -551.0,
+            "y": -775.0,
+            "width": 144.0,
             "height": 34.0
         }
     },
@@ -3142,6 +3186,46 @@
 
 {
     "m_SGVersion": 0,
+    "m_Type": "UnityEditor.ShaderGraph.OneMinusNode",
+    "m_ObjectId": "9c27c9ad3ee74ddfb90bd33fac845f4a",
+    "m_Group": {
+        "m_Id": "b17b941b53a6404eb11785f24da890f4"
+    },
+    "m_Name": "One Minus",
+    "m_DrawState": {
+        "m_Expanded": true,
+        "m_Position": {
+            "serializedVersion": "2",
+            "x": -551.0,
+            "y": -668.0,
+            "width": 128.0,
+            "height": 94.0
+        }
+    },
+    "m_Slots": [
+        {
+            "m_Id": "201fca8e8c78447699b1f404ff00aa8c"
+        },
+        {
+            "m_Id": "a839ae0606ac4d4d989bb61206d0f61f"
+        }
+    ],
+    "synonyms": [
+        "complement",
+        "invert",
+        "opposite"
+    ],
+    "m_Precision": 0,
+    "m_PreviewExpanded": false,
+    "m_DismissedVersion": 0,
+    "m_PreviewMode": 0,
+    "m_CustomColors": {
+        "m_SerializableColors": []
+    }
+}
+
+{
+    "m_SGVersion": 0,
     "m_Type": "UnityEditor.ShaderGraph.DynamicVectorMaterialSlot",
     "m_ObjectId": "9df064576d13454f9e59395a83a5e769",
     "m_Id": 2,
@@ -3251,6 +3335,33 @@
 {
     "m_SGVersion": 0,
     "m_Type": "UnityEditor.ShaderGraph.DynamicVectorMaterialSlot",
+    "m_ObjectId": "a839ae0606ac4d4d989bb61206d0f61f",
+    "m_Id": 1,
+    "m_DisplayName": "Out",
+    "m_SlotType": 1,
+    "m_Hidden": false,
+    "m_HideConnector": false,
+    "m_ShaderOutputName": "Out",
+    "m_StageCapability": 3,
+    "m_CustomBinding": "",
+    "m_Value": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0,
+        "w": 0.0
+    },
+    "m_DefaultValue": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0,
+        "w": 0.0
+    },
+    "m_LiteralMode": false
+}
+
+{
+    "m_SGVersion": 0,
+    "m_Type": "UnityEditor.ShaderGraph.DynamicVectorMaterialSlot",
     "m_ObjectId": "ab19a6a5482746d895f49bdef11b637d",
     "m_Id": 1,
     "m_DisplayName": "Center",
@@ -3331,8 +3442,8 @@
     "m_ObjectId": "b17b941b53a6404eb11785f24da890f4",
     "m_Title": "Mask",
     "m_Position": {
-        "x": -869.0000610351563,
-        "y": -743.0
+        "x": -880.0,
+        "y": -897.0
     }
 }
 
