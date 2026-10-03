@@ -38,17 +38,17 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _Amplitude: 7.01
+    - _Amplitude: 1
     - _Damping: 6
-    - _DebugTime: 0.212
+    - _DebugTime: 1
     - _Frequency: 18
-    - _Hardness: 0.3
-    - _Height: 5
-    - _ImpactTime: 0.1
+    - _Hardness: -3
+    - _ImpactTime: -100
     - _QueueControl: 0
     - _QueueOffset: 0
-    - _Radius: 3.75
+    - _Radius: 1
     m_Colors:
+    - _Dirrection: {r: 1, g: 0.25, b: 1, a: 0}
     - _ImpactCente: {r: 0, g: 0, b: 0, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
