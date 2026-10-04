@@ -419,9 +419,6 @@
         },
         {
             "m_Id": "8da8d56503a74440a2d8e814c0d50146"
-        },
-        {
-            "m_Id": "fba658af3bec47fd8705807c2873b494"
         }
     ],
     "m_GroupDatas": [
@@ -1546,6 +1543,20 @@
         {
             "m_OutputSlot": {
                 "m_Node": {
+                    "m_Id": "ac390915208c4c38a5cf2b581710d290"
+                },
+                "m_SlotId": 3
+            },
+            "m_InputSlot": {
+                "m_Node": {
+                    "m_Id": "5d23cfef52744135bd34010d4fa0be05"
+                },
+                "m_SlotId": 2
+            }
+        },
+        {
+            "m_OutputSlot": {
+                "m_Node": {
                     "m_Id": "af61eafbced94543921280bfc59aa2ef"
                 },
                 "m_SlotId": 0
@@ -2115,20 +2126,6 @@
                     "m_Id": "7830fee431e54eb3ae6c4389a2cc224f"
                 },
                 "m_SlotId": 1
-            }
-        },
-        {
-            "m_OutputSlot": {
-                "m_Node": {
-                    "m_Id": "fba658af3bec47fd8705807c2873b494"
-                },
-                "m_SlotId": 0
-            },
-            "m_InputSlot": {
-                "m_Node": {
-                    "m_Id": "5d23cfef52744135bd34010d4fa0be05"
-                },
-                "m_SlotId": 2
             }
         }
     ],
@@ -6133,7 +6130,7 @@
     "m_Title": "Difuse_Ripples",
     "m_Position": {
         "x": -5228.0,
-        "y": 1916.0
+        "y": 1915.9998779296875
     }
 }
 
@@ -6428,7 +6425,7 @@
     },
     "m_SourceType": 0,
     "m_FunctionName": "SceneDepthUnderSurface",
-    "m_FunctionSource": "",
+    "m_FunctionSource": "bcaf5fadfc42844328b6419927b6e4b3",
     "m_FunctionSourceUsePragmas": true,
     "m_FunctionBody": "Enter function body here..."
 }
@@ -9380,24 +9377,6 @@
 
 {
     "m_SGVersion": 0,
-    "m_Type": "UnityEditor.ShaderGraph.Vector1MaterialSlot",
-    "m_ObjectId": "91d06558d39b46dfb16560baa69b54b6",
-    "m_Id": 1,
-    "m_DisplayName": "X",
-    "m_SlotType": 0,
-    "m_Hidden": false,
-    "m_HideConnector": false,
-    "m_ShaderOutputName": "X",
-    "m_StageCapability": 3,
-    "m_CustomBinding": "",
-    "m_Value": 1.0,
-    "m_DefaultValue": 0.0,
-    "m_Labels": [],
-    "m_LiteralMode": false
-}
-
-{
-    "m_SGVersion": 0,
     "m_Type": "UnityEditor.ShaderGraph.PowerNode",
     "m_ObjectId": "91e0756197bc4a5dbd7a55ced86d4b96",
     "m_Group": {
@@ -10073,7 +10052,7 @@
     "m_Title": "Normal_Ripples",
     "m_Position": {
         "x": -4251.0,
-        "y": 420.0
+        "y": 419.9999084472656
     }
 }
 
@@ -10842,24 +10821,6 @@
         "w": 0.0
     },
     "m_LiteralMode": false
-}
-
-{
-    "m_SGVersion": 0,
-    "m_Type": "UnityEditor.ShaderGraph.Vector1MaterialSlot",
-    "m_ObjectId": "a53369e7438d4349ae3a2dac3137c5fe",
-    "m_Id": 0,
-    "m_DisplayName": "Out",
-    "m_SlotType": 1,
-    "m_Hidden": false,
-    "m_HideConnector": false,
-    "m_ShaderOutputName": "Out",
-    "m_StageCapability": 3,
-    "m_CustomBinding": "",
-    "m_Value": 0.0,
-    "m_DefaultValue": 0.0,
-    "m_Labels": [],
-    "m_LiteralMode": true
 }
 
 {
@@ -14059,8 +14020,8 @@
     "m_ObjectId": "e4001a7a026d4b89a5293a46da706a7a",
     "m_Title": "Fallof",
     "m_Position": {
-        "x": -4123.0,
-        "y": 2962.999755859375
+        "x": -4123.49951171875,
+        "y": 2963.0
     }
 }
 
@@ -15319,50 +15280,6 @@
         "e32": 0.0,
         "e33": 1.0
     }
-}
-
-{
-    "m_SGVersion": 0,
-    "m_Type": "UnityEditor.ShaderGraph.Vector1Node",
-    "m_ObjectId": "fba658af3bec47fd8705807c2873b494",
-    "m_Group": {
-        "m_Id": ""
-    },
-    "m_Name": "Float",
-    "m_DrawState": {
-        "m_Expanded": true,
-        "m_Position": {
-            "serializedVersion": "2",
-            "x": -2422.0302734375,
-            "y": 3465.248291015625,
-            "width": 0.0,
-            "height": 0.0
-        }
-    },
-    "m_Slots": [
-        {
-            "m_Id": "91d06558d39b46dfb16560baa69b54b6"
-        },
-        {
-            "m_Id": "a53369e7438d4349ae3a2dac3137c5fe"
-        }
-    ],
-    "synonyms": [
-        "Vector 1",
-        "1",
-        "v1",
-        "vec1",
-        "scalar"
-    ],
-    "m_Precision": 0,
-    "m_PreviewExpanded": true,
-    "m_DismissedVersion": 0,
-    "m_PreviewMode": 0,
-    "m_CustomColors": {
-        "m_SerializableColors": []
-    },
-    "m_Value": 0.0,
-    "m_ConstIntMode": false
 }
 
 {
