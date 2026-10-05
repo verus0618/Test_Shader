@@ -48,9 +48,10 @@ namespace TestMisha.Fx.Pulse
     /// <summary>
     /// Click-to-spawn test tool for the Pulse shader. A left click in the Game view drops a block on the clicked
     /// surface, or on top of the spawned block that was clicked, so blocks stack. A block keeps the materials of its prefab.
-    /// Every spawn is a new impact. The spawner sets the global shader values _ImpactCente to the new block and
-    /// _DebugTime from 0 to 1. Every object that uses the Pulse shader reacts, whatever its material and whether or not
-    /// it was spawned here, and the shader alone decides, per vertex, what the Radius of its material reaches.
+    /// Every spawn is a new impact. The spawner sets the global shader impact point to the new block and the global
+    /// time from 0 to 1, under the property names given in the Pulse settings. Every object that uses the Pulse shader
+    /// reacts, whatever its material and whether or not it was spawned here, and the shader alone decides, per vertex,
+    /// what the Radius of its material reaches.
     /// Keys 1-9 pick the model. Alt+click is left to the Fly Camera. The click ray uses the Main Camera.
     /// Uses the Input System package, which the project is set up to use exclusively.
     /// </summary>

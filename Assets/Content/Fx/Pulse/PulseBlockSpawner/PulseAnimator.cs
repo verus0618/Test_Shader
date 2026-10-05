@@ -3,7 +3,8 @@ using UnityEngine;
 namespace TestMisha.Fx.Pulse
 {
     /// <summary>
-    /// Plays a pulse from this object: its position becomes the impact point and the global _DebugTime runs from 0 to 1.
+    /// Plays a pulse from this object: its position becomes the global impact point and the global time runs from 0 to 1.
+    /// The shader property names are set in the Global shader parameters of the settings.
     /// Every object that uses the Pulse shader reacts, whatever its material, and the shader's Radius decides which
     /// vertices move. The block spawner drives the same two global values, so use one of them at a time.
     /// </summary>
