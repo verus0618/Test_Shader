@@ -12,6 +12,7 @@ Material:
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
+  - _CHROMATICABERRATION_ON
   - _SURFACE_TYPE_TRANSPARENT
   - _TYPE_WAVE
   - _USEPARTICLE_ON
@@ -64,7 +65,10 @@ Material:
     - _AlphaToMask: 0
     - _Blend: 0
     - _BlendModePreserveSpecular: 1
+    - _CHROMATICABERRATION: 1
     - _CastShadows: 0
+    - _ChromaticAberration_Intensity: 1
+    - _Chromatic_Aberration: 0.657
     - _Circle_Distance: 0
     - _Circle_Thin: 0
     - _Circle_With: 0
