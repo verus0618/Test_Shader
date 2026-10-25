@@ -17,7 +17,7 @@ namespace TestMisha.Tools
     /// </summary>
     [ExecuteAlways]
     [DisallowMultipleComponent]
-    [AddComponentMenu("Effects/TestMisha/Ribbon Emitter")]
+    [AddComponentMenu("Effects/Ribbon Emitter")]
     public sealed class RibbonEmitter : MonoBehaviour
     {
         /// <summary>Space a vector or the simulation is expressed in.</summary>
