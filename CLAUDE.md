@@ -18,12 +18,12 @@ There is no build script, test assembly, or linter. You check work by opening th
 
 ## Project-owned code
 
-### Screen-space outline (`Assets/Rendering`, namespace `TestMisha.Rendering`)
+### Screen-space outline (`Assets/Rendering`, namespace `VFX.Rendering`)
 `ScreenSpaceOutlineFeature` is a URP `ScriptableRendererFeature` that uses the **RenderGraph API** (`RecordRenderGraph`). It is already registered on both renderer assets in `Assets/Settings`. It adds two raster passes:
-1. It draws opaque objects on the selected layers into an R8 mask using `Hidden/TestMisha/OutlineObjectMask`.
-2. It runs a full-screen composite with `Hidden/TestMisha/ScreenSpaceOutline`, which finds edges from URP depth and normals (`ConfigureInput(Depth | Normal)`).
+1. It draws opaque objects on the selected layers into an R8 mask using `Hidden/VFX/OutlineObjectMask`.
+2. It runs a full-screen composite with `Hidden/VFX/ScreenSpaceOutline`, which finds edges from URP depth and normals (`ConfigureInput(Depth | Normal)`).
 
-Both shaders are loaded with `Shader.Find`, so they must stay in the build (Always Included, or referenced some other way). `Editor/OutlineSceneViewTools.cs` adds the menu **Tools > TestMisha > Screen Space Outline**, which toggles Unity's Scene View selection overlay. Inspector labels include an "Affects Performance: 1-10" estimate. Keep that convention when you add settings. See `Assets/Rendering/README.md`.
+Both shaders are loaded with `Shader.Find`, so they must stay in the build (Always Included, or referenced some other way). `Editor/OutlineSceneViewTools.cs` adds the menu **Tools > VFX > Screen Space Outline**, which toggles Unity's Scene View selection overlay. Inspector labels include an "Affects Performance: 1-10" estimate. Keep that convention when you add settings. See `Assets/Rendering/README.md`.
 
 ### Wall-pass mask (`Assets/Content/Fx/Slime/Collisuion`, note the folder-name typo)
 This is a world-space capsule-SDF mask for objects passing through walls. `FX_Slime.shadergraph` uses it through a Custom Function node.
@@ -33,8 +33,8 @@ This is a world-space capsule-SDF mask for objects passing through walls. `FX_Sl
 - `WallPassMask.hlsl` provides `WallPassMask_float/_half(PositionWS, NormalWS, out Mask)`.
 - **Invariant:** `WallPassRuntime.MaxEvents` must equal `WP_MAX_EVENTS` in the HLSL (currently 64). Always upload the full fixed-length arrays, because Unity locks a shader array's length on first upload. Pass the live count separately in `_WP_Count`.
 
-### Play Mode fly camera (`Assets/Tools/FlyCamera`, namespace `TestMisha.Tools`, own asmdef)
-`FlyCamera` gives Scene View controls in Play Mode: RMB look with WASD/QE and Shift, RMB + wheel for speed, wheel dolly, MMB pan, Alt+LMB orbit and Alt+RMB zoom. In the Editor, `FlyCameraAutoAttach` adds it to `Camera.main` when Play Mode starts, so scenes don't need editing. A `FlyCamera` placed by hand takes priority. **Tools > TestMisha > Fly Camera** toggles auto-attach and "Start From Scene View Camera" (both stored in EditorPrefs). Active Input Handling is set to the new Input System only, so `com.unity.inputsystem` must stay installed, because the legacy `UnityEngine.Input` throws in that mode. The asmdef detects the package through `versionDefines` (`TESTMISHA_INPUT_SYSTEM`) and falls back to legacy input when it's missing.
+### Play Mode fly camera (`Assets/Tools/FlyCamera`, namespace `VFX.Tools`, own asmdef)
+`FlyCamera` gives Scene View controls in Play Mode: RMB look with WASD/QE and Shift, RMB + wheel for speed, wheel dolly, MMB pan, Alt+LMB orbit and Alt+RMB zoom. In the Editor, `FlyCameraAutoAttach` adds it to `Camera.main` when Play Mode starts, so scenes don't need editing. A `FlyCamera` placed by hand takes priority. **Tools > VFX > Fly Camera** toggles auto-attach and "Start From Scene View Camera" (both stored in EditorPrefs). Active Input Handling is set to the new Input System only, so `com.unity.inputsystem` must stay installed, because the legacy `UnityEngine.Input` throws in that mode. The asmdef detects the package through `versionDefines` (`VFX_INPUT_SYSTEM`) and falls back to legacy input when it's missing.
 
 ### Shader Graph helpers
 - `Assets/Editor/MaterialDrawers.cs` defines `ShowIf`, `HideIf`, `ShowIfEnum` and `HideIfEnum` material property drawers. You apply them through Shader Graph **Custom Attributes**. The value is a property reference without its leading `_`. For enums the syntax is `ENUM__VALUE`, which resolves to the keyword `_ENUM_VALUE`, and conditions can be combined with ` AND ` or ` OR `.

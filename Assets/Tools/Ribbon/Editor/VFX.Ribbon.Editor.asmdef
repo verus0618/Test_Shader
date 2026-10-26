@@ -1,8 +1,12 @@
 {
-    "name": "TestMisha.Ribbon",
-    "rootNamespace": "TestMisha.Tools",
-    "references": [],
-    "includePlatforms": [],
+    "name": "VFX.Ribbon.Editor",
+    "rootNamespace": "VFX.Tools",
+    "references": [
+        "VFX.Ribbon"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
     "overrideReferences": false,

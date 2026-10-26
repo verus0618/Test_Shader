@@ -1,4 +1,4 @@
-Shader "Hidden/TestMisha/OutlineObjectMask"
+Shader "Hidden/VFX/OutlineObjectMask"
 {
     SubShader
     {

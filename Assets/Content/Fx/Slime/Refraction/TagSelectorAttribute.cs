@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace TestMisha.Slime
+namespace VFX.Slime
 {
     /// <summary>
     /// Marks a string field to be edited as a tag popup, like a GameObject's own Tag field, instead of a plain

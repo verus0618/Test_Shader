@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace TestMisha.Fx.Pulse
+namespace VFX.Pulse
 {
     /// <summary>
     /// Plays a pulse from this object: its position becomes the global impact point and the global time runs from 0 to 1.
@@ -9,7 +9,7 @@ namespace TestMisha.Fx.Pulse
     /// vertices move. The block spawner drives the same two global values, so use one of them at a time.
     /// </summary>
     [DisallowMultipleComponent]
-    [AddComponentMenu("TestMisha/Pulse Animator")]
+    [AddComponentMenu("VFX/Pulse Animator")]
     public sealed class PulseAnimator : MonoBehaviour
     {
         [SerializeField] private PulseSettings settings = new PulseSettings();

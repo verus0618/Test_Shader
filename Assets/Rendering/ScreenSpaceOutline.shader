@@ -1,4 +1,4 @@
-Shader "Hidden/TestMisha/ScreenSpaceOutline"
+Shader "Hidden/VFX/ScreenSpaceOutline"
 {
     SubShader
     {

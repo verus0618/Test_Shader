@@ -1,7 +1,7 @@
 using UnityEditor;
 using UnityEngine;
 
-namespace TestMisha.Slime
+namespace VFX.Slime
 {
     [CustomPropertyDrawer(typeof(TagSelectorAttribute))]
     sealed class TagSelectorDrawer : PropertyDrawer

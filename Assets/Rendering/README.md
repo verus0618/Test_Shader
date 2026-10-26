@@ -16,6 +16,6 @@ The effect applies to opaque objects that participate in the URP depth-normal pr
 
 The layer filter adds one inexpensive R8 mask and redraws the selected opaque geometry with a minimal unlit override shader. Prefer one feature with a combined layer mask whenever the selected layers share the same outline style.
 
-In Scene View, Unity's own selection outline/wire can look like a second outline on an excluded layer. It is hidden automatically for this project. Use **Tools > TestMisha > Screen Space Outline > Show/Hide Unity Selection Overlay** to toggle it; this editor-only option does not affect Game View or builds.
+In Scene View, Unity's own selection outline/wire can look like a second outline on an excluded layer. It is hidden automatically for this project. Use **Tools > VFX > Screen Space Outline > Show/Hide Unity Selection Overlay** to toggle it; this editor-only option does not affect Game View or builds.
 
 Inspector labels include an estimated **Affects Performance: 1-10** value. These values describe how much changing that individual setting affects cost; the fixed cost of enabling the complete feature is higher on mobile and WebGL because it requires a depth-normal prepass, one layer-mask draw and one full-screen composite.

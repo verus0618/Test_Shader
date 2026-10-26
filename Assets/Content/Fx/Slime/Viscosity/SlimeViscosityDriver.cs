@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEditor;
 #endif
 
-namespace TestMisha.Slime
+namespace VFX.Slime
 {
     /// <summary>
     /// Viscous response of a slime volume to objects passing through its surface.

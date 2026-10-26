@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-namespace TestMisha.Fx.Pulse
+namespace VFX.Pulse
 {
     /// <summary>Shapes the spawner can create.</summary>
     public enum BlockShape
@@ -56,7 +56,7 @@ namespace TestMisha.Fx.Pulse
     /// Uses the Input System package, which the project is set up to use exclusively.
     /// </summary>
     [DisallowMultipleComponent]
-    [AddComponentMenu("TestMisha/Pulse Block Spawner")]
+    [AddComponentMenu("VFX/Pulse Block Spawner")]
     public sealed class PulseBlockSpawner : MonoBehaviour
     {
         private const int MaxHotkeyModels = 9;

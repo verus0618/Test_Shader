@@ -1,6 +1,6 @@
 using UnityEditor;
 
-namespace TestMisha.Slime
+namespace VFX.Slime
 {
     /// <summary>
     /// Default inspector plus a live status line: which objects the slime sees and how many deformations

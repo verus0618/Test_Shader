@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace TestMisha.Fx.Pulse
+namespace VFX.Pulse
 {
     /// <summary>Builds a torus mesh, because Unity has no built-in one. The hole axis is Y.</summary>
     internal static class TorusMeshBuilder

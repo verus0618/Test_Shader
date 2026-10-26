@@ -5,7 +5,7 @@ using UnityEngine.Rendering;
 using UnityEditor;
 #endif
 
-namespace TestMisha.Tools
+namespace VFX.Tools
 {
     /// <summary>
     /// Niagara-style ribbon emitter that draws a single ribbon.

@@ -3,23 +3,23 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-namespace TestMisha.Tools
+namespace VFX.Tools
 {
     /// <summary>
     /// Adds a <see cref="FlyCamera"/> to the main camera when Play Mode starts, so any scene
     /// can be flown through without being edited. The component only lives for the Play Mode
-    /// session. Toggles are under Tools > TestMisha > Fly Camera. Editor-only.
+    /// session. Toggles are under Tools > VFX > Fly Camera. Editor-only.
     /// </summary>
     internal static class FlyCameraAutoAttach
     {
-        private const string MenuRoot = "Tools/TestMisha/Fly Camera/";
+        private const string MenuRoot = "Tools/VFX/Fly Camera/";
         private const string AutoAttachMenu = MenuRoot + "Auto-Attach In Play Mode";
         private const string StartFromSceneViewMenu = MenuRoot + "Start From Scene View Camera";
 
         private static string AutoAttachKey =>
-            "TestMisha.FlyCamera.AutoAttach." + Application.dataPath;
+            "VFX.FlyCamera.AutoAttach." + Application.dataPath;
         private static string StartFromSceneViewKey =>
-            "TestMisha.FlyCamera.StartFromSceneView." + Application.dataPath;
+            "VFX.FlyCamera.StartFromSceneView." + Application.dataPath;
 
         private static bool AutoAttach => EditorPrefs.GetBool(AutoAttachKey, true);
         private static bool StartFromSceneView => EditorPrefs.GetBool(StartFromSceneViewKey, false);

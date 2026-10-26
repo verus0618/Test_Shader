@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace TestMisha.Slime
+namespace VFX.Slime
 {
     /// <summary>
     /// Lets refraction made with the Shader Graph Scene Color node show transparent objects.

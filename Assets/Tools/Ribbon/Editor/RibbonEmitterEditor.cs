@@ -1,7 +1,7 @@
 using UnityEditor;
 using UnityEngine;
 
-namespace TestMisha.Tools
+namespace VFX.Tools
 {
     /// <summary>
     /// Inspector for <see cref="RibbonEmitter"/> that shows the assigned material below the component,

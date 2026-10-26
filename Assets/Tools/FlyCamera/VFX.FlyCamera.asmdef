@@ -1,6 +1,6 @@
 {
-    "name": "TestMisha.FlyCamera",
-    "rootNamespace": "TestMisha.Tools",
+    "name": "VFX.FlyCamera",
+    "rootNamespace": "VFX.Tools",
     "references": [
         "Unity.InputSystem"
     ],
@@ -15,7 +15,7 @@
         {
             "name": "com.unity.inputsystem",
             "expression": "1.0.0",
-            "define": "TESTMISHA_INPUT_SYSTEM"
+            "define": "VFX_INPUT_SYSTEM"
         }
     ],
     "noEngineReferences": false

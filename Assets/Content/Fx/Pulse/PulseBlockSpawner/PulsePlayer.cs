@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace TestMisha.Fx.Pulse
+namespace VFX.Pulse
 {
     /// <summary>
     /// Plays one pulse by writing the two global shader values that the Pulse graph reads: the impact point and the

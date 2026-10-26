@@ -7,7 +7,7 @@ using UnityEngine.Rendering.RenderGraphModule.Util;
 using UnityEngine.Rendering.Universal;
 using UnityEngine.Rendering.Universal.Internal;
 
-namespace TestMisha.Slime
+namespace VFX.Slime
 {
     /// <summary>
     /// Runtime side of SlimeRefractionObject. For every Game and Scene View camera that sees a Refractive object it

@@ -6,7 +6,7 @@ using UnityEngine.Rendering;
 using UnityEngine.Rendering.RenderGraphModule;
 using UnityEngine.Rendering.Universal;
 
-namespace TestMisha.Rendering
+namespace VFX.Rendering
 {
     /// <summary>
     /// Screen-space outlines based on discontinuities in the camera depth and normal textures.
@@ -251,11 +251,11 @@ namespace TestMisha.Rendering
 
             Shader shader = settings.outlineShader;
             if (shader == null)
-                shader = Shader.Find("Hidden/TestMisha/ScreenSpaceOutline");
+                shader = Shader.Find("Hidden/VFX/ScreenSpaceOutline");
 
             Shader objectMaskShader = settings.maskShader;
             if (objectMaskShader == null)
-                objectMaskShader = Shader.Find("Hidden/TestMisha/OutlineObjectMask");
+                objectMaskShader = Shader.Find("Hidden/VFX/OutlineObjectMask");
 
             if (shader != null)
                 outlineMaterial = CoreUtils.CreateEngineMaterial(shader);

@@ -4,7 +4,7 @@ using System.Reflection;
 using UnityEditor;
 using UnityEngine;
 
-namespace TestMisha.Rendering.Editor
+namespace VFX.Rendering.Editor
 {
     /// <summary>
     /// Prevents Unity's own red selection wire/outline from being confused with
@@ -14,9 +14,9 @@ namespace TestMisha.Rendering.Editor
     [InitializeOnLoad]
     internal static class OutlineSceneViewTools
     {
-        private const string MenuRoot = "Tools/TestMisha/Screen Space Outline/";
+        private const string MenuRoot = "Tools/VFX/Screen Space Outline/";
         private static string HidePreferenceKey =>
-            "TestMisha.ScreenSpaceOutline.HideSelectionOverlay." + Application.dataPath;
+            "VFX.ScreenSpaceOutline.HideSelectionOverlay." + Application.dataPath;
 
         private static readonly Type AnnotationUtilityType =
             typeof(SceneView).Assembly.GetType("UnityEditor.AnnotationUtility");

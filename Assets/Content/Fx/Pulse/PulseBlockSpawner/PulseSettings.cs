@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace TestMisha.Fx.Pulse
+namespace VFX.Pulse
 {
     /// <summary>Where on an object the impact of a pulse is placed.</summary>
     public enum ImpactCenterMode

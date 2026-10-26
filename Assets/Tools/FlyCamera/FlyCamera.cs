@@ -1,4 +1,4 @@
-#if ENABLE_INPUT_SYSTEM && TESTMISHA_INPUT_SYSTEM
+#if ENABLE_INPUT_SYSTEM && VFX_INPUT_SYSTEM
 #define FLYCAM_NEW_INPUT
 #endif
 
@@ -8,7 +8,7 @@ using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Controls;
 #endif
 
-namespace TestMisha.Tools
+namespace VFX.Tools
 {
     /// <summary>
     /// Scene View style free camera for Play Mode.
